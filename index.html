@@ -17,7 +17,7 @@ button:active{transform:translate(3px,3px);box-shadow:none}
 button:disabled{opacity:.45}
 button.p{background:var(--ac);color:#fff;width:100%;padding:10px;margin-top:8px}
 button.sel{background:#f2d24b;color:#2b2218}
-.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.nav{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
 .tab.on{background:#f2d24b;color:#2b2218}
 .badge{background:var(--ac);color:#fff;padding:0 5px}
 .top{display:flex;justify-content:space-between;color:#f0e6d2;margin-bottom:6px}
@@ -193,6 +193,34 @@ button.sel{background:#111;color:#fff;border-color:var(--red)}
 .shopbox .regs{flex:1 1 auto;min-height:96px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;border:2px solid #111;padding:0 6px;margin-top:6px;background:#fff8}
 .shopbox .regs .slot:last-child{border-bottom:none}
 .hpg ul,.hpg ol{margin:2px 0 8px;padding-left:18px}.hpg li{margin:3px 0}.hpg h4{margin:8px 0 2px;font-size:14px;color:var(--ac);font-family:"Black Han Sans",sans-serif;font-weight:400;letter-spacing:1px}.hpg h4:first-child{margin-top:0}
+.sstag{display:inline-block;margin-left:4px;font-size:10px;line-height:1.4;padding:0 4px;background:#e0569a;color:#fff;border:1px solid #111;vertical-align:middle;font-weight:400}
+.pgb{display:flex;align-items:center;justify-content:center;gap:12px;margin:6px 0 2px;font-size:13px}.pgb button{padding:2px 14px;min-width:44px}
+.lbph{visibility:hidden}.grid2.paged{grid-auto-rows:1fr}
+.pkh{display:flex;align-items:center;justify-content:space-between;gap:6px}.pgb.mini{margin:0;gap:6px}.pgb.mini button{padding:1px 10px;min-width:36px}
+/* 안내 글씨 여백 */
+.box small.hint{display:block;margin-top:12px;line-height:1.6}
+.pempty{display:block;margin:8px 0 10px}
+.box .pr{margin-top:8px}.box .pr+.pr{margin-top:6px}
+.box button+.bnote,.box button+div.bnote{margin-top:12px!important}
+.box small+button,.box small+.p,.box .pempty+button{margin-top:10px}
+.box button+small,.box button+br+small{display:block;margin-top:10px}
+.box br+small{display:inline-block;margin:6px 0 4px}
+.mbox .hw+small,.mbox small+.rx{margin-top:4px}.mbox>small{display:block;margin-bottom:8px;line-height:1.55}
+.catsay{margin-bottom:10px}
+.box .pr+button.p,.box .pr+div+button.p{margin-top:12px}
+.coopbox{border-color:#111;box-shadow:6px 6px 0 #6b4aa8}
+.cooph{display:flex;align-items:center;gap:8px;background:#111;color:#fff;margin:-12px -12px 8px;padding:8px 12px;font-family:"Black Han Sans",sans-serif;font-weight:400;letter-spacing:2px}.cooph b{font-weight:400}.coopr{margin-left:auto;background:#ffd400;color:#111;padding:0 6px;transform:skew(-10deg)}
+.coopn{font-family:"Black Han Sans",sans-serif;font-size:20px;margin-bottom:6px;color:var(--ac)}
+.coopl{display:flex;flex-direction:column;gap:6px;max-height:50vh;overflow-y:auto;margin-bottom:10px}
+.cl{background:#fff;color:#111;border:2px solid #111;padding:6px 8px;font-size:14px;line-height:1.5;max-width:88%;animation:clin .25s ease-out}.cl b{display:block;font-size:12px;color:#6b4aa8}
+.cl.me{align-self:flex-end;background:#111;color:#fff}.cl.me b{color:#ffd400}
+.cl.th{align-self:center;background:none;border:none;color:var(--sub);font-style:italic;text-align:center;max-width:100%}
+.coopm{border:2px dashed #6b4aa8;padding:8px;margin-bottom:8px;font-size:14px;line-height:1.6;animation:clin .3s ease-out}
+@keyframes clin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.tab{white-space:nowrap;font-size:14px;padding-left:2px;padding-right:2px}.tab .badge{font-size:11px;padding:0 4px;margin-left:3px;min-width:0}.tab .ic{height:1.05em}
+.scene.kitchen{background:linear-gradient(transparent 72%,#5a4636 72%),repeating-linear-gradient(0deg,#cfd6dc 0 1px,transparent 1px 16px),repeating-linear-gradient(90deg,#cfd6dc 0 1px,transparent 1px 16px),#eef2f4}
+.scene.kitchen canvas#pan{image-rendering:pixelated;display:block;margin:0 auto 0 calc(50% - 76px)}
+textarea,#code{-webkit-user-select:text!important;user-select:text!important;-webkit-touch-callout:default!important;touch-action:auto}
 button.pk{width:100%;margin-top:6px;padding:8px;background:#1f5f8f;color:#fff;font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:15px;letter-spacing:2px;box-shadow:4px 4px 0 #111}
 </style></head><body>
 <h1><span class="seal">LB</span>르블랑 타이쿤</h1>
@@ -206,28 +234,58 @@ const HERBS={
  saenggang:{n:"시나몬",t:["따뜻"],r:20},bakha:{n:"민트",t:["시원"],r:25},
  seokgo:{n:"얼음",t:["시원"],r:35},gamcho:{n:"버터",t:["부드러움"],r:15},
  jakyak:{n:"복숭아",t:["달콤","시원"],r:45},cheongung:{n:"모카빈",t:["달콤","각성"],r:40},
- milk:{n:"우유",t:["부드러움"],r:20}};
-const COL={insam:"#d9b26a",hwanggi:"#5a3520",danggwi:"#e8506a",sukji:"#6e3a24",saenggang:"#b8683a",bakha:"#6ed6b0",seokgo:"#cfeaf5",gamcho:"#f6e08a",jakyak:"#ffb08a",cheongung:"#4a2a18",milk:"#f4f1ea"};
+ milk:{n:"우유",t:["부드러움"],r:20},
+ sakura:{n:"벚꽃",t:["달콤"],r:20},suika:{n:"수박",t:["시원","달콤"],r:20},goguma:{n:"고구마",t:["따뜻","달콤"],r:20},yuja:{n:"유자",t:["따뜻","달콤"],r:20},
+ curry:{n:"카레 루",t:["따뜻"],r:20},bread:{n:"식빵",t:[],r:20},egg:{n:"달걀",t:[],r:20}};
+const COL={insam:"#d9b26a",hwanggi:"#5a3520",danggwi:"#e8506a",sukji:"#6e3a24",saenggang:"#b8683a",bakha:"#6ed6b0",seokgo:"#cfeaf5",gamcho:"#f6e08a",jakyak:"#ffb08a",cheongung:"#4a2a18",milk:"#f4f1ea",sakura:"#f6b8c8",suika:"#ff5a6a",goguma:"#e0a050",yuja:"#f6d04a",curry:"#8a5420",bread:"#e8c890",egg:"#fff2c0"};
 const SYMPTOMS=[
  {a:"몸이 으슬으슬함",b:"따뜻한 게 당김",d:"시나몬 티(데움)",need:["따뜻"],rx:"saenggang",u:1,ex:1},
  {a:"더워서 땀이 남",b:"시원한 게 당김",d:"민트 쿨러(시원)",need:["시원"],rx:"bakha+seokgo",u:1,ex:1},
  {a:"졸려서 눈이 감김",b:"집중이 안 됨",d:"르블랑 블렌드(잠 깨움)",need:["각성"],rx:"hwanggi",u:1,ex:1},
  {a:"기분이 꿀꿀함",b:"단 게 당김",d:"딸기 라테(달콤)",need:["달콤"],rx:"danggwi+milk",u:1,ex:1},
  {a:"비 맞고 들어옴",b:"졸림",d:"진저 커피(데움·잠 깨움)",need:["따뜻","각성"],rx:"insam+hwanggi",u:3,ex:1},
- {a:"속이 차고 더부룩함",b:"부드러운 게 당김",d:"시나몬 차이(데움)",need:["따뜻"],rx:"saenggang+milk",u:5,ex:1},
- {a:"머리가 지끈거림",b:"상큼한 게 당김",d:"딸기 민트 에이드(시원·달콤)",need:["시원","달콤"],rx:"danggwi+bakha+seokgo",u:7,ex:1},
- {a:"아침을 거르고 옴",b:"든든한 커피가 필요함",d:"버터 커피(잠 깨움)",need:["각성"],rx:"hwanggi+gamcho",u:9,ex:1},
- {a:"공부하다 쉬러 옴",b:"부드러운 커피가 당김",d:"카페 라테(잠 깨움)",need:["각성"],rx:"hwanggi+milk",u:11,ex:1},
- {a:"한여름 더위에 축 처짐",b:"졸림",d:"아이스 커피(시원·잠 깨움)",need:["시원","각성"],rx:"hwanggi+seokgo",u:13,ex:1},
+ {a:"아침을 거르고 옴",b:"든든한 게 필요함",d:"버터 토스트(든든함)",need:[],rx:"bread+gamcho",u:9,ex:1,bp:750,fd:1},
+ {a:"브런치 하러 옴",b:"달콤하고 든든한 게 당김",d:"프렌치 토스트(든든함)",need:[],rx:"bread+egg+milk",u:12,ex:1,bp:900,fd:1},
+ {a:"공부하다 출출함",b:"단 게 당김",d:"초코 토스트(데움·달콤)",need:["따뜻","달콤"],rx:"bread+sukji",u:15,ex:1,bp:750,fd:1},
+ {a:"공부하다 쉬러 옴",b:"부드러운 커피가 당김",d:"카페 라테(잠 깨움)",need:["각성"],rx:"hwanggi+milk",u:5,ex:1},
+ {a:"한여름 더위에 축 처짐",b:"졸림",d:"아이스 커피(시원·잠 깨움)",need:["시원","각성"],rx:"hwanggi+seokgo",u:7,ex:1},
  {a:"눈길에 미끄러져 들어옴",b:"춥고 단 게 당김",d:"핫 초코(데움·달콤)",need:["따뜻","달콤"],rx:"sukji+milk",u:15,ex:1},
  {a:"시험공부로 녹초",b:"춥고 당이 떨어짐",d:"카페 모카(데움·잠 깨움·달콤)",need:["따뜻","각성","달콤"],rx:"hwanggi+sukji+milk",u:17,ex:1},
- {a:"손발이 꽁꽁 얾",b:"달콤한 게 당김",d:"시나몬 코코아(데움·달콤)",need:["따뜻","달콤"],rx:"sukji+saenggang+milk",u:18,ex:1},
  {a:"목이 칼칼함",b:"달달하고 시원한 게 당김",d:"피치 아이스티(시원·달콤)",need:["시원","달콤"],rx:"jakyak+seokgo",u:20,ex:1},
- {a:"밤샘 작업으로 기진맥진",b:"춥고 졸림",d:"르블랑 스페셜(데움·잠 깨움)",need:["따뜻","각성"],rx:"insam+saenggang+hwanggi",u:21,ex:1},
- {a:"운동하고 들어옴",b:"덥고 당이 떨어짐",d:"아이스 모카 라테(시원·잠 깨움·달콤)",need:["시원","각성","달콤"],rx:"cheongung+milk+seokgo",u:23,ex:1},
- {a:"팰리스 공략 후 탈진",b:"덥고, 졸리고, 당이 떨어짐",d:"괴도 회복 세트(시원·잠 깨움·달콤)",need:["시원","각성","달콤"],rx:"bakha+cheongung+seokgo",u:25,ex:1}];
-const HU={saenggang:1,hwanggi:1,danggwi:1,bakha:1,seokgo:1,milk:1,insam:3,gamcho:8,sukji:15,jakyak:20,cheongung:23};
-const open=k=>(HU[k]||1)<=S.day;
+ {a:"팰리스 공략 후 탈진",b:"덥고, 졸리고, 당이 떨어짐",d:"괴도 회복 세트(시원·잠 깨움·달콤)",need:["시원","각성","달콤"],rx:"bakha+cheongung+seokgo",u:25,ex:1,bp:900,pt:1},
+ {a:"벚꽃 구경하고 옴",b:"봄 기분을 내고 싶음",d:"벚꽃 라테(달콤)",need:["달콤"],rx:"sakura+milk",u:2,ex:1,bp:800,ss:"봄"},
+ {a:"땡볕에서 걸어옴",b:"시원하고 달달한 게 당김",d:"수박 주스(시원·달콤)",need:["시원","달콤"],rx:"suika+seokgo",u:2,ex:1,bp:800,ss:"여름"},
+ {a:"낙엽길 산책하고 옴",b:"포근한 게 당김",d:"고구마 라테(데움·달콤)",need:["따뜻","달콤"],rx:"goguma+milk",u:2,ex:1,bp:800,ss:"가을"},
+ {a:"목감기 기운이 있음",b:"따뜻한 차가 당김",d:"유자차(데움·달콤)",need:["따뜻","달콤"],rx:"yuja",u:2,ex:1,bp:650,ss:"겨울"},
+ {a:"점심을 못 먹고 옴",b:"든든한 게 당김",d:"르블랑 카레(데움·잠 깨움)",need:["따뜻","각성"],rx:"curry+hwanggi",u:5,ex:1,bp:900,fd:1},
+ {a:"평소처럼 들렀음",b:"늘 먹던 그거",d:"류지의 곱빼기 카레(데움)",need:["따뜻"],rx:"curry+egg",u:1,ex:1,bp:950,own:"사카모토 류지",fd:1},
+ {a:"평소처럼 들렀음",b:"늘 먹던 그거",d:"안의 딸기 크레이프(달콤)",need:["달콤"],rx:"danggwi+gamcho+milk",u:1,ex:1,bp:1100,own:"타카마키 안",fd:1},
+ {a:"평소처럼 들렀음",b:"늘 먹던 그거",d:"화가의 카레빵(데움)",need:["따뜻"],rx:"curry+bread",u:1,ex:1,bp:950,own:"키타가와 유스케",fd:1},
+ {a:"평소처럼 들렀음",b:"늘 먹던 그거",d:"마코토의 집중 블렌드(데움·잠 깨움)",need:["따뜻","각성"],rx:"insam+hwanggi+milk",u:1,ex:1,bp:1100,own:"니지마 마코토"},
+ {a:"평소처럼 들렀음",b:"늘 먹던 그거",d:"후타바의 해커 토스트(데움·달콤)",need:["따뜻","달콤"],rx:"bread+gamcho+sukji",u:1,ex:1,bp:1100,own:"사쿠라 후타바",fd:1},
+ {a:"평소처럼 들렀음",b:"늘 먹던 그거",d:"하루의 원두 블렌드(잠 깨움·달콤)",need:["각성","달콤"],rx:"hwanggi+cheongung",u:1,ex:1,bp:950,own:"오쿠무라 하루"},
+ {a:"평소처럼 들렀음",b:"늘 먹던 그거",d:"탐정의 스크램블 에그(든든함)",need:[],rx:"egg+milk+gamcho",u:1,ex:1,bp:1100,own:"아케치 고로",fd:1},
+ {a:"평소처럼 들렀음",b:"늘 먹던 그거",d:"모르가나의 에그 샌드(든든함)",need:[],rx:"bread+egg+gamcho",u:1,ex:1,bp:1100,own:"모르가나",fd:1},
+ {a:"평소처럼 들렀음",b:"늘 먹던 그거",d:"카스미의 스텝 에이드(시원·달콤)",need:["시원","달콤"],rx:"jakyak+bakha+seokgo",u:1,ex:1,bp:1100,own:"요시자와 카스미"},
+ {a:"평소처럼 들렀음",b:"늘 먹던 그거",d:"닥터 진저 티(데움·시원·잠 깨움)",need:["따뜻","시원","각성"],rx:"insam+bakha",u:1,ex:1,bp:950,own:"타케미 타에"},
+ {a:"평소처럼 들렀음",b:"늘 먹던 그거",d:"선생님의 시나몬 토스트(데움)",need:["따뜻"],rx:"bread+gamcho+saenggang",u:1,ex:1,bp:1100,own:"카와카미 사다요",fd:1},
+ {a:"평소처럼 들렀음",b:"늘 먹던 그거",d:"하드보일드 블렌드(데움·잠 깨움)",need:["따뜻","각성"],rx:"saenggang+hwanggi",u:1,ex:1,bp:950,own:"이와이 무네히사"},
+ {a:"평소처럼 들렀음",b:"늘 먹던 그거",d:"특종 해장 커피(데움·시원·잠 깨움)",need:["따뜻","시원","각성"],rx:"insam+hwanggi+seokgo",u:1,ex:1,bp:1100,own:"오야 이치코"},
+ {a:"평소처럼 들렀음",b:"늘 먹던 그거",d:"행운의 피치 티(시원·달콤)",need:["시원","달콤"],rx:"jakyak+milk",u:1,ex:1,bp:950,own:"미후네 치하야"},
+ {a:"평소처럼 들렀음",b:"늘 먹던 그거",d:"미시마의 팬 레터 라테(데움·달콤)",need:["따뜻","달콤"],rx:"danggwi+saenggang+milk",u:1,ex:1,bp:1100,own:"미시마 유키"},
+ {a:"평소처럼 들렀음",b:"늘 먹던 그거",d:"연설가의 진저 밀크(데움·잠 깨움)",need:["따뜻","각성"],rx:"insam+milk",u:1,ex:1,bp:950,own:"요시다 토라노스케"},
+ {a:"평소처럼 들렀음",b:"늘 먹던 그거",d:"신야의 순한 카레(데움)",need:["따뜻"],rx:"curry+milk",u:1,ex:1,bp:950,own:"오다 신야",fd:1},
+ {a:"평소처럼 들렀음",b:"늘 먹던 그거",d:"히후미의 한 수 블렌드(시원·잠 깨움·달콤)",need:["시원","각성","달콤"],rx:"hwanggi+jakyak",u:1,ex:1,bp:950,own:"토고 히후미"},
+ {a:"평소처럼 들렀음",b:"늘 먹던 그거",d:"검사님의 야근 블렌드(시원·잠 깨움·달콤)",need:["시원","각성","달콤"],rx:"hwanggi+cheongung+seokgo",u:1,ex:1,bp:1100,own:"니지마 사에"},
+ {a:"평소처럼 들렀음",b:"늘 먹던 그거",d:"시호의 응원 스무디(시원·달콤)",need:["시원","달콤"],rx:"danggwi+jakyak+seokgo",u:1,ex:1,bp:1100,own:"스즈이 시호"},
+ {a:"평소처럼 들렀음",b:"늘 먹던 그거",d:"카오루의 첫 커피(잠 깨움·달콤)",need:["각성","달콤"],rx:"hwanggi+danggwi+milk",u:1,ex:1,bp:1100,own:"이와이 카오루"},
+ {a:"평소처럼 들렀음",b:"늘 먹던 그거",d:"새 출발 블렌드(데움·잠 깨움)",need:["따뜻","각성"],rx:"saenggang+hwanggi+milk",u:1,ex:1,bp:1100,own:"나카노하라 나츠히코"}];
+const HU={saenggang:1,hwanggi:1,danggwi:1,bakha:1,seokgo:1,milk:1,sakura:2,suika:2,goguma:2,yuja:2,curry:5,bread:5,egg:5,insam:3,gamcho:8,sukji:15,jakyak:20,cheongung:23};
+let INGU=null;const ingUse=()=>INGU||(INGU=(()=>{const d=new Set(),f=new Set();SYMPTOMS.forEach(m=>m.rx.split("|").forEach(o=>o.split("+").forEach(k=>(m.fd?f:d).add(k))));return{d,f}})());
+const inPlace=(k,K)=>{const u=ingUse();return K?u.f.has(k):(u.d.has(k)||!u.f.has(k))};
+const placeOf=p=>!p?"lab":p.sy.note!==undefined?"lab":p.sy.req?(ingUse().d.has(p.sy.req)||!ingUse().f.has(p.sy.req)?"lab":"kitchen"):p.sy.fd?"kitchen":"lab";
+const pickList=K=>Object.keys(HERBS).filter(k=>open(k)&&inPlace(k,K));
+const open=k=>(HU[k]||1)<=S.day&&(!SEASONAL[k]||SEASONAL[k]===season());
 const rxText=s=>s.rx.split("|").map(a=>a.split("+")).filter(a=>a.every(open)).map(a=>a.map(k=>HERBS[k].n).join(" + ")).join(" 또는 ");
 const SPIRITS=[{st:1,n:"사카모토 류지",c:"류지",p:0},{st:1,n:"타카마키 안",c:"안",p:0},{st:1,n:"키타가와 유스케",c:"유스케",p:0},{st:1,n:"니지마 마코토",c:"마코토",p:0},{st:1,n:"사쿠라 후타바",c:"후타바",p:0},{st:1,n:"오쿠무라 하루",c:"하루",p:0},{st:1,n:"아케치 고로",c:"아케치",p:0},{n:"모르가나",c:"모르가나",p:0},{st:1,n:"요시자와 카스미",c:"카스미",p:0},{n:"타케미 타에",c:"타케미 선생님",p:1},{n:"카와카미 사다요",c:"카와카미 선생님",p:1},{n:"이와이 무네히사",c:"이와이 씨",p:1},{n:"오야 이치코",c:"오야 씨",p:1},{n:"미후네 치하야",c:"치하야 씨",p:1},{st:1,n:"미시마 유키",c:"미시마",p:0},{n:"요시다 토라노스케",c:"요시다 씨",p:1},{st:1,n:"오다 신야",c:"신야",p:0},{st:1,n:"토고 히후미",c:"히후미",p:0},{n:"니지마 사에",c:"사에 씨",p:1},{st:1,n:"스즈이 시호",c:"시호",p:0},{st:1,n:"이와이 카오루",c:"카오루",p:0},{n:"나카노하라 나츠히코",c:"나카노하라 씨",p:1}];
 const SPI=n=>SPIRITS.find(x=>x.n===n)||{n,c:n,p:0};
@@ -253,16 +311,17 @@ const POT=["......rr......","....rhhddr....","rr.rhhddeer.rr",".rrhhddeeerr.r","
 const KP={r:"#1a1a1a",h:"#f0f0f0",d:"#b4b4b4",e:"#7a7a7a",l:"#1a1a1a"};
 const BOOK=[".kkkkkkkkkk.","kRrrrrrrrrrk","kRrrYyyyyrrk","kRrrYrrrryrk","kRrrYyyyyrrk","kRrrYrrrrrrk","kRrrYrrrrrrk","kRrrrrrrrRrk","kkkkkkkkkkkk","kpqpqpqpqpqk","kkkkkkkkkkkk"];
 const BP={k:"#000000",r:"#1c1c1c",R:"#000000",y:"#d7141a",Y:"#ff4d4d",p:"#fbf8f2",q:"#d9d0c0"};
-const METHOD={insam:"자르기",hwanggi:"갈기",danggwi:"자르기",sukji:"갈기",saenggang:"자르기",bakha:"추출",seokgo:"손질 없음",gamcho:"자르기",jakyak:"추출",cheongung:"갈기",milk:"손질 없음"};
+const METHOD={insam:"자르기",hwanggi:"갈기",danggwi:"자르기",sukji:"갈기",saenggang:"자르기",bakha:"추출",seokgo:"손질 없음",gamcho:"자르기",jakyak:"추출",cheongung:"갈기",milk:"손질 없음",sakura:"추출",suika:"자르기",goguma:"갈기",yuja:"자르기",curry:"끓이기",bread:"자르기",egg:"끓이기"};
+const SEASONAL={sakura:"봄",suika:"여름",goguma:"가을",yuja:"겨울"};
 const MET=["자르기","갈기","추출"];const NOPROC={seokgo:1,milk:1};
-const COST={saenggang:40,hwanggi:60,danggwi:80,bakha:50,insam:90,seokgo:20,gamcho:30,sukji:120,jakyak:100,cheongung:110,milk:30};
+const COST={saenggang:40,hwanggi:60,danggwi:80,bakha:50,insam:90,seokgo:20,gamcho:30,sukji:120,jakyak:100,cheongung:110,milk:30,sakura:70,suika:90,goguma:80,yuja:80,curry:120,bread:50,egg:30};
 const MUL=[0,0.9,1,1.2];
 const menuPrice=sy=>sy.bp||350+150*sy.rx.split("|")[0].split("+").length;
 const cost=k=>Math.round(COST[k]*(W().pm||1));
 const yen=n=>"¥"+Math.round(n).toLocaleString();
 function patR(p){return p&&p.t0?Math.max(0,1-(p.el||0)/p.pat):1}
 let LASTP=Date.now(),AWAY=false;
-const handling=()=>!!(BA||MG||(S.tab==="lab"&&S.desk.some(x=>x.id===S.sel)));
+const handling=()=>!!(BA||MG||((S.tab==="lab"||S.tab==="kitchen")&&S.desk.some(x=>x.id===S.sel&&placeOf(x)===S.tab)));
 function patTick(now){let dt=now-LASTP;LASTP=now;if(dt<0||dt>2000||AWAY||document.hidden||S.phase!=="day"||S.tut>0)return;
  const h=handling();S.desk.forEach(p=>{if(!p.t0||p.stopped)return;if(h&&p.id!==S.sel)return;p.el=(p.el||0)+dt})}
 addEventListener("blur",()=>{AWAY=true});addEventListener("focus",()=>{AWAY=false;LASTP=Date.now()});
@@ -272,25 +331,55 @@ const RANKN=[2,6,12];
 function earn(p,base,ok){let tip=0;if(ok){const r=patR(p),tr=r>.66?.2:r>.33?.1:0;tip=Math.round(base*tr*(p.urg?2:1)*(1+(S.up.record?.3:0)+0.1*rank(p.sp.n))/10)*10}
  base=Math.round(base/10)*10;S.money+=base+tip;S.earn+=base;S.tips+=tip;S.totalEarn=(S.totalEarn||0)+base+tip;
  return base+tip>0?` <span class="yen">+${yen(base)}${tip?` · 팁 ${yen(tip)}`:""}</span>`:""}
-function addAff(n){S.aff=S.aff||{};const b=rank(n);S.aff[n]=(S.aff[n]||0)+1;const a=rank(n);if(a>b)setTimeout(()=>sfx("star"),700);return a>b?`<br><small>${ic("star")} <b>${n}</b>의 단골 랭크가 <b>Lv${a}</b>로 올랐다! (팁 +${a*10}%)</small>`:""}
-const ZC=()=>S.up.knife?[33,67]:[38,62],ZE=()=>S.up.kettle?[55,90]:[60,85];;
+const COOP={"사카모토 류지": {"m": "류지의 곱빼기 카레", "l": [["류지", "야, 렌! 오늘 연습 끝나고 바로 뛰어왔다. 배고파 죽겠어!"], ["류지", "한동안 다리 때문에 제대로 못 뛰었잖아. 근데 요즘은 여기서 먹고 나면 이상하게 기운이 나."], ["렌(생각)", "류지는 늘 전력으로 달린다. 그 속도를 따라잡을 한 그릇이 필요하다."], ["렌", "다음엔 달리고 와서 먹을 걸 만들어 둘게."], ["류지", "진짜냐? 든든하게, 곱빼기로! 약속이다!"], ["렌(생각)", "카레에 삶은 달걀을 올린 류지의 곱빼기 카레를 메뉴에 올리자."]]}, "타카마키 안": {"m": "안의 딸기 크레이프", "l": [["안", "렌, 나 오늘 크레이프 가게 세 군데나 돌고 왔어. 결국 제일 맛있는 건 못 찾았지만."], ["안", "시호랑 자주 가던 가게가 문을 닫았거든… 그래서 르블랑에서 크레이프를 팔면 좋겠다 싶었어."], ["렌(생각)", "딸기, 버터의 고소함, 부드러운 우유. 안이 좋아하는 맛이 떠오른다."], ["렌", "한번 만들어 볼게. 첫 접시는 안이 맛봐 줘."], ["안", "정말? 기대된다! 시호한테도 사진 보내서 자랑할 거야."], ["렌(생각)", "달콤한 걸 좋아하는 안을 위한 딸기 크레이프를 메뉴에 올리자."]]}, "키타가와 유스케": {"m": "화가의 카레빵", "l": [["유스케", "렌, 이 가게의 빛은 참 좋군. 저녁 무렵 카운터에 떨어지는 그림자가 특히."], ["유스케", "그림이 막힐 때면 여기 와서 카레 향을 맡는다. …사실 화구를 사느라 오늘 아무것도 못 먹었다."], ["렌(생각)", "스승의 그늘을 벗어난 뒤로, 유스케는 배를 곯아도 자기 그림을 그린다."], ["렌", "그리면서 한 손으로 먹을 수 있는 걸 만들어 줄게."], ["유스케", "…빵 속에 카레라니. 그 자체로 하나의 작품이군."], ["렌(생각)", "식빵에 카레를 채운 화가의 카레빵을 메뉴에 올리자."]]}, "니지마 마코토": {"m": "마코토의 집중 블렌드", "l": [["마코토", "렌, 오늘도 학생회 일이 늦게 끝났어. 언니도 야근이라 집에 가도 혼자고."], ["마코토", "공부할 때 마실 걸 찾고 있는데, 너무 쓰면 집중이 깨지고 너무 달면 졸리고…"], ["렌(생각)", "마코토는 늘 계획적이다. 균형 잡힌 한 잔이 필요하다."], ["렌", "공부할 때 딱 좋은 걸로 맞춰 볼게."], ["마코토", "고마워. 다음엔 언니랑 같이 올게. 언니 몫도 부탁해."], ["렌(생각)", "생강으로 몸을 데우고, 블렌드로 깨우고, 우유로 부드럽게. 마코토의 블렌드로 하자."]]}, "사쿠라 후타바": {"m": "후타바의 해커 토스트", "l": [["후타바", "렌! 밤새 코딩하다가 당이 바닥났다. 긴급 보급을 요청한다!"], ["후타바", "엄마도 연구할 땐 맨날 토스트만 먹었대. 소지로가 그러더라. …그러니까 달고 네모난 거."], ["렌(생각)", "후타바다운 주문이다. 키보드 옆에 두고 먹을 수 있는 걸로 하자."], ["렌", "버터랑 초콜릿 올린 토스트 어때?"], ["후타바", "오오, 최적의 조합! 당 수치 상승 확인! 이건 내 전용 아이템으로 등록한다!"], ["렌(생각)", "후타바만을 위한 해커 토스트를 메뉴에 올리자."]]}, "오쿠무라 하루": {"m": "하루의 원두 블렌드", "l": [["하루", "렌 군, 오늘 원두 냄새가 평소랑 조금 다르네. 새로 들어온 거야?"], ["하루", "나, 사실 커피를 직접 블렌드해 보는 게 꿈이었어. 아버지 회사 일이 정리되면, 언젠가 내 카페를 열고 싶어."], ["렌(생각)", "하루는 커피를 정말 좋아한다. 함께 블렌드를 만들어 봐도 좋겠다."], ["렌", "르블랑 블렌드에 모카빈을 섞어 보자."], ["하루", "와… 향이 훨씬 깊어졌다. 이건 우리 둘이 만든 블렌드네."], ["렌(생각)", "하루와 함께 만든 블렌드를 정식 메뉴로 올리자."]]}, "아케치 고로": {"m": "탐정의 스크램블 에그", "l": [["아케치", "또 만났네. 이 가게, 생각보다 내 취향에 맞는 것 같아."], ["아케치", "수사가 길어지면 끼니를 거르기 일쑤라서. …방송국 도시락은 이제 좀 질렸어."], ["렌(생각)", "늘 웃고 있지만, 아케치도 가면을 벗고 싶을 때가 있어 보인다."], ["렌", "간단하게 먹을 수 있는 걸 만들어 줄게."], ["아케치", "…그래, 기대할게. 가끔은 이렇게 쉬어 가는 것도 나쁘지 않겠지."], ["렌(생각)", "달걀과 우유, 버터로 아케치의 스크램블 에그를 메뉴에 올리자."]]}, "모르가나": {"m": "모르가나의 에그 샌드", "l": [["모르가나", "어이, 렌! 오늘 나 님이 얼마나 활약했는지 알지?"], ["모르가나", "그러니까 보상이 필요하다고. 고양이용 말고, 제대로 된 사람 음식으로! …나 님도 언젠가 꼭 인간이 될 거니까."], ["렌(생각)", "모르가나는 고양이 취급받는 걸 제일 싫어한다."], ["렌", "그럼 모르가나만을 위한 특별 메뉴다."], ["모르가나", "역시 내 파트너! 폭신하고 고소한 걸로 부탁한다고!"], ["렌(생각)", "식빵에 달걀과 버터를 넣은 모르가나의 에그 샌드를 메뉴에 올리자."]]}, "요시자와 카스미": {"m": "카스미의 스텝 에이드", "l": [["카스미", "선배, 오늘 연기 연습을 백 번은 한 것 같아요. 다리가 후들거려요."], ["카스미", "요즘 대회 점수가 잘 안 나와서 조금 불안했어요. 그래도 선배랑 이야기하면 다시 힘이 나요."], ["렌(생각)", "카스미는 늘 노력한다. 연습 뒤에 상쾌하게 마실 한 잔이 좋겠다."], ["렌", "시원한 에이드를 만들어 볼게."], ["카스미", "정말요? 그럼 다음 대회 끝나고 꼭 마시러 올게요!"], ["렌(생각)", "복숭아와 민트, 얼음으로 카스미의 스텝 에이드를 메뉴에 올리자."]]}, "타케미 타에": {"m": "닥터 진저 티", "l": [["타케미", "어서 와… 가 아니라, 여기선 내가 손님이구나."], ["타케미", "진료 끝나고 커피 마시면 잠이 안 와서. 요즘 약 연구가 막바지라 밤이 길거든. 몸은 데우고 머리는 맑게 하는 거 없어?"], ["렌(생각)", "의사다운 주문이다. 몸에 좋은 재료로 만들어 보자."], ["렌", "생강이랑 민트를 우려 볼게요."], ["타케미", "흠, 처방 같네. 좋아, 이건 내 단골 메뉴로 하지."], ["렌(생각)", "타케미 선생님을 위한 진저 티를 메뉴에 올리자."]]}, "카와카미 사다요": {"m": "선생님의 시나몬 토스트", "l": [["카와카미", "아… 오늘도 채점이 산더미야. 렌, 아무 말 말고 간단한 거 하나만."], ["카와카미", "밤 아르바이트를 그만뒀더니 좀 살 것 같아. 그래도 아침은 맨날 거르지만. 비밀이다?"], ["렌(생각)", "선생님도 쉴 곳이 필요하다."], ["렌", "아침 거르지 마시라고 간단한 걸 만들어 드릴게요."], ["카와카미", "…학생한테 이런 말 듣는 것도 나쁘지 않네. 고마워."], ["렌(생각)", "식빵에 버터와 시나몬을 올린 선생님의 시나몬 토스트를 메뉴에 올리자."]]}, "이와이 무네히사": {"m": "하드보일드 블렌드", "l": [["이와이", "…블렌드. 진하게."], ["이와이", "카오루 녀석이 요즘 커피 맛을 알더라고. 피도 안 섞인 아비가 마시는 걸 따라 하고 싶은 모양이야."], ["렌(생각)", "말수는 적지만, 아들 얘기를 할 때 목소리가 부드러워진다."], ["렌", "향을 조금 더해서, 두 분이 같이 마실 수 있는 걸로 할게요."], ["이와이", "…쓸데없는 짓을. 뭐, 맛있으면 마시지."], ["렌(생각)", "블렌드에 시나몬을 더한 하드보일드 블렌드를 메뉴에 올리자."]]}, "오야 이치코": {"m": "특종 해장 커피", "l": [["오야", "으… 어제 너무 마셨다. 렌, 머리가 깨질 것 같아."], ["오야", "사라진 동료 소식 쫓느라 술집만 돌았거든. 기사 마감은 오늘인데 정신이 하나도 없어."], ["렌(생각)", "오야 씨에게는 매번 해장이 필요한 것 같다."], ["렌", "생강이랑 블렌드, 얼음을 듬뿍 넣을게요."], ["오야", "오, 이거야 이거! 이걸로 특종 하나 건지면 기사에 이 가게 이름 넣어 줄게."], ["렌(생각)", "오야 씨 전용 해장 커피를 메뉴에 올리자."]]}, "미후네 치하야": {"m": "행운의 피치 티", "l": [["치하야", "오늘 점괘에 ‘복숭아색 행운이 찾아온다’고 나왔어요."], ["치하야", "그래서 와 봤는데… 혹시 복숭아로 만든 음료가 있을까요?"], ["렌(생각)", "운명은 스스로 바꿀 수 있다고 믿게 된 치하야 씨. 행운의 한 잔을 만들어 주자."], ["렌", "복숭아를 우려서 우유와 섞어 볼게요."], ["치하야", "와… 정말 행운이네요. 이 한 잔은 제 부적으로 삼을게요."], ["렌(생각)", "치하야 씨를 위한 행운의 피치 티를 메뉴에 올리자."]]}, "미시마 유키": {"m": "미시마의 팬 레터 라테", "l": [["미시마", "렌! 내 사이트 방문자 수가 또 올랐어! 다 너희 덕분이야."], ["미시마", "처음엔 너한테 미안한 짓만 했는데… 이렇게 응원할 수 있게 돼서 다행이야. 그래서, 기념 메뉴 같은 거 없을까?"], ["렌(생각)", "미시마는 늘 응원해 준다. 고마운 마음을 담아 보자."], ["렌", "달콤하고 따뜻한 라테로 만들어 줄게."], ["미시마", "진짜? 오늘 밤 업데이트 확정이다!"], ["렌(생각)", "딸기와 시나몬, 우유로 미시마의 팬 레터 라테를 만들자."]]}, "요시다 토라노스케": {"m": "연설가의 진저 밀크", "l": [["요시다", "안녕하세요, 렌 군. 오늘도 역 앞에서 연설을 하고 왔습니다."], ["요시다", "‘구제불능 토라’라고 놀림받아도, 한 사람이라도 들어 준다면 계속해야지요. 다만 목이 쉬어서 말이죠."], ["렌(생각)", "요시다 씨의 목소리를 지켜 줄 한 잔이 필요하다."], ["렌", "생강을 넣은 따뜻한 우유를 만들어 드릴게요."], ["요시다", "고맙습니다. 이걸 마시면 내일도 힘차게 외칠 수 있겠군요."], ["렌(생각)", "요시다 씨를 위한 진저 밀크를 메뉴에 올리자."]]}, "오다 신야": {"m": "신야의 순한 카레", "l": [["신야", "형! 나 오늘 게임에서 또 신기록 세웠어!"], ["신야", "근데 엄마가 매운 건 안 된대. 요즘은 엄마랑 같이 밥 먹는 날이 늘었거든. 나도 형네 카레 먹어 보고 싶은데."], ["렌(생각)", "신야에게 어울리는, 맵지 않은 한 그릇을 만들자."], ["렌", "우유 넣어서 순한 카레를 만들어 줄게."], ["신야", "우와, 이거 완전 보스 클리어 보상 같아! 엄마도 데려와도 돼?"], ["렌(생각)", "신야만의 순한 카레를 메뉴에 올리자."]]}, "토고 히후미": {"m": "히후미의 한 수 블렌드", "l": [["히후미", "렌 군, 오늘 대국에서 아주 좋은 한 수를 찾았어요. 누가 짜 준 게 아니라, 제 힘으로요."], ["히후미", "생각이 막힐 때 마시는 차가 있으면 좋겠는데… 커피는 조금 써서요."], ["렌(생각)", "히후미는 한 수 한 수 신중하다. 은은한 맛이 어울릴 것 같다."], ["렌", "블렌드에 복숭아 향을 더해 볼게."], ["히후미", "…좋네요. 다음 대국 전에 꼭 마시러 올게요."], ["렌(생각)", "히후미를 위한 한 수 블렌드를 메뉴에 올리자."]]}, "니지마 사에": {"m": "검사님의 야근 블렌드", "l": [["사에", "…아이스로. 가장 진한 걸로."], ["사에", "오늘도 서류가 끝이 없네. 정신 폐쇄 사건 때문에 윗선 압박이 심해서. 마코토한테는 비밀로 해 줘."], ["렌(생각)", "사에 씨는 늘 혼자 버틴다. 그 밤을 함께할 한 잔을 만들자."], ["렌", "블렌드에 모카빈을 더해서 진하게 만들어 드릴게요."], ["사에", "…괜찮은 맛이네. 다음에도 이걸로 부탁해."], ["렌(생각)", "사에 씨의 야근 블렌드를 메뉴에 올리자."]]}, "스즈이 시호": {"m": "시호의 응원 스무디", "l": [["시호", "렌 군, 오랜만이야. 요즘 새 학교에서 운동을 시작했어."], ["시호", "힘들 때 안이랑 너희가 곁에 있어 줘서 여기까지 왔어. 아직 서툴지만, 매일 조금씩 나아지는 게 즐거워."], ["렌(생각)", "시호의 한 걸음 한 걸음을 응원하고 싶다."], ["렌", "운동 끝나고 마실 스무디를 만들어 줄게."], ["시호", "고마워. 안한테도 자랑해야겠다."], ["렌(생각)", "딸기와 복숭아, 얼음으로 시호의 응원 스무디를 만들자."]]}, "이와이 카오루": {"m": "카오루의 첫 커피", "l": [["카오루", "형, 아빠가 마시는 블렌드를 몰래 마셔 봤는데… 너무 써요."], ["카오루", "피는 안 이어졌어도, 아빠처럼 커피를 마셔 보고 싶어요. 어른스러워 보이잖아요."], ["렌(생각)", "카오루에게는 처음 마시는 커피가 좋은 기억이 됐으면 한다."], ["렌", "딸기랑 우유를 넣어서 순하게 만들어 줄게."], ["카오루", "이건 마실 수 있겠어요! 아빠한테도 권해 볼래요."], ["렌(생각)", "카오루의 첫 커피를 메뉴에 올리자."]]}, "나카노하라 나츠히코": {"m": "새 출발 블렌드", "l": [["나카노하라", "…요즘은 회사 끝나면 곧장 여기 와요. 이상하게 마음이 편해서."], ["나카노하라", "어느 날 비뚤어졌던 마음이 거짓말처럼 바뀌었어요. 그 뒤로 예전의 저를 조금씩 바꿔 보는 중이에요."], ["렌(생각)", "나카노하라 씨도 새로 시작하고 있다."], ["렌", "새 출발을 위한 블렌드를 만들어 드릴게요."], ["나카노하라", "…고맙습니다. 이 맛을 기억하면서 잘해 볼게요."], ["렌(생각)", "시나몬과 블렌드, 우유로 새 출발 블렌드를 메뉴에 올리자."]]}};
+let EVI=0;
+function addAff(n){S.aff=S.aff||{};const b=rank(n);S.aff[n]=(S.aff[n]||0)+1;const a=rank(n);if(a===3&&b<3&&COOP[n]&&!(S.ev||{})[n]){S.evq=(S.evq||[]).concat(n)}if(a>b)setTimeout(()=>sfx("star"),700);return a>b?`<br><small>${ic("star")} <b>${n}</b>의 단골 랭크가 <b>Lv${a}</b>로 올랐다! (팁 +${a*10}%)</small>`:""}
+const ZK=()=>[45,75],ZC=()=>S.up.knife?[33,67]:[38,62],ZE=()=>S.up.kettle?[55,90]:[60,85];;
 const KNIFE=["........kk",".......kwk","......kwk.",".....kwk..","....kwk...","...kwk....","..kwk.....",".bbk......","bbb.......","bb........"];
 const MORTAR=["....k.bbb.","....k..k..","..kkkkkk..",".kbbbbbbk.","kkkkkkkkkk","kbbbbbbbbk","kbbkkkkbbk","kbbkppkbbk","kbbbbbbbbk","kkkkkkkkkk"];
 const CUP=["..s..s....","kkkkkkkkkk",".kwwwwwwk.","..kwwwwk..","...kwwk...","..kkkkkk..",".kbbbbbbk.",".kbbbbbbk.","..kkkkkk..",".........."];
-const TOOL={"자르기":KNIFE,"갈기":MORTAR,"추출":CUP};
+const POTI=["..s..s....","...s..s...",".kkkkkkkk.","kkbbbbbbkk",".kppppppk.",".kppppppk.",".kppppppk.","..kkkkkk..","..........",".........."];
+const PANS=["....................","..kkkkkkkkkkkk......",".kEEEEEEEEEEEEk.....",".kEyyEEEEEEEEEkkkkkk",".kEyyEEEwwEEEEk.....",".kEEEEEEwwEEEEk.....","..kkkkkkkkkkkk......","....................","...r..y..r..y..r....","..ryr.yry.ryr.yry...","...................."];
+let PANC=null;function panDraw(){const c=document.getElementById("pan");if(!c)return;if(!PANC){PANC=document.createElement("canvas");spr(PANC,PANS,PAL)}
+ const W=20,H=17,t=Date.now();if(c.width!==W){c.width=W;c.height=H}const x=c.getContext("2d");x.imageSmoothingEnabled=false;x.clearRect(0,0,W,H); const f=(o,a,b,w,h)=>{x.fillStyle=o;x.fillRect(a,b,w,h)};
+ for(let i=0;i<6;i++){const ph=((t/1600)+i/6)%1,px=4+(i%3)*4+Math.round(Math.sin(ph*6+i)*1.5),py=Math.round(7-ph*7),z=ph<0.6?2:1;x.globalAlpha=Math.max(0,0.95-ph*0.9);f(ph<0.35?"#8f979e":ph<0.7?"#a9b0b6":"#c3c9ce",px,py,z,z)}x.globalAlpha=1;x.drawImage(PANC,0,6);
+ for(let i=0;i<5;i++){const fx=3+i*3,on=(Math.floor(t/120)+i)%3;f(on===0?"#ffd45a":on===1?"#f08a2e":"#d6494d",fx,14,1,1);if(on!==2)f("#ffd45a",fx,15,1,1)}}
+setInterval(panDraw,90);
+const TOOL={"자르기":KNIFE,"갈기":MORTAR,"추출":CUP,"끓이기":POTI};
 const TP={k:"#2a1a10",w:"#dfe6ee",b:"#8a5a2b",p:"#b9b3a6",t:"#7fc06a",s:"#ffffffb3"};
 let MG=null,MT=null;
 let BA=null;
 function mixCol(cs){let r=0,g=0,b=0;cs.forEach(h=>{r+=parseInt(h.slice(1,3),16);g+=parseInt(h.slice(3,5),16);b+=parseInt(h.slice(5,7),16)});const n=cs.length;return "#"+[r,g,b].map(v=>Math.round(v/n).toString(16).padStart(2,"0")).join("")}
-function playBrew(cb){const all=S.pick.slice();if(!all.length||BA)return;const ice=all.includes("seokgo"),ext=all.some(k=>S.proc[k]==="추출"),picks=all.filter(k=>k!=="seokgo");
+const CPOT=["..............", "...rrrrrrrr...", "rr.rggggggr.rr", ".rrhddddderrr.", "..rhdddddeer..", "..rhdddddeer..", "..rhdddddeer..", "..rhdddddeer..", "...rrrrrrrr...", "..............", ".............."];
+function playBrew(cb){const all=S.pick.slice();if(!all.length||BA)return;const fp=S.desk.find(x=>x.id===S.sel);
+ if(fp&&fp.sy.fd&&!all.includes("curry")){const el=document.getElementById("mg");el.style.display="flex";
+  el.innerHTML=`<div class="mbox"><div class="mh"><b>${ic("sake")} 요리를 만드는 중</b><button onclick="baEnd()">건너뛰기</button></div><canvas id="bac" style="width:100%;border:4px solid var(--bd)"></canvas><div id="bam" style="min-height:20px;margin-top:6px;text-align:center"></div></div>`;
+  const pr=k=>k==="bread"?0:k==="egg"?1:2,pk=all.slice().sort((a,b)=>pr(a)-pr(b));const n=pk.length,end=500+n*700+1500;
+  BA={t0:Date.now(),food:1,picks:pk,cb,end};clearInterval(MT);MT=setInterval(baLoop,40);stopBrewSnd();
+  pk.forEach((k,i)=>BAT.push(setTimeout(()=>{sfx("plop");if(k==="egg"||k==="bread")sfx("sizzle")},500+i*700+260)));BAT.push(setTimeout(()=>sfx("ting"),500+n*700+300));return}const ice=all.includes("seokgo"),ext=all.some(k=>S.proc[k]==="추출"),picks=all.filter(k=>k!=="seokgo");
  const el=document.getElementById("mg");el.style.display="flex";
- el.innerHTML=`<div class="mbox"><div class="mh"><b>${ic("sake")} ${ice||ext?"음료를 만드는 중":"커피를 내리는 중"}</b><button onclick="baEnd()">건너뛰기</button></div><canvas id="bac" style="width:100%;border:4px solid var(--bd)"></canvas><div id="bam" style="min-height:20px;margin-top:6px;text-align:center"></div></div>`;
+ el.innerHTML=`<div class="mbox"><div class="mh"><b>${ic("sake")} ${all.includes("curry")?"카레를 끓이는 중":ice||ext?"음료를 만드는 중":"커피를 내리는 중"}</b><button onclick="baEnd()">건너뛰기</button></div><canvas id="bac" style="width:100%;border:4px solid var(--bd)"></canvas><div id="bam" style="min-height:20px;margin-top:6px;text-align:center"></div></div>`;
  const liq=picks.length?mixCol(picks.map(k=>COL[k])):"#bfe0ea",kc=document.createElement("canvas");
- if(ext)spr(kc,CARAFE,{r:"#9fc4d2",h:"#ffffff",e:"#e8f6fb66",g:liq});else spr(kc,POT,{...KP,g:liq});
- BA={t0:Date.now()-(ext?5000:0),picks,cb,kc,liq,ice,ext,glass:ice||ext,end:ice?10700:9200};clearInterval(MT);MT=setInterval(baLoop,40);startBrewSnd(picks,ice,ext)}
+ if(all.includes("curry"))spr(kc,CPOT,{...KP,g:liq});else if(ext)spr(kc,CARAFE,{r:"#9fc4d2",h:"#ffffff",e:"#e8f6fb66",g:liq});else spr(kc,POT,{...KP,g:liq});
+ const curry=all.includes("curry");BA={t0:Date.now()-(ext?5000:0),picks,cb,kc,liq,ice,ext,curry,glass:(ice||ext)&&!curry,end:ice&&!curry?10700:9200};clearInterval(MT);MT=setInterval(baLoop,40);startBrewSnd(picks,ice,ext)}
 const CARAFE=["....rrrrrr....","...reeeeeer...","rr.reeeeeer.rr",".rrhgggggggr.r","..rhgggggggr.r","..rhgggggggr.r","..rhgggggggr.r","..rhgggggggrrr","...rgggggggr..","....rrrrrrr...",".............."];
 function baEnd(){if(!BA)return;lockClicks();const cb=BA.cb;clearInterval(MT);stopBrewSnd();BA=null;document.getElementById("mg").style.display="none";cb()}
-function baLoop(){const b=BA;if(!b)return;const t=Date.now()-b.t0;if(t>b.end){baEnd();return}
+function foodDraw(b,t){const c=document.getElementById("bac");if(!c)return;c.width=48;c.height=32;const x=c.getContext("2d"),f=(o,a,y,w,h)=>{x.fillStyle=o;x.fillRect(Math.round(a),Math.round(y),w,h)};
+ f("#2a1a14",0,0,48,32);f("#6e4829",0,29,48,3);f("#2a1a10",9,28,30,1);f("#f4efe4",10,26,28,2);f("#d6cfbd",11,28,26,1);f("#ffffff",12,26,6,1);
+ let y=26;b.picks.forEach((k,i)=>{const s0=500+i*700;if(t<s0)return;const r=Math.min(1,(t-s0)/260),cx=24,col=COL[k]||"#cccccc";
+  const H=k==="bread"?4:k==="egg"?3:2,ty=y-H,yy=-6+(ty+6)*r*r;
+  if(k==="bread"){f("#b8823e",cx-8,yy,16,4);f("#f0d8a0",cx-7,yy+1,14,2)}
+  else if(k==="egg"){f("#fff6e0",cx-6,yy,12,3);f("#ffcf3a",cx-2,yy,4,2);f("#ffe680",cx-2,yy,1,1)}
+  else if(k==="gamcho"){f("#f6e08a",cx-3,yy,6,2);f("#fff4b8",cx-3,yy,6,1)}
+  else if(k==="sukji"){f("#5a3020",cx-7,yy+1,14,1);for(let j=0;j<4;j++)f("#3e1f14",cx-6+j*4,yy,2,1)}
+  else if(k==="danggwi"){for(let j=0;j<3;j++){f("#d7141a",cx-6+j*5,yy,3,2);f("#ff6b6b",cx-6+j*5,yy,1,1)}}
+  else if(k==="milk"){f("#ffffff",cx-7,yy,14,1);f("#f4f1ea",cx-5,yy+1,10,1)}
+  else if(k==="saenggang"){for(let j=0;j<5;j++)f("#8a4a24",cx-6+j*3,yy+(j%2),1,1)}
+  else{f(col,cx-7,yy,14,H);f(sh(col,.25),cx-7,yy,14,1)}
+  if(r>=1)y=ty;if(r>=1&&t-s0<480){const k2=(t-s0-260)/220;f("#ffffffaa",cx-9-k2*2,ty-1-k2*2,1,1);f("#ffffffaa",cx+9+k2*2,ty-1-k2*2,1,1)}});
+ const fin=500+b.picks.length*700+300;if(t>fin){for(let i=0;i<3;i++){const ph=((t/500)+i*0.33)%1;f("#ffffffaa",18+i*6+Math.sin(ph*7+i)*2,y-2-ph*10,2,2)}if(Math.floor(t/250)%2)f("#ffd400",36,y-4,1,1)}
+ const m=document.getElementById("bam");if(m)m.textContent=t<500?"접시를 준비한다…":t<fin?"재료를 올린다…":"완성!"}
+function baLoop(){const b=BA;if(!b)return;const t=Date.now()-b.t0;if(t>b.end){baEnd();return}if(b.food){foodDraw(b,t);return}
  const c=document.getElementById("bac");if(!c)return;c.width=48;c.height=32;const x=c.getContext("2d");x.imageSmoothingEnabled=false;
  const f=(o,a,y,w,h)=>{x.fillStyle=o;x.fillRect(Math.round(a),Math.round(y),w,h)},cl=(v)=>Math.max(0,Math.min(1,v));
  f("#2a1a14",0,0,48,32);f("#6e4829",0,29,48,3);if(b.ext){f("#5a3a26",23,15,17,14);f("#7a5236",23,15,17,1)}else{f("#3a3a3a",23,15,17,14);f("#2a2a2a",23,15,17,1)}
@@ -300,7 +389,10 @@ function baLoop(){const b=BA;if(!b)return;const t=Date.now()-b.t0;if(t>b.end){ba
  x.save();x.translate(px,py);x.rotate(ang);x.drawImage(b.kc,-7,-10);x.restore();
  b.picks.forEach((k,i)=>{const s0=300+i*600,d=800;if(t>=s0&&t<s0+d){const r=(t-s0)/d;f(COL[k],29+i*2,-3+r*8,3,2)}});
  const stream=fill=>{if(t>=6200&&t<8000){const tx=px+(-7*Math.cos(ang)+8*Math.sin(ang)),ty=py+(-7*Math.sin(ang)-8*Math.cos(ang));f(b.liq,tx,ty,1,Math.max(1,28-fill-ty))}};
- if(!b.glass){const fill=Math.round(5*cl((t-6200)/1800));
+ if(b.curry){const fill=Math.round(4*cl((t-6200)/1800));
+  f("#2a1a10",10,28,24,1);f("#f4efe4",11,26,22,2);f("#d6cfbd",12,28,20,1);f("#ffffff",12,22,9,4);f("#f0ece0",13,21,7,1);f("#e6e0d0",19,23,2,3);
+  if(fill){f(b.liq,20,27-fill,11,fill);f(sh(b.liq,.25),20,27-fill,11,1);if(fill>2){f("#e07a1f",23,25,2,1);f("#7fc06a",27,24,1,1)}}stream(fill+1)}
+ else if(!b.glass){const fill=Math.round(5*cl((t-6200)/1800));
  f("#f4efe4",15,22,10,7);f("#c9c1b0",16,23,8,5);f("#f4efe4",25,24,2,1);f("#f4efe4",26,25,1,2);if(fill)f(b.liq,16,28-fill,8,fill);stream(fill)}
  else{const IT=8350,DT=280,GAP=420,P=b.ice?[[17,21],[20,19],[18,16]]:[];let landed=0;P.forEach((_,i)=>{if(t>=IT+i*GAP+DT)landed++});
   const fill=Math.round(9*cl((t-6200)/1800))+landed,sy=28-fill;
@@ -313,7 +405,7 @@ function baLoop(){const b=BA;if(!b)return;const t=Date.now()-b.t0;if(t>b.end){ba
   f("#e8f6fb",16,13,9,1);f("#cfe6ee",16,14,1,15);f("#cfe6ee",24,14,1,15);f("#e8f6fb",16,28,9,2);f("#ffffff66",17,15,1,12);
   if(b.ice&&t>=IT+2*GAP+DT+150)for(let i=0;i<3;i++){if((Math.floor(t/260)+i)%3===0)f("#ffffff",18+((i*3)%5),17+i*3,1,1)}}
  if(boil||(!b.glass&&t>=8400)||(pour&&t<8000&&!b.ext)){for(let i=0;i<3;i++){const ph=((t/450)+i*0.7)%1,sx=(pour?(t>=8400?20:px-8):24)+Math.sin(ph*6+i)*1.5;f("#ffffffaa",sx,(pour?(t>=8400?20:py-4):6)-ph*6,1,1)}}
- const m=document.getElementById("bam");if(m)m.textContent=b.ext&&t<5400?"추출한 음료를 준비한다…":t<2400?"재료를 주전자에 넣는다…":t<5400?"보글보글 끓인다…":t<(b.ice?8300:8400)?(b.glass?"긴 유리잔에 따른다…":"잔에 따른다…"):b.ice&&t<9800?"얼음을 넣는다…":"완성!"}
+ const m=document.getElementById("bam");if(m)m.textContent=b.curry?(t<2400?"카레 루와 커피를 냄비에 넣는다…":t<5400?"보글보글 카레를 끓인다…":t<8400?"접시에 밥과 카레를 담는다…":"완성!"):b.ext&&t<5400?"추출한 음료를 준비한다…":t<2400?"재료를 주전자에 넣는다…":t<5400?"보글보글 끓인다…":t<(b.ice?8300:8400)?(b.glass?"긴 유리잔에 따른다…":"잔에 따른다…"):b.ice&&t<9800?"얼음을 넣는다…":"완성!"}
 const ADV=[
  {s:"악플이 자꾸 신경 쓰임",o:[["악플은 차단하고 잠시 SNS 쉬기", "악플은 차단하고, 며칠은 SNS를 쉬어 봐.", "악플은 차단하시고, 며칠은 SNS를 쉬어 보세요."], ["일일이 반박 댓글 달기", "하나하나 반박 댓글을 달아 줘.", "하나하나 반박 댓글을 달아 주세요."], ["밤새 댓글 정독하기", "밤새 댓글을 하나도 빠짐없이 읽어 봐.", "밤새 댓글을 하나도 빠짐없이 읽어 보세요."], ["부계정으로 맞불 놓기", "부계정 만들어서 똑같이 갚아 줘.", "부계정을 만들어서 똑같이 갚아 주세요."]]},
  {st:1,s:"공부에 집중이 안 됨",o:[["폰은 멀리 두고 짧게 끊어 공부하기", "폰은 다른 방에 두고 25분씩 끊어서 해 봐.", "휴대폰은 다른 방에 두시고 25분씩 끊어서 해 보세요."], ["벼락치기로 밤새우기", "그냥 전날 밤새서 한 번에 몰아서 해.", "그냥 전날 밤새서 한 번에 몰아서 하세요."], ["공부 브이로그부터 찍기", "일단 공부 브이로그부터 찍어서 올려.", "일단 공부 브이로그부터 찍어서 올리세요."], ["포기하고 게임하기", "어차피 안 되는 거, 오늘은 게임이나 해.", "어차피 안 되시는 거, 오늘은 게임이나 하세요."]]},
@@ -365,12 +457,14 @@ const ADV=[
 const NOTE=[".s.s.s.s.s.s","kkkkkkkkkkkk","kppppppppppk","kpbbbbbbbppk","kppppppppppk","kpbbbbbppppk","kppppppppppk","kpbbbbbbpppk","kppppppppppk","kkkkkkkkkkkk"];
 const NP={k:"#111111",p:"#fbf8f2",b:"#d7141a",s:"#9aa0ad"};
 function mkReq(){const ks=Object.keys(HERBS).filter(k=>open(k));let pool=ks.filter(k=>"req"+k!==S.lastD);if(!pool.length)pool=ks;const k=rnd(pool);S.lastD="req"+k;return{s:HERBS[k].n+" 한 개",d:"재료 포장",need:[],req:k,u:10}}
-function mkSy(m,one){return{s:one?m.a:m.a+", "+m.b,d:m.d,m:m.d.split("(")[0],need:m.need,rx:m.rx,u:m.u,ex:m.ex?1:0,one:one?1:0}}
-function pickSym(sp){const pool=SYMPTOMS.filter(x=>x.u<=S.day&&x.d!==S.lastD),base=pool.length?pool:SYMPTOMS.filter(x=>x.u<=S.day),m=rnd(base.flatMap(x=>x.need.some(t=>W().bias.includes(t))?Array(W().w).fill(x):[x]));S.lastD=m.d;const sy=mkSy(m,Math.random()<0.4);return S.day>=17&&Math.random()<0.35?special(sy,sp):sy}
+function mkSy(m,one){return{s:one?m.a:m.a+", "+m.b,d:m.d,m:m.d.split("(")[0],need:m.need,rx:m.rx,u:m.u,ex:m.ex?1:0,bp:m.bp,ss:m.ss,own:m.own,fd:m.fd,pt:m.pt,one:one?1:0}}
+const PT=new Set(["사카모토 류지","타카마키 안","키타가와 유스케","니지마 마코토","사쿠라 후타바","오쿠무라 하루","아케치 고로","모르가나","요시자와 카스미"]);
+const menuOK=x=>x.u<=S.day&&(!x.ss||x.ss===season())&&(!x.own||!!(S.ev||{})[x.own])&&(!x.own||x.rx.split("+").every(open));
+function pickSym(sp){const om=sp&&SYMPTOMS.find(x=>x.own===sp.n);if(om&&menuOK(om)&&Math.random()<0.4){S.lastD=om.d;return mkSy(om,false)}const ptOK=x=>!x.pt||!!(sp&&PT.has(sp.n)),pool=SYMPTOMS.filter(x=>menuOK(x)&&!x.own&&ptOK(x)&&x.d!==S.lastD),base=pool.length?pool:SYMPTOMS.filter(x=>menuOK(x)&&!x.own&&ptOK(x)),m=rnd(base.flatMap(x=>{const w=x.need.some(t=>W().bias.includes(t))?W().w:1;return Array(x.ss?w*2:w).fill(x)}));S.lastD=m.d;const sy=mkSy(m,Math.random()<0.4);return S.day>=17&&Math.random()<0.35?special(sy,sp):sy}
 const bat=w=>{const c=w.charCodeAt(w.length-1);return c>=0xAC00&&c<=0xD7A3&&(c-0xAC00)%28!==0};
 const eun=w=>w+(bat(w)?"은":"는"),eul=w=>w+(bat(w)?"을":"를");
 const ADDK=["milk","seokgo","saenggang"];
-function special(sy,sp){const ks=sy.rx.split("+"),opts=[];
+function special(sy,sp){const ks=sy.rx.split("+"),opts=[];if(ks.includes("curry")||sy.fd)return sy;
  if(ks.length>=2)ks.forEach(k=>{const rest=ks.filter(x=>x!==k);if(rest.some(x=>HERBS[x].t.some(t=>t!=="부드러움")))opts.push({t:"del",k,rest})});
  if(ks.length<3)ADDK.forEach(k=>{if(!ks.includes(k)&&open(k))opts.push({t:"add",k,rest:ks.concat(k)})});
  if(!opts.length)return sy;const o=rnd(opts),n=HERBS[o.k].n,m=sy.m;
@@ -382,10 +476,10 @@ function toggleMemo(){S.memo=!S.memo;sfx("page");render()}
 function pickNote(i){S.notes[S.sel]=i;render()}
 function closeNotice(){S.notice=false;S.seen3=true;save();render()}
 function memoHTML(){const p=S.desk.find(x=>x.id===S.sel);let body;
- if(p&&p.sy.req)body=`<div style="padding:10px">이 손님은 재료 포장을 주문했어요.<br><small>고민 상담은 필요 없어요. 재료를 손질하지 말고 그대로 포장하기를 눌러 주세요.</small></div>`;
- else if(!p||p.sy.note===undefined)body=`<div style="padding:10px">이 손님은 메뉴를 주문한 손님이에요.<br><small>고민 상담은 ‘상담’ 손님에게만 해요.</small></div>`;
+ if(p&&p.sy.req)body=`<div style="padding:10px">상담 손님이 아니에요.</div>`;
+ else if(!p||p.sy.note===undefined)body=`<div style="padding:10px">상담 손님이 아니에요.</div>`;
  else{const a=ADV[p.sy.note],n=S.notes[p.id];
-  body=`<div class="hw">${p.sp.n} · 고민: ${p.sy.s}</div><small>어떤 말을 해 줄까요?</small>`+p.sy.o.map(i=>`<button class="op ${n===i?"sel":""}" onclick="pickNote(${i})">${a.o[i][0]}</button>`).join("")+`<div class="memo hw">${n===undefined?"<span style='opacity:.5'>(답을 고르면 여기에 적혀요)</span>":`<b>${SPI(p.sp.n).c}</b>, ${a.o[n][SPI(p.sp.n).p?2:1]}`}</div>`}
+  body=`<div class="hw">${p.sp.n} · 고민: ${p.sy.s}</div>`+p.sy.o.map(i=>`<button class="op ${n===i?"sel":""}" onclick="pickNote(${i})">${a.o[i][0]}</button>`).join("")+`<div class="memo hw">${n===undefined?"<span style='opacity:.5'>(답을 고르면 여기에 적혀요)</span>":`<b>${SPI(p.sp.n).c}</b>, ${a.o[n][SPI(p.sp.n).p?2:1]}`}</div>`}
  return `<div class="modal" onclick="toggleMemo()"><div class="mbox" onclick="event.stopPropagation()"><div class="mh"><b>${ic("memo")} 고민 상담</b><button onclick="toggleMemo()">${ic("x")}</button></div>${body}</div></div>`}
 function noticeHTML(){return `<div class="modal"><div class="mbox"><div class="mh"><b>${ic("notice")} 3일차부터 달라지는 점</b></div><div style="font-size:14px;line-height:1.6">· 메뉴 대신 고민을 들고 오는 <b>상담 손님</b>이 찾아와요. 보라색 ‘상담’ 딱지가 붙어 있어요.<br>· 카운터의 <b>${ic("memo")} 고민 상담</b>에서 알맞은 답을 골라요. 친구·후배에게는 반말, 어른에게는 존댓말로 말해 줘요.<br>· 답을 고른 뒤 <b>돌려보내기</b>를 누르면 끝! 알맞은 답을 골라야 해요.<br>· 고민을 잘 들어 주면 고맙다며 ¥200을 두고 가요. 메뉴를 내거나 답이 틀리면 신뢰가 줄어요.</div><button class="p" onclick="closeNotice()">알겠어요</button></div></div>`}
 function restart(){if(MG)closeMG();S=JSON.parse(FRESH);fix();MENU=false;save();render()}
@@ -400,11 +494,14 @@ function saveSlot(i){try{localStorage.setItem("lbt1_s"+i,JSON.stringify({t:Date.
 function loadSlot(i){const d=slotInfo(i);if(!d)return;if(MG)closeMG();S=Object.assign(JSON.parse(FRESH),mig(JSON.parse(JSON.stringify(d.s))));fix();MENU=false;save();render()}
 function newGame(){if(!NG){NG=true;MSG="한 번 더 누르면 처음부터 시작해요. (슬롯은 그대로)";render();return}
  NG=false;try{localStorage.removeItem("lbt1")}catch(e){}if(MG)closeMG();S=JSON.parse(FRESH);fix();MENU=false;save();render()}
-function exportCode(){try{const t=document.getElementById("code");t.value=btoa(unescape(encodeURIComponent(JSON.stringify(S))));t.select();note2("코드를 만들었어요. 복사해서 보관하세요.")}catch(e){note2("코드를 만들지 못했어요.")}}
+function copyText(t,txt){const fb=()=>{try{t.focus();t.select();t.setSelectionRange(0,txt.length);return document.execCommand("copy")}catch(e){return false}};
+ if(navigator.clipboard&&navigator.clipboard.writeText)return navigator.clipboard.writeText(txt).then(()=>true,()=>fb());return Promise.resolve(fb())}
+function exportCode(){let txt;const t=document.getElementById("code");try{txt=btoa(unescape(encodeURIComponent(JSON.stringify(S))));t.value=txt}catch(e){note2("코드를 만들지 못했어요.");return}
+ copyText(t,txt).then(ok=>{if(ok){sfx("success");note2("코드를 만들어 클립보드에 복사했어요. 메모장 등에 붙여 넣어 보관하세요.")}else{t.focus();t.select();note2("자동 복사가 막혀 있어요. 코드 칸을 길게 눌러 ‘전체 선택 → 복사’ 해 주세요.")}})}
 function importCode(){try{const o=JSON.parse(decodeURIComponent(escape(atob(document.getElementById("code").value.trim()))));if(!o||typeof o.day!=="number")throw 0;
  if(MG)closeMG();S=Object.assign(JSON.parse(FRESH),mig(o));fix();MENU=false;save();render()}catch(e){note2("코드가 올바르지 않아요.")}}
 function menuHTML(){let rows="";for(let i=1;i<=3;i++){const d=slotInfo(i);rows+=`<div class="slot"><div><b>슬롯 ${i}</b><br><small>${d?`${d.d}일차 · 신뢰 ${d.l??3} · ${fmt(d.t)}`:"비어 있음"}</small></div><div><button onclick="saveSlot(${i})">저장</button> <button onclick="loadSlot(${i})" ${d?"":"disabled"}>불러오기</button></div></div>`}
- return `<div class="modal" onclick="closeMenu()"><div class="mbox" onclick="event.stopPropagation()"><div class="mh"><b>${ic("disk")} 저장 / 불러오기</b><button onclick="closeMenu()">${ic("x")}</button></div><small>진행 상황은 자동으로도 저장돼요.</small>${rows}<div style="margin-top:8px"><b>코드로 옮기기</b></div><textarea id="code" rows="2" style="width:100%;box-sizing:border-box" placeholder="저장 코드를 붙여 넣으세요"></textarea><div class="mh" style="gap:4px"><button onclick="exportCode()">코드 만들기</button><button onclick="importCode()">코드로 불러오기</button><button onclick="newGame()">새 게임</button></div><div id="msg2" style="min-height:18px;font-size:12px">${MSG}</div></div></div>`}
+ return `<div class="modal" onclick="closeMenu()"><div class="mbox" onclick="event.stopPropagation()"><div class="mh"><b>${ic("disk")} 저장 / 불러오기</b><button onclick="closeMenu()">${ic("x")}</button></div><small>진행 상황은 자동으로도 저장돼요.</small>${rows}<div style="margin-top:8px"><b>코드로 옮기기</b></div><textarea id="code" rows="2" style="width:100%;box-sizing:border-box" placeholder="저장 코드를 붙여 넣으세요" spellcheck="false" autocomplete="off"></textarea><div class="mh" style="gap:4px"><button onclick="exportCode()">코드 만들기</button><button onclick="importCode()">코드로 불러오기</button><button onclick="newGame()">새 게임</button></div><div id="msg2" style="min-height:18px;font-size:12px">${MSG}</div></div></div>`}
 const PAL={k:"#2a1a10",w:"#ffffff",r:"#d6494d",R:"#8a2a22",o:"#f08a2e",y:"#f2d24b",g:"#4fae4f",G:"#2f7d3a",b:"#4a6fa5",B:"#a7d6e6",n:"#8a5a2b",s:"#e3c07a",e:"#9aa0ad",E:"#565a6e",c:"#fbf3dc",K:"#2a2a33",a:"#8a7a5a"};
 const SP={
  heart:[".kkk..kkk.","krwrrkrrrk","krrrrrrrrk","krrrrrrrrk",".krrrrrrk.","..krrrrk..","...krrk...","....kk...."],
@@ -434,7 +531,7 @@ SP.cold=["..kkk..",".kwwwk.",".kwbwk.",".kwbwk.",".kwbwk.",".kwbwk.","kkbbbkk","
 SP.hot=["..kkk..",".kwwwk.",".kwrwk.",".kwrwk.",".kwrwk.",".kwrwk.","kkrrrkk","krroorrk","krrrrrk",".kkkkk."];
 SP.heart0=SP.heart.map(r=>r.replace(/r/g,"E").replace(/w/g,"e"));
 SP.bheart=SP.heart.map((r,i)=>i===2?r.slice(0,4)+"k"+r.slice(5):i===3?r.slice(0,5)+"k"+r.slice(6):i===4?r.slice(0,4)+"k"+r.slice(5):i===5?r.slice(0,5)+"k"+r.slice(6):r);
-SP.bamboo=["kkkkkkkkkk","knnsnnsnnk","kkkkkkkkkk","knsnnnnsnk","knnsnnsnnk","knnnssnnnk","knnsnnsnnk","knsnnnnsnk","kkkkkkkkkk",".k......k."];SP.scroll=["kkkkkkkkk","krrrrrrrk","kccccccck","kckkkkkck","kccccccck","kckkkkcck","kccccccck","kckkkkkck","kccccccck","k.k.k.k.k"];SP.sake=["...w..w...","..w..w....","kkkkkkkk..","kcccccckk.","kcrrrrck.k","kcccccckk.",".kcccck...","kkkkkkkkk."];SP.lantern=["....kk....","....kk....","...kkkk...","..kRRRRk..",".kRRRRRRk.","kkkkkkkkkk","...yyyy...","..y.yy.y.."];SP.basket=["...kkkk...","..k....k..","kkkkkkkkkk","kssssssssk","kssrrrrssk","ksssrrsssk","kssssssssk","kssssssssk","kkkkkkkkkk"];
+SP.pan=["..........","..........",".kkkkkk...","kEEEEEEk..","kEEEEEEkkk","kEEEEEEk..",".kkkkkk...","..........","..r.yr.r..",".........."];;SP.bamboo=["kkkkkkkkkk","knnsnnsnnk","kkkkkkkkkk","knsnnnnsnk","knnsnnsnnk","knnnssnnnk","knnsnnsnnk","knsnnnnsnk","kkkkkkkkkk",".k......k."];SP.scroll=["kkkkkkkkk","krrrrrrrk","kccccccck","kckkkkkck","kccccccck","kckkkkcck","kccccccck","kckkkkkck","kccccccck","k.k.k.k.k"];SP.sake=["...w..w...","..w..w....","kkkkkkkk..","kcccccckk.","kcrrrrck.k","kcccccckk.",".kcccck...","kkkkkkkkk."];SP.lantern=["....kk....","....kk....","...kkkk...","..kRRRRk..",".kRRRRRRk.","kkkkkkkkkk","...yyyy...","..y.yy.y.."];SP.basket=["...kkkk...","..k....k..","kkkkkkkkkk","kssssssssk","kssrrrrssk","ksssrrsssk","kssssssssk","kssssssssk","kkkkkkkkkk"];
 const YSP={base:["....w...w.......",".....w...w......","....w...w.......","................",".kkkkkkkkkkkk...",".kccccccccccckk.",".knnnnnnnnnnnk.k",".kccccccccccck.k",".kcckcccccckck.k",".kccccccccccckk.",".kccckkkkkccck..","..kcccccccccck..","...kkkkkkkkkk...","kkkkkkkkkkkkkkkk",".kRRRRRRRRRRRRk.","..kkkkkkkkkkkk.."],hurt:["................","................","................","................",".kkkkkkkkkkkk...",".kccccccccccckk.",".knnnnnnnnnnn..k",".kccccccccccBk.k",".kcckcccccckBk.k",".kccccckccccckk.",".kcccckckcccck..","..kcccccccccck..","...kkkkkkkkkk...","kkkkkkkkkkkkkkkk",".kRRRRRRRRRRRRk.","..kkkkkkkkkkkk.."],smug:["....w...w....y..",".....w...w..yyy.","....w...w....y..","................",".kkkkkkkkkkkk...",".kccccccccccckk.",".knnnnnnnnnnnk.k",".kckkkccccccck.k",".kccccccccckck.k",".kcccccccckcckk.",".kcckkkkkkccck..","..kcccccccccck..","...kkkkkkkkkk...","kkkkkkkkkkkkkkkk",".kRRRRRRRRRRRRk.","..kkkkkkkkkkkk.."],back:[".....r.r........",".....rrr........","......r.........","................",".kkkkkkkkkkkk...",".kccccccccccckk.",".knnnnnnnnnnnk.k",".kckkkcccckkkk.k",".kccccccccccck.k",".kccccccccccckk.",".kccckkkkkccck..","..kcccccccccck..","...kkkkkkkkkk...","kkkkkkkkkkkkkkkk",".kRRRRRRRRRRRRk.","..kkkkkkkkkkkk.."]};const YIMG={};for(const k in YSP){try{const c=document.createElement("canvas");spr(c,YSP[k],PAL);YIMG[k]=c.toDataURL()}catch(e){YIMG[k]=""}}
 let TYS={};
 const esc=t=>String(t).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
@@ -494,6 +591,9 @@ const SFX={
  ice(t){const r=0.92+Math.random()*0.2;sTone(2200*r,t,0.16,"sine",0.12);sTone(3300*r,t+0.004,0.1,"sine",0.05);sTone(1700*r,t+0.06,0.12,"sine",0.06);sNoise(t+0.01,0.08,"lowpass",900,0.6,0.05);sTone(500,t+0.012,0.1,"sine",0.11,230)},
  fizz(t){sTone(1400+Math.random()*1600,t,0.025,"sine",0.01+Math.random()*0.015)},
  rattle(t){[0,0.07,0.15,0.22].forEach((d,i)=>{const r=0.9+Math.random()*0.3;sTone((2000+i*220)*r,t+d,0.09,"sine",0.07);sTone((3000+i*260)*r,t+d,0.05,"sine",0.025)})},
+ stir(t){sTone(260,t,0.14,"sine",0.12,380);sTone(520,t+0.03,0.08,"sine",0.04,700);sNoise(t,0.1,"lowpass",900,0.5,0.04)},
+ sizzle(t){sTone(1500+Math.random()*900,t,0.03,"sine",0.02);sTone(1900+Math.random()*900,t+0.04,0.03,"sine",0.015)},
+ coop(t){sBass(N(41),t,0.5,0.12);sChord([65,69,72,76,79],t+0.02,0.9,0.045,0.07);sChord([77,81,84],t+0.45,0.8,0.04,0.05);sHat(t+0.4,0.04)},
  meow(t){sTone(760,t,0.2,"triangle",0.09,560);sTone(560,t+0.18,0.26,"triangle",0.07,660)}
 };
 function sfx(n,a){if(!SND)return;const c=ac();if(!c||!SFX[n])return;try{SFX[n](c.currentTime+0.01,a)}catch(e){}}
@@ -534,8 +634,13 @@ function buyUp(k){const u=UPG.find(x=>x.k===k);if(!u||S.up[k]||S.money<u.c)retur
 function shopHTML(){const regs=SPIRITS.filter(x=>(S.aff[x.n]||0)>0).sort((a,b)=>(S.aff[b.n]||0)-(S.aff[a.n]||0));
  return `<div class="modal" onclick="closeShop()"><div class="mbox shopbox" onclick="event.stopPropagation()"><div class="mh"><b>${ic("lantern")} 가게 관리</b><button onclick="closeShop()">${ic("x")}</button></div><div class="bar" style="margin:4px 0 8px">소지금 <b>${yen(S.money)}</b></div><div class="bk-sec">장비·인테리어</div>`+
  UPG.map(u=>`<div class="slot"><div><b>${u.n}</b><br><small>${u.d}</small></div><div>${S.up[u.k]?`<span class="done" style="display:inline-block;padding:2px 6px">${ic("ok")} 보유</span>`:`<button onclick="buyUp('${u.k}')" ${S.money<u.c?"disabled":""}>${yen(u.c)}</button>`}</div></div>`).join("")+
- `<div class="bk-sec" style="margin-top:10px">단골 명부</div><small>대만족시키거나 고민을 들어 줄 때마다 친밀도가 올라요. 랭크마다 팁 +10%, 인내심 +5초.</small><div class="regs">`+
- (regs.length?regs.map(x=>{const a=S.aff[x.n],r=rank(x.n),nx=RANKN[r];return `<div class="slot"><div><b>${x.n}</b><br><small>${nx?`다음 랭크까지 ${nx-a}회`:"최고 랭크"}</small></div><div>${ic("star").repeat(r)}${ic("star0").repeat(3-r)}</div></div>`}).join(""):`<div style="padding:8px 0"><small>아직 단골이 없어요.</small></div>`)+`</div></div></div>`}
+ `<div class="bk-sec" style="margin-top:10px">단골 명부</div><div class="regs">`+
+ (regs.length?regs.map(x=>{const a=S.aff[x.n],r=rank(x.n),nx=RANKN[r];return `<div class="slot"><div><b>${x.n}</b><br><small>${nx?`다음 랭크까지 ${nx-a}회`:(S.ev||{})[x.n]&&COOP[x.n]?`최고 랭크 · 전용 메뉴 ‘${COOP[x.n].m}’`:"최고 랭크"}</small></div><div>${ic("star").repeat(r)}${ic("star0").repeat(3-r)}</div></div>`}).join(""):`<div style="padding:8px 0"><small>아직 단골이 없어요.</small></div>`)+`</div></div></div>`}
+function coopNext(){const n=S.evq[0],L=COOP[n].l;EVI++;sfx(EVI>L.length?"star":"click");render();const e=document.getElementById("coopl");if(e)e.scrollTop=e.scrollHeight}
+function coopEnd(){const n=S.evq.shift();S.ev=S.ev||{};S.ev[n]=1;EVI=0;sfx("success");save();render()}
+function coopHTML(){const n=S.evq[0],C=COOP[n];if(!C){S.evq.shift();return ""}if(EVI===0){EVI=1;setTimeout(()=>sfx("coop"),60)}const L=C.l,shown=L.slice(0,Math.min(EVI,L.length)),done=EVI>L.length,om=SYMPTOMS.find(x=>x.own===n);
+ return `<div class="modal"><div class="mbox coopbox"><div class="cooph"><span>${ic("star").repeat(3)}</span><b>단골 이벤트</b><span class="coopr">RANK 3</span></div><div class="coopn">${n}</div><div class="coopl" id="coopl">`+shown.map(([w,t])=>w==="렌(생각)"?`<div class="cl th">(${t})</div>`:`<div class="cl ${w==="렌"?"me":""}"><b>${w}</b>${t}</div>`).join("")+`</div>`+
+ (done?`<div class="coopm">${ic("new")} 전용 메뉴 <b>‘${C.m}’</b>를 레시피 노트에 올렸다!<br><small>레시피: ${om.rx.split("+").map(k=>HERBS[k].n).join(" + ")} · ${yen(menuPrice(om))}${om.rx.split("+").every(open)?"":` · ${Math.max(...om.rx.split("+").map(k=>HU[k]||1))}일차부터 주문`} · ${SPI(n).c.replace(/ (선생님|씨)$/,"")}만 주문해요</small></div><button class="p" onclick="coopEnd()">좋아</button>`:`<button class="p" onclick="coopNext()">${EVI>=L.length?"메뉴 만들기 ▶":"다음 ▶"}</button>`)+`</div></div>`}
 function closeNotice10(){S.notice10=false;S.seen10=true;save();render()}
 function closeNotice17(){S.notice17=false;S.seen17=true;save();render()}
 function notice17HTML(){return `<div class="modal"><div class="mbox"><div class="mh"><b>${ic("star")} 17일차부터 달라지는 점</b></div><div style="font-size:14px;line-height:1.6">· 메뉴를 조금 바꿔 달라는 <b>특수 주문</b>이 들어와요. 주황색 ‘특수’ 딱지가 붙어 있어요.<br>· 예: “아이스 커피, 블렌드 빼고.” → <b>얼음</b>만 넣어요.<br>· 예: “카페 라테, 시나몬 추가.” → <b>블렌드 + 우유 + 시나몬</b>.<br>· 특수 주문은 <b>레시피 노트에 나오지 않아요.</b> 주문서의 손님 말을 잘 읽고 정하세요.<br>· 재료를 추가하는 주문은 ¥100을 더 받아요. 말과 다르게 만들면 값을 깎아 줘야 해요.</div><button class="p" onclick="closeNotice17()">알겠어요</button></div></div>`}
@@ -543,23 +648,25 @@ function notice10HTML(){return `<div class="modal"><div class="mbox"><div class=
 function closeNotice7(){S.notice7=false;S.seen7=true;save();render()}
 function notice7HTML(){return `<div class="modal"><div class="mbox"><div class="mh"><b>${ic("siren")} 7일차부터 달라지는 점</b></div><div style="font-size:14px;line-height:1.6" data-n7>· <b>급한 손님</b>이 찾아와요. 붉은 ‘급함’ 표시가 붙어 있어요.<br>· 인내심이 <b>60초</b>뿐이라 금방 바닥나요. 대신 대만족시키면 <b>팁이 2배</b>예요.<br>· 인내심이 다 떨어지면 화를 내며 돌아가고 <b>신뢰가 1</b> 줄어요.<br>· 급한 손님은 연달아 오지 않아요. 상담·포장 손님은 급하지 않아요.</div><button class="p" onclick="closeNotice7()">알겠어요</button></div></div>`}
 function setM(k,m){S.proc[k]=m;render()}
-function openMG(k,m){if(S.proc[k]||NOPROC[k])return;const T={"자르기":"박자에 맞춰 3번 잘라요! 노란 막대가 초록 구간일 때 탭","갈기":"빠르게 연타해서 곱게 갈아요!","추출":"꾹 누르고 있다가 초록 구간에서 손을 떼서 추출을 멈춰요"};
- MG={k,m,v:0,hits:0,dir:1,hold:false,down:0,ds:[],miss:0,t0:0,fails:0,dv:0};
- const zz=m==="자르기"?ZC():ZE(),z=m==="갈기"?"display:none":`left:${zz[0]}%;width:${zz[1]-zz[0]}%`;
+function openMG(k,m){if(S.proc[k]||NOPROC[k])return;const T={"끓이기":"불이 약해지지 않게 탭해서 화력을 초록 구간에 맞춰요. 4초 동안 끓이면 완성! 너무 세면 별이 줄어요","자르기":"박자에 맞춰 3번 잘라요! 노란 막대가 초록 구간일 때 탭","갈기":"빠르게 연타해서 곱게 갈아요!","추출":"꾹 누르고 있다가 초록 구간에서 손을 떼서 추출을 멈춰요"};
+ MG={k,m,v:m==="끓이기"?30:0,hits:0,dir:1,hold:false,down:0,ds:[],miss:0,t0:m==="끓이기"?Date.now():0,fails:0,dv:0,acc:0,burn:0,lt:Date.now(),bt:0,mt:0};
+ const zz=m==="자르기"?ZC():m==="끓이기"?ZK():ZE(),z=m==="갈기"?"display:none":`left:${zz[0]}%;width:${zz[1]-zz[0]}%`;
  const bt=m==="추출"?'onpointerdown="event.preventDefault();mgHold(1)" onpointerup="mgHold(0)" onpointerleave="mgHold(0)" onpointercancel="mgHold(0)" oncontextmenu="return false"':'onpointerdown="event.preventDefault();mgAct()" oncontextmenu="return false"';
  const el=document.getElementById("mg");el.style.display="flex";
- el.innerHTML=`<div class="mbox" style="user-select:none;touch-action:manipulation"><div class="mh"><b>${HERBS[k].n} ${m}</b><button onclick="closeMG()">${ic("x")}</button></div><small>${T[m]}</small><canvas id="mgc" style="width:80%;margin-top:6px;border:4px solid var(--bd)"></canvas><div class="gauge"><div id="gz" style="${z}"></div><div id="gb"></div></div><div id="mgs" style="min-height:18px;font-size:13px"></div><button class="p" ${bt}>${m==="추출"?"꾹 누르기":m+"!"}</button></div>`;
+ el.innerHTML=`<div class="mbox" style="user-select:none;touch-action:manipulation"><div class="mh"><b>${HERBS[k].n} ${m}</b><button onclick="closeMG()">${ic("x")}</button></div><small>${T[m]}</small><canvas id="mgc" style="width:80%;margin-top:6px;border:4px solid var(--bd)"></canvas><div class="gauge"><div id="gz" style="${z}"></div><div id="gb"></div></div><div id="mgs" style="min-height:18px;font-size:13px"></div><button class="p" ${bt}>${m==="추출"?"꾹 누르기":m==="끓이기"?"불 올리고 젓기!":m+"!"}</button></div>`;
  clearInterval(MT);MT=setInterval(mgLoop,30);mgDraw()}
 function closeMG(){lockClicks();clearInterval(MT);stopWater();MG=null;document.getElementById("mg").style.display="none"}
 function mgMsg(t){const e=document.getElementById("mgs");if(e)e.innerHTML=t}
 function mgStars(g){let a;if(g.m==="자르기"){a=g.ds.reduce((x,y)=>x+y,0)/Math.max(1,g.ds.length)+g.miss*3;return a<=4.5?3:a<=8?2:1}
  if(g.m==="갈기"){a=(Date.now()-(g.t0||Date.now()))/1000;return a<=2.8?3:a<=4.8?2:1}
+ if(g.m==="끓이기"){a=(Date.now()-g.t0)/1000+g.burn/1000*4;return a<=6.5?3:a<=9.5?2:1}
  a=g.dv+g.fails*3;return a<=4?3:a<=8?2:1}
 function starsHTML(n){n=Math.max(1,Math.min(3,n||1));return ic("star").repeat(n)+ic("star0").repeat(3-n)}
 const GR=["","보통","좋음","일품"];
 function potQ(){const ks=S.pick.filter(k=>!NOPROC[k]);if(!ks.length)return 2;const a=ks.reduce((t,k)=>t+(S.proc[k+"#"]||1),0)/ks.length;return a>=2.5?3:a>=1.75?2:1}
 function mgDone(){const k=MG.k,m=MG.m,q=mgStars(MG);sfx("done");closeMG();S.proc[k]=m;S.proc[k+"#"]=q;if(q>=3)setTimeout(()=>sfx("star"),180);render()}
 function mgAct(){const g=MG;if(!g)return;
+ if(g.m==="끓이기"){g.v=Math.min(100,g.v+11);g.down=Date.now();sfx("stir");return}
  if(g.m==="자르기"){g.down=Date.now();const Z=ZC();if(g.v>=Z[0]&&g.v<=Z[1]){sfx("cut");sfx("hit");g.hits++;g.ds.push(Math.abs(g.v-50));mgMsg(ic("ok")+" 좋아요! "+g.hits+"/3");if(g.hits>=3)mgDone()}else{sfx("cut",0.55);sfx("miss");g.miss++;mgMsg(ic("no")+" 빗나갔어요")}}
  else{sfx("grind");if(!g.t0)g.t0=Date.now();g.v=Math.min(100,g.v+(S.up.grinder?13:9));if(g.v>=100)mgDone()}}
 function mgHold(on){const g=MG;if(!g||g.m!=="추출")return;
@@ -568,6 +675,10 @@ function mgHold(on){const g=MG;if(!g||g.m!=="추출")return;
 function mgLoop(){const g=MG;if(!g)return;
  if(g.m==="자르기"){g.v+=g.dir*2.2;if(g.v>=100||g.v<=0){g.dir*=-1;g.v=Math.max(0,Math.min(100,g.v))}}
  else if(g.m==="갈기")g.v=Math.max(0,g.v-0.7);
+ else if(g.m==="끓이기"){const n=Date.now(),dt=Math.min(80,n-g.lt);g.lt=n;g.v=Math.max(0,g.v-(0.55+0.3*Math.sin(n/650))*dt/30);const Z=ZK();
+  if(g.v>=Z[0]&&g.v<=Z[1])g.acc+=dt;if(g.v>88){g.burn+=dt;if(n-g.bt>220){g.bt=n;sfx("sizzle")}}else if(g.v>=Z[0]&&n-g.bt>380){g.bt=n;sfx("boil")}
+  if(n-g.mt>150){g.mt=n;mgMsg(`끓인 시간 <b>${(g.acc/1000).toFixed(1)}</b> / 4.0초`+(g.v>88?` · <span class="bad">불이 너무 세요!</span>`:g.v<Z[0]?" · 불이 약해요":""))}
+  if(g.acc>=4000){mgDone();return}}
  else if(g.hold){g.v+=0.9;if(g.v>=100){g.fails++;g.hold=false;g.v=0;stopWater();sfx("miss");mgMsg("너무 오래 추출했어요! 다시")}}
  const gb=document.getElementById("gb");if(gb){gb.style.left=g.m==="자르기"?g.v+"%":"0";gb.style.width=g.m==="자르기"?"4%":g.v+"%"}
  mgDraw()}
@@ -604,6 +715,16 @@ function mgDraw(){const c=document.getElementById("mgc"),g=MG;if(!c||!g)return;c
   f(O,ex-1+sx,ey-4,4,4);f("#6b4423",ex+sx,ey-3,2,3);f("#8a5a2b",ex+sx,ey-3,1,3);
   if(g.v>20)for(let i=0;i<3;i++){const ph=((n/220)+i*0.33)%1;f(sh(col,.3),28+i*4+sx,26+ph*3,1,1)}
   if(g.v>20)for(let i=0;i<3;i++){const ph=((n/300)+i*0.4)%1;f("#ffffff88",16+i*13+Math.sin(ph*7+i)*2,11-ph*6,1,1)}x.restore();
+ }else if(g.m==="끓이기"){
+  const hv=g.v/100,burn=g.v>88,st=n-g.down<260,Z=ZK(),ok=g.v>=Z[0]&&g.v<=Z[1];
+  f("#2a2a2a",14,28,36,6);f("#3a3a3a",14,28,36,1);f(O,13,28,1,6);f(O,50,28,1,6);
+  const fh=Math.round(1+hv*5);for(let i=0;i<5;i++){const fx=18+i*6,fl=fh+((Math.floor(n/90)+i)%2);f(burn?"#ff4a2a":"#ff9a2e",fx,28-fl,3,fl);f("#ffd45a",fx+1,28-Math.max(1,fl-2),1,Math.max(1,fl-2))}
+  f(O,15,11,34,16);f("#9a9a9a",16,12,32,14);f("#c8c8c8",16,12,3,14);f("#6e6e6e",45,12,3,14);f(O,12,14,4,2);f(O,48,14,4,2);f("#6e6e6e",13,14,2,1);f("#6e6e6e",49,14,2,1);
+  const sc=g.k==="egg"?"#bfe0ea":"#8a5420";f(burn?"#4a2a10":sc,16,12,32,3);f(burn?"#3a1a08":sh(sc,.2),16,12,32,1);if(g.k==="egg"){f("#fff6e0",22,12,4,2);f("#fff6e0",34,11,4,2)}
+  const bc=ok?3:burn?5:hv>0.2?1:0;for(let i=0;i<bc;i++){const ph=((n/260)+i*0.37)%1,bx=18+((i*11+Math.floor(n/520)*7)%28);f(ph<0.6?"#c88a4a":"#a86a30",bx,12+(ph<0.6?0:-1),2,1)}
+  if(burn)for(let i=0;i<3;i++)f("#2a1a10",20+i*9+((Math.floor(n/300)+i)%3),13,2,1);
+  const la=st?Math.sin((n-g.down)/40)*6:0;f(O,30+la,2,3,12);f("#c8a24a",31+la,3,1,10);f("#8a6a2a",32+la,3,1,10);
+  for(let i=0;i<(ok?3:burn?4:1);i++){const ph=((n/500)+i*0.33)%1;f(burn?"#55555599":"#ffffffaa",20+i*9+Math.sin(ph*7+i)*2,10-ph*9,2,2)}
  }else{
   const pw=g.v/100,liq=mt("#a7d6e6",col,Math.min(1,pw*1.1));
   f(O,18,32,28,1);f("#e9e2d2",19,30,26,2);f("#b9b2a0",19,31,26,1);
@@ -614,9 +735,9 @@ function mgDraw(){const c=document.getElementById("mgc"),g=MG;if(!c||!g)return;c
   for(let i=0;i<3;i++){const ph=((n/500)+i*0.33)%1;f("#ffffffaa",26+i*6+Math.sin(ph*7+i)*2,16-ph*14*(0.4+pw),2,2)}
   if(g.hold){f("#ff9a2e",16+Math.floor(n/100)%2,34,2,2);f("#ff9a2e",46,34+Math.floor(n/110)%2,2,2);f("#ffd45a",31,34,2,2)}
  }}
-function procHTML(){return S.pick.length?S.pick.map(k=>`<div class="pr"><b>${HERBS[k].n}</b>`+(NOPROC[k]?`<span class="done">${ic("ok")} 손질 필요 없음</span>`:S.proc[k]?`<span class="done">${ic("ok")} ${S.proc[k]} 완료 ${starsHTML(S.proc[k+"#"])}</span>`:MET.map(m=>`<button class="mb" onclick="openMG('${k}','${m}')"><canvas data-t="${m}"></canvas>${m}</button>`).join(""))+`</div>`).join(""):`<small>재료를 골라 손질해 주세요</small>`}
-const EFF={insam:"잠 깨움·몸 데움",hwanggi:"잠 깨움",danggwi:"달콤함",sukji:"달콤함·몸 데움",saenggang:"몸 데움",bakha:"시원함",seokgo:"아주 시원함",gamcho:"맛을 부드럽게",jakyak:"달콤함·시원함",cheongung:"달콤함·잠 깨움",milk:"맛을 부드럽게"};
-function bookHTML(){return `<div class="modal" onclick="toggleBook()"><div class="mbox" onclick="event.stopPropagation()"><div class="mh"><b>${ic("book")} 레시피 노트</b><button onclick="toggleBook()">${ic("x")}</button></div>${S.tut===5?`<div class="bnote" style="border:2px solid #c8a24a;margin-bottom:6px"><b>시나몬 티</b>는 <b>시나몬</b> 하나로 만들어요. 확인했다면 닫아 주세요.</div>`:""}<div class="bnote">주문서의 <b>메뉴 이름</b>을 찾아 레시피대로 만들어요. 가격은 ‘좋음’ 기준이고 등급에 따라 달라져요.</div><table class="bt"><tr><th>메뉴</th><th>레시피</th><th>가격</th></tr>`+SYMPTOMS.filter(s=>s.u<=S.day).map(s=>`<tr><td>${s.u===S.day&&S.day>1?ic("new")+" ":""}<b>${s.d.split("(")[0]}</b></td><td><b>${rxText(s)}</b></td><td>${yen(menuPrice(s))}</td></tr>`).join("")+`</table>${S.day>=17?'<div class="bnote" style="margin-top:6px;color:#c2410c"><b>특수 주문</b>은 이 노트에 없어요. 주문서에 적힌 손님 말대로 재료를 빼거나 더해서 만들어요.</div>':""}${S.day>=10?'<div class="bnote" style="margin-top:6px">재료 포장 손님: 그 재료를 손질하지 말고 그대로 <b>포장하기</b>.</div>':""}<div class="bh">`+Object.entries(HERBS).filter(([k])=>open(k)).map(([k,v])=>`<span><b>${v.n}</b> ${EFF[k]} · ${METHOD[k]} · ${yen(cost(k))}</span>`).join("")+`</div></div></div>`}
+function procHTML(){return S.pick.length?S.pick.map(k=>`<div class="pr"><b>${HERBS[k].n}</b>`+(NOPROC[k]?`<span class="done">${ic("ok")} 손질 필요 없음</span>`:S.proc[k]?`<span class="done">${ic("ok")} ${S.proc[k]} 완료 ${starsHTML(S.proc[k+"#"])}</span>`:(k==="curry"||k==="egg"?[...MET,"끓이기"]:MET).map(m=>`<button class="mb" onclick="openMG('${k}','${m}')"><canvas data-t="${m}"></canvas>${m}</button>`).join(""))+`</div>`).join(""):""}
+const EFF={insam:"잠 깨움·몸 데움",hwanggi:"잠 깨움",danggwi:"달콤함",sukji:"달콤함·몸 데움",saenggang:"몸 데움",bakha:"시원함",seokgo:"아주 시원함",gamcho:"맛을 부드럽게",jakyak:"달콤함·시원함",cheongung:"달콤함·잠 깨움",milk:"맛을 부드럽게",sakura:"달콤함(봄 한정)",suika:"시원함·달콤함(여름 한정)",goguma:"몸 데움·달콤함(가을 한정)",yuja:"몸 데움·달콤함(겨울 한정)",curry:"몸 데움",bread:"든든함(음식)",egg:"든든함(음식)"};
+function bookHTML(){return `<div class="modal" onclick="toggleBook()"><div class="mbox" onclick="event.stopPropagation()"><div class="mh"><b>${ic("book")} 레시피 노트</b><button onclick="toggleBook()">${ic("x")}</button></div>${S.tut===5?`<div class="bnote" style="border:2px solid #c8a24a;margin-bottom:6px"><b>시나몬 티</b>는 <b>시나몬</b> 하나로 만들어요. 확인했다면 닫아 주세요.</div>`:""}<table class="bt"><tr><th>메뉴</th><th>레시피</th><th>가격</th></tr>`+(()=>{const L=SYMPTOMS.filter(menuOK),nm=Math.max(1,Math.ceil(L.length/BKMN));BKM=Math.max(0,Math.min(BKM,nm-1));return L.slice(BKM*BKMN,BKM*BKMN+BKMN)})().map(s=>`<tr><td>${s.u===S.day&&S.day>1?ic("new")+" ":""}<b>${s.d.split("(")[0]}</b>${s.ss?`<span class="sstag">${s.ss} 한정</span>`:""}${s.own?`<span class="sstag" style="background:#6b4aa8">${SPI(s.own).c.replace(/ (선생님|씨)$/,"")} 전용</span>`:""}${s.fd?'<span class="sstag" style="background:#8a5420">음식</span>':""}${s.pt?'<span class="sstag" style="background:#d7141a">괴도단 전용</span>':""}</td><td><b>${rxText(s)}</b></td><td>${yen(menuPrice(s))}</td></tr>`).join("")+`</table>${pgBar("m",BKM,Math.ceil(SYMPTOMS.filter(menuOK).length/BKMN))}<div class="bh">`+(()=>{const L=Object.entries(HERBS).filter(([k])=>open(k)),ni=Math.max(1,Math.ceil(L.length/BKIN));BKI=Math.max(0,Math.min(BKI,ni-1));return L.slice(BKI*BKIN,BKI*BKIN+BKIN)})().map(([k,v])=>`<span><b>${v.n}</b> ${EFF[k]} · ${METHOD[k]} · ${yen(cost(k))}</span>`).join("")+`</div>${pgBar("i",BKI,Math.ceil(Object.keys(HERBS).filter(open).length/BKIN))}</div></div>`}
 function spr(cv,rows,pal){cv.width=rows[0].length;cv.height=rows.length;const x=cv.getContext("2d");x.clearRect(0,0,cv.width,cv.height);rows.forEach((r,j)=>[...r].forEach((ch,i)=>{if(pal[ch]){x.fillStyle=pal[ch];x.fillRect(i,j,1,1)}}))}
 const lD="#2f7d3a",lM="#4fae4f",lL="#8fd16a";
 const SPROUT=[["#8a5a2b",3,6,10,5],["#a06a35",3,6,10,1],["#6e4524",3,8,10,1],["#6e4524",7,6,1,5]];
@@ -630,6 +751,13 @@ const PL={
  seokgo:[["#bfe6f5",2,5,6,6],["#e8f8ff",2,5,6,1],["#e8f8ff",2,5,1,6],["#8cc8e0",7,5,1,6],["#bfe6f5",8,3,6,6],["#e8f8ff",8,3,6,1],["#e8f8ff",8,3,1,6],["#8cc8e0",13,3,1,6],["#ffffff",3,6,1,1],["#ffffff",9,4,1,1],["#bfe6f5",5,0,4,4],["#e8f8ff",5,0,4,1],["#8cc8e0",8,0,1,4]],
  gamcho:[["#f6e08a",3,5,10,5],["#fff4b8",3,5,10,1],["#d8b84a",3,9,10,1],["#e8c860",10,5,3,5],["#fbf3dc",1,10,14,1],["#d7141a",1,10,3,1]],
  jakyak:[["#ffb08a",3,4,10,7],["#ff8a6a",8,5,5,6],["#ffd4b8",4,5,3,2],["#e86a50",7,4,1,7],[lM,8,1,3,2],[lL,8,1,1,1],[lD,7,2,1,2]],
+ sakura:[[lD,7,8,2,4],["#f6b8c8",2,2,5,5],["#ffd8e2",3,3,3,3],["#e8879e",4,4,1,1],["#f6b8c8",9,1,5,5],["#ffd8e2",10,2,3,3],["#e8879e",11,3,1,1],["#f6b8c8",6,6,5,5],["#ffd8e2",7,7,3,3],["#e8879e",8,8,1,1],[lM,10,8,3,1]],
+ suika:[["#2f7a3a",1,10,14,2],["#7fc06a",2,9,12,1],["#f4f1ea",3,8,10,1],["#ff5a6a",3,3,10,5],["#ff5a6a",5,1,6,2],["#ff8a96",5,3,3,2],["#2a1a10",5,5,1,1],["#2a1a10",8,4,1,1],["#2a1a10",10,6,1,1],["#2a1a10",7,7,1,1]],
+ goguma:[["#8a3a6a",2,5,12,5],["#a84a80",3,4,9,1],["#a84a80",4,10,8,1],["#c86a9a",3,5,4,2],["#6a2a50",2,9,12,1],["#f0c060",13,6,2,3],[lM,1,6,1,2]],
+ yuja:[["#f6d04a",3,3,10,8],["#f6d04a",4,2,8,1],["#f6d04a",4,11,8,1],["#fff09a",4,4,3,2],["#d8a820",11,6,2,4],["#e8bc30",6,9,1,1],["#e8bc30",9,5,1,1],[lD,7,0,2,2],[lM,9,0,3,2]],
+ curry:[["#f4efe4",2,3,12,8],["#d7141a",2,3,12,2],["#ffffff",3,3,2,1],["#8a5420",4,6,8,4],["#a86a30",4,6,8,1],["#6a3a14",5,8,2,1],["#6a3a14",9,7,2,1],["#d6cfbd",2,10,12,1]],
+ bread:[["#b8823e",2,2,12,9],["#c8924a",3,1,10,1],["#f0d8a0",3,3,10,7],["#fff0c8",4,3,4,2],["#e0c080",3,9,10,1]],
+ egg:[["#fff6e0",4,3,8,8],["#fff6e0",5,2,6,1],["#fff6e0",5,11,6,1],["#ffffff",5,4,3,3],["#e8dcc0",11,5,1,5]],
  milk:[["#f4f1ea",5,4,6,7],["#ffffff",5,4,2,7],["#cfc8b8",10,4,1,7],["#f4f1ea",6,2,4,2],["#ffffff",6,2,1,2],["#4a6fa5",6,1,4,1],["#4a6fa5",5,7,6,2],["#ffffff",6,7,2,1]],
  cheongung:[["#4a2a18",3,3,4,3],["#2a160c",5,3,1,3],["#4a2a18",9,2,4,3],["#2a160c",11,2,1,3],["#4a2a18",6,7,4,3],["#2a160c",8,7,1,3],["#4a2a18",2,8,3,3],["#2a160c",3,8,1,3],["#4a2a18",11,7,3,3],["#2a160c",12,7,1,3],["#6e4228",3,3,1,1],["#6e4228",9,2,1,1],["#6e4228",6,7,1,1]]};
 const ROCK0=[["#8cc8e0",2,8,12,3],["#bfe6f5",2,8,12,1],["#6aa6c0",5,9,1,2],["#6aa6c0",8,9,1,2],["#6aa6c0",11,9,1,2]];
@@ -641,7 +769,7 @@ function plant(cv,k,grown){cv.width=16;cv.height=16;const x=cv.getContext("2d");
  x.fillStyle="#2a1a10";ol.forEach(([i,j])=>x.fillRect(i,j,1,1));
  const f=(c,a,b,w,h)=>{x.fillStyle=c;x.fillRect(a,b,w,h)};
  const G=k==="seokgo"?["#4f6e7c","#7aa0b0","#38525e","#bfe6f5"]:["#5a3a26","#7a5236","#3e2618","#9a7454"];f(G[0],0,12,16,4);f(G[1],0,12,16,1);f(G[2],2,13,2,1);f(G[2],8,14,3,1);f(G[2],12,13,2,1);f(G[3],5,13,1,1);f(G[3],13,15,1,1);f("#2a1a10",0,15,16,1)}
-const FLESH={saenggang:["#e0a070","#a8622f","ring"],danggwi:["#ffe2e6","#ff7486","core"],insam:["#fbefc2","#e2c478","fiber"],gamcho:["#fff7cc","#f0d878","flat"]};
+const FLESH={bread:["#fff6dc","#ecd8a8","flat"],suika:["#ffb0b8","#ff4a5a","core"],yuja:["#fff6b8","#f2c830","core"],saenggang:["#e0a070","#a8622f","ring"],danggwi:["#ffe2e6","#ff7486","core"],insam:["#fbefc2","#e2c478","fiber"],gamcho:["#fff7cc","#f0d878","flat"]};
 function cutFace(q,W,H,k,col,L,R,DOM){const im=q.getImageData(0,0,W,H),d=im.data,hx=c=>[1,3,5].map(i=>parseInt(c.slice(i,i+2),16)),
  F=FLESH[k]||[sh(col,.5),sh(col,.2),"flat"],LI=hx(F[0]),MI=hx(F[1]),OL=[42,26,16],RIM=hx(sh(F[1],-.3)),
  at=(x,y)=>(y*W+x)*4,A=(x,y)=>x>=0&&x<W&&d[at(x,y)+3]>0,put=(x,y,c)=>{if(!A(x,y))return;const p=at(x,y);d[p]=c[0];d[p+1]=c[1];d[p+2]=c[2]},
@@ -675,9 +803,9 @@ function paint(){
  typeTick();
  document.querySelectorAll("canvas[data-k]").forEach(c=>plant(c,c.dataset.k,c.dataset.g==="1"||ready(c.dataset.k)));
 
- document.querySelectorAll("canvas[data-t]").forEach(c=>spr(c,TOOL[c.dataset.t],TP));tutHL();const p=document.getElementById("pot");if(p)pot(p);const b=document.getElementById("bk");if(b)spr(b,BOOK,BP);const np=document.getElementById("np");if(np)spr(np,NOTE,NP)}
+ document.querySelectorAll("canvas[data-t]").forEach(c=>spr(c,TOOL[c.dataset.t],TP));tutHL();const p=document.getElementById("pot");if(p)pot(p);panDraw();const b=document.getElementById("bk");if(b)spr(b,BOOK,BP);const np=document.getElementById("np");if(np)spr(np,NOTE,NP)}
 // ===== 상태 =====
-let S={gifted:false,money:1500,earn:0,tips:0,spend:0,totalEarn:0,up:{},aff:{},day:1,tut:1,wx:"clear",combo:0,bestCombo:0,top:0,rep:0,lives:3,cured:0,inv:{},patches:{},phase:"prep",tab:"desk",book:false,memo:false,notes:{},notice:false,seen3:false,notice7:false,seen7:false,notice10:false,seen10:false,notice17:false,seen17:false,lastUrg:false,proc:{},total:0,spawned:0,desk:[],sel:null,pick:[],log:"",say:"",nextAt:0,uid:0};
+let S={ev:{},evq:[],gifted:false,money:1500,earn:0,tips:0,spend:0,totalEarn:0,up:{},aff:{},day:1,tut:1,wx:"clear",combo:0,bestCombo:0,top:0,rep:0,lives:3,cured:0,inv:{},patches:{},phase:"prep",tab:"desk",book:false,memo:false,notes:{},notice:false,seen3:false,notice7:false,seen7:false,notice10:false,seen10:false,notice17:false,seen17:false,lastUrg:false,proc:{},total:0,spawned:0,desk:[],sel:null,pick:[],log:"",say:"",nextAt:0,uid:0};
 const FRESH=JSON.stringify(S);
 const rnd=a=>a[Math.floor(Math.random()*a.length)];
 const $=document.getElementById("app");
@@ -687,11 +815,11 @@ window.onerror=m=>showErr(m);
 function save(){try{localStorage.setItem("lbt1",JSON.stringify(S))}catch(e){}}
 const mig=o=>{if(o&&o.tut===undefined)o.tut=-1;return o};
 function load(){try{const d=localStorage.getItem("lbt1");if(d)S=Object.assign(S,mig(JSON.parse(d)))}catch(e){}fix()}
-function fix(){S.back=false;if(S.tut===undefined)S.tut=-1;S.help=false;S.tutMsg="";(S.desk||[]).forEach(p=>{if(p&&p.sp&&!SPIRITS.some(x=>x.n===p.sp.n))p.sp=rnd(SPIRITS)});if(!WX[S.wx])S.wx="clear";S.pl=typeof S.lives==="number"?S.lives:3;S.hurtUntil=0;(S.desk||[]).forEach(p=>{if(!p)return;if(!p.pat)p.pat=120000;if(!(S.tut>0)&&!p.stopped)p.t0=Date.now();if(p.sy&&!p.sy.m&&p.sy.d&&!p.sy.req&&p.sy.note===undefined)p.sy.m=p.sy.d.split("(")[0]});if(typeof S.money!=="number")S.money=1500;S.up=S.up||{};S.aff=S.aff||{};["earn","tips","spend","totalEarn"].forEach(k=>{if(typeof S[k]!=="number")S[k]=0});if(S.day>=7&&!S.seen7&&S.phase==="prep")S.notice7=true;if(S.day>=10&&!S.seen10&&S.phase==="prep")S.notice10=true;if(S.day>=17&&!S.seen17&&S.phase==="prep")S.notice17=true;if(typeof S.lives!=="number")S.lives=3;if(S.lives<=0)S.phase="over";if(!["prep","day","end","over"].includes(S.phase))S.phase="prep";S.proc={};S.inv=S.inv||{};S.patches=S.patches||{};S.pick=Array.isArray(S.pick)?S.pick.filter(k=>HERBS[k]):[];
+function fix(){S.back=false;if(S.tut===undefined)S.tut=-1;S.help=false;S.tutMsg="";(S.desk||[]).forEach(p=>{if(p&&p.sp&&!SPIRITS.some(x=>x.n===p.sp.n))p.sp=rnd(SPIRITS)});if(!WX[S.wx])S.wx="clear";S.pl=typeof S.lives==="number"?S.lives:3;S.hurtUntil=0;(S.desk||[]).forEach(p=>{if(!p)return;if(!p.pat)p.pat=120000;if(!(S.tut>0)&&!p.stopped)p.t0=Date.now();if(p.sy&&!p.sy.m&&p.sy.d&&!p.sy.req&&p.sy.note===undefined)p.sy.m=p.sy.d.split("(")[0]});if(typeof S.money!=="number")S.money=1500;S.up=S.up||{};S.aff=S.aff||{};S.ev=S.ev||{};S.evq=S.evq||[];["earn","tips","spend","totalEarn"].forEach(k=>{if(typeof S[k]!=="number")S[k]=0});if(S.day>=7&&!S.seen7&&S.phase==="prep")S.notice7=true;if(S.day>=10&&!S.seen10&&S.phase==="prep")S.notice10=true;if(S.day>=17&&!S.seen17&&S.phase==="prep")S.notice17=true;if(typeof S.lives!=="number")S.lives=3;if(S.lives<=0)S.phase="over";if(!["prep","day","end","over"].includes(S.phase))S.phase="prep";S.proc={};S.inv=S.inv||{};S.patches=S.patches||{};S.pick=Array.isArray(S.pick)?S.pick.filter(k=>HERBS[k]):[];
  S.desk=(Array.isArray(S.desk)?S.desk:[]).filter(p=>p&&p.id&&p.sp&&p.sy&&Array.isArray(p.sy.need));
  S.desk.forEach(p=>{if(p.sy.note===undefined&&p.sy.one===undefined){const m=SYMPTOMS.find(x=>x.d===p.sy.d);if(m)p.sy=mkSy(m,false)}});
  if(!S.desk.some(p=>p.id===S.sel))S.sel=S.desk.length?S.desk[0].id:null;
- if(!["field","desk","lab"].includes(S.tab))S.tab="desk";S.book=false;S.memo=false;S.notes=S.notes||{};if(S.day>=3&&!S.seen3&&S.phase==="prep")S.notice=true;
+ if(!["field","desk","lab","kitchen"].includes(S.tab))S.tab="desk";S.book=false;S.memo=false;S.notes=S.notes||{};if(S.day>=3&&!S.seen3&&S.phase==="prep")S.notice=true;
  if(S.phase==="day")S.nextAt=Date.now()+3000}
 function gather(k){const c=cost(k);if(S.money<c){S.log=`<span class="bad">돈이 모자라 ${eul(HERBS[k].n)} 살 수 없다. (${yen(c)} 필요)</span>`;sfx("miss");render();return}sfx("gather");S.money-=c;S.spend+=c;S.inv[k]=(S.inv[k]||0)+1;save();render()}
 let CAT=null,CATD=0;const CATLINE="길고양이 한 마리가 창고에서 쉬고 있다.";
@@ -712,7 +840,11 @@ function catDraw(){const c=document.getElementById("catc");if(!c||!CAT)return;co
  x.fillStyle="#2a1a10";ol.forEach(([i,j])=>x.fillRect(i,j,1,1));
  if(t>CAT.until-1500){x.globalCompositeOperation="destination-in";x.fillStyle=`rgba(0,0,0,${Math.max(0,(CAT.until-t)/1500)})`;x.fillRect(0,0,W,H)}}
 setInterval(catDraw,120);
-function toggleBook(){S.book=!S.book;if(S.tut===5&&S.book)S.tutB=true;sfx("page");render()}
+let LBP=0;const LBN=10;function lbPg(d){LBP+=d;sfx("click");render()}
+let BKM=0,BKI=0;const BKMN=7,BKIN=6;
+function bkPg(t,d){if(t==="m")BKM+=d;else BKI+=d;sfx("click");render()}
+const pgBar=(t,p,n)=>n>1?`<div class="pgb"><button onclick="bkPg('${t}',-1)" ${p<=0?"disabled":""}>◀</button><span>${p+1} / ${n}</span><button onclick="bkPg('${t}',1)" ${p>=n-1?"disabled":""}>▶</button></div>`:"";
+function toggleBook(){S.book=!S.book;if(S.book){BKM=0;BKI=0}if(S.tut===5&&S.book)S.tutB=true;sfx("page");render()}
 function tick(){const now=Date.now();if(document.hidden||busy||MENU){LASTP=now;return}patTick(now);
  
  if(CAT&&now>CAT.until){CAT=null;if(S.tab==="field")render();return}
@@ -729,7 +861,7 @@ function startDay(){S.total=Math.min(8,3+Math.floor((S.day-1)/4))+(S.up.sign?1:0
 function spawn(){const r=Math.random(),advP=S.day>=10?0.16:0.2,adv=S.day>=3&&r<advP,req=!adv&&S.day>=10&&r<advP+0.2,sp0=pickSp(),p={id:++S.uid,sp:sp0,sy:adv?mkAdv(sp0):req?mkReq():pickSym(sp0)};
  if(S.tut>0&&S.spawned===0){p.sy=mkSy(SYMPTOMS[0],true);S.lastD=SYMPTOMS[0].d}
  if(S.day>=7&&!adv&&!req&&!S.lastUrg&&Math.random()<0.3)p.urg=true;S.lastUrg=!!p.urg;p.pat=Math.round(((p.urg?60:Math.max(110,160-(S.day-1)*1.5))*(S.up.chair?1.25:1)+rank(p.sp.n)*5)*1000);p.el=0;if(!(S.tut>0))p.t0=Date.now();S.desk.push(p);S.spawned++;S.hurtUntil=0;TYS={};clearTap();S.say=rnd(LINES);S.nextAt=Date.now()+SPAWN*W().sp*1000;if(S.sel===null)S.sel=p.id;sfx("bell");if(p.urg)setTimeout(()=>sfx("urgent"),380);save();render()}
-function selRx(id){S.sel=id;S.pick=[];S.proc={};S.tab="lab";render()}
+function selRx(id){S.sel=id;S.pick=[];S.proc={};S.tab=placeOf(S.desk.find(x=>x.id===id));render()}
 function toggle(k){if(S.tut>0&&S.tut<9&&k!=="saenggang"){S.tutMsg="지금은 시나몬만 고르자.";render();return}if(S.proc[k])return;const i=S.pick.indexOf(k);if(i>=0){S.pick.splice(i,1);delete S.proc[k]}else if(S.pick.length<MAXPICK&&(S.inv[k]||0)>0)S.pick.push(k);render()}
 function comboLine(n){const L={3:"세 명 연속 대만족이다. 이 기세로 가자.",5:"다섯 연속… 조금은 카운터가 손에 익은 것 같다.",7:"일곱 연속이다. 르블랑 단골이 늘 것 같은 예감이 든다.",10:"열 연속… 스스로도 놀랍다."};if(L[n])return L[n];return n>10&&n%5===0?n+"명 연속 대만족이다. 이 감각을 잊지 말자.":""}
 function finish(msg){if(S.tut>0&&S.tut<9){S.tut=9;S.tutMsg=""}resSfx(msg);clearTap();const cured=/class="ok"/.test(msg),cb=cured?(S.combo||0)+1:0;S.combo=cb;if(cb>(S.bestCombo||0))S.bestCombo=cb;const pr=cured?comboLine(cb):"";if(/data-q="3"/.test(msg))setTimeout(()=>sfx("star"),260);
@@ -744,9 +876,9 @@ function doBrew(){const p=S.desk.find(x=>x.id===S.sel);if(!p)return;
  const tags=[...new Set(S.pick.flatMap(k=>HERBS[k].t))],need=p.sy.need,hit=need.filter(t=>tags.includes(t)).length,good=[...new Set(S.pick.filter(k=>NOPROC[k]||S.proc[k]===METHOD[k]).flatMap(k=>HERBS[k].t))],hg=need.filter(t=>good.includes(t)).length;
  let extra=tags.filter(t=>t!=="부드러움"&&!need.includes(t)).length;if(tags.includes("부드러움")&&extra>0)extra--;
  S.pick.forEach(k=>S.inv[k]--);let m;const rxOK=p.sy.rx.split("|").some(a=>a.split("+").sort().join()===S.pick.slice().sort().join());
- if(hg===need.length&&extra===0&&!rxOK)m=`${p.sp.n}, 마셨지만 ${p.sy.mod?"부탁한 대로가 아니라":"레시피와 달라"} 아쉬워했다. <small>(값을 깎아 줬다)</small>${earn(p,menuPrice(p.sy)*0.6,false)}`;
+ if(hg===need.length&&extra===0&&!rxOK)m=`${p.sp.n}, ${p.sy.fd?"먹었지만":"마셨지만"} ${p.sy.mod?"부탁한 대로가 아니라":"레시피와 달라"} 아쉬워했다. <small>(값을 깎아 줬다)</small>${earn(p,menuPrice(p.sy)*0.6,false)}`;
  else if(hg===need.length&&extra===0){S.cured=(S.cured||0)+1;const Q=potQ(),rf=Q>=3?rnd(S.pick):null;if(rf){S.inv[rf]++;S.top=(S.top||0)+1}m=`<span class="ok" data-q="${Q}">${p.sp.n}, 대만족!</span> <span class="gr">${starsHTML(Q)} ${GR[Q]}</span>${earn(p,menuPrice(p.sy)*MUL[Q],true)}${rf?`<br><small>솜씨가 좋아 ${HERBS[rf].n} 한 개가 남았다!</small>`:""}${addAff(p.sp.n)}`}
- else if(hit===need.length)m=`${p.sp.n}, ${extra?"마셨지만 맛이 과했다.":"마셨지만 손질이 맞지 않아 맛이 아쉬웠다."} <small>(값을 깎아 줬다)</small>${earn(p,menuPrice(p.sy)*0.6,false)}`;
+ else if(hit===need.length)m=`${p.sp.n}, ${p.sy.fd?"먹었지만":"마셨지만"} ${extra?"맛이 과했다.":"손질이 맞지 않아 맛이 아쉬웠다."} <small>(값을 깎아 줬다)</small>${earn(p,menuPrice(p.sy)*0.6,false)}`;
  else if(hit>0)m=`${p.sp.n}, 주문과 좀 달랐지만 반값만 내고 갔다.${earn(p,menuPrice(p.sy)*0.4,false)}`;
  else{S.lives=Math.max(0,S.lives-1);m=`<span class="bad">${p.sp.n}, 입에 맞지 않았다… (${ic("bheart")} 신뢰 -1)</span>`}
  finish(m)}
@@ -765,11 +897,11 @@ function skip(){const p=S.desk.find(x=>x.id===S.sel);if(!p)return;if(S.tut>0&&S.
   if(n===0){S.cured=(S.cured||0)+1;return finish(`<span class="ok">${p.sp.n}, 고민 상담을 받고 한결 편안해졌다!</span> <small>(고맙다며 사례를 두고 갔다)</small>${earn(p,200,true)}${addAff(p.sp.n)}`)}
   S.lives=Math.max(0,S.lives-1);return finish(`<span class="bad">${p.sp.n}, 상담이 도움이 안 돼 여전히 힘들어 보인다 (${ic("bheart")} 신뢰 -1)</span>`)}
  S.lives=Math.max(0,S.lives-1);finish(`<span class="bad">${eul(p.sp.n)} 돌려보냈다 (${ic("bheart")} 신뢰 -1)</span>`)}
-function next(){S.hurtUntil=0;clearTap();S.taps=0;const so=season();S.day++;S.earn=0;S.tips=0;S.spend=0;let gift="";if(S.money<200&&!S.gifted){S.gifted=true;S.money+=500;gift=ic("lantern")+" …소지로 씨가 몰래 밑천을 보태 주셨다. 아껴 써야겠다. (+¥500)<br>"}S.wx=rollWx();if(S.day>=7&&!S.seen7)S.notice7=true;if(S.day>=10&&!S.seen10)S.notice10=true;if(S.day>=17&&!S.seen17)S.notice17=true;if(S.day>=3&&!S.seen3)S.notice=true;S.phase="prep";S.say="";const n=SYMPTOMS.filter(s=>s.u===S.day).length+Object.keys(HU).filter(k=>HU[k]===S.day).length;S.log=gift+(season()!==so?ic("lantern")+" 계절이 바뀌어 "+season()+"이 찾아왔다.<br>":"")+(n?ic("book")+" 레시피 노트에 새 메뉴가 추가됐어요!":"");save();render()}
+function next(){S.hurtUntil=0;clearTap();S.taps=0;const so=season();S.day++;S.earn=0;S.tips=0;S.spend=0;let gift="";if(S.money<200&&!S.gifted){S.gifted=true;S.money+=500;gift=ic("lantern")+" …소지로 씨가 몰래 밑천을 보태 주셨다. 아껴 써야겠다. (+¥500)<br>"}S.wx=rollWx();if(S.day>=7&&!S.seen7)S.notice7=true;if(S.day>=10&&!S.seen10)S.notice10=true;if(S.day>=17&&!S.seen17)S.notice17=true;if(S.day>=3&&!S.seen3)S.notice=true;S.phase="prep";S.say="";const n=SYMPTOMS.filter(s=>s.u===S.day).length+Object.keys(HU).filter(k=>HU[k]===S.day).length;const smn=SYMPTOMS.filter(x=>x.ss===season()&&x.u<=S.day).map(x=>x.d.split("(")[0]).join(", ");S.log=gift+(season()!==so?ic("lantern")+" 계절이 바뀌어 "+season()+"이 찾아왔다.<br>":"")+((season()!==so||S.day===2)&&smn?ic("new")+" "+season()+" 한정 메뉴: <b>"+smn+"</b><br>":"")+(S.day===5?ic("new")+" 르블랑 카레를 메뉴에 올렸다! 카레 루는 <b>끓이기</b>로 손질해요.<br>":"")+(n?ic("book")+" 레시피 노트에 새 메뉴가 추가됐어요!":"");save();render()}
 function reset(){if(confirm("초기화할까요?")){localStorage.removeItem("lbt1");location.reload()}}
 // ===== 화면 =====
 const tg=a=>a.map(t=>`<span class="tag">${t}</span>`).join("");
-const TABS=[["field","bamboo","창고"],["desk","scroll","주문대"],["lab","sake","카운터"]];
+const TABS=[["field","bamboo","창고"],["desk","scroll","주문대"],["lab","sake","카운터"],["kitchen","pan","주방"]];
 const kind=p=>p.sy.req?"포장":p.sy.note!==undefined?"상담":"주문";
 const what=p=>p.sy.req||p.sy.note!==undefined?p.sy.s:p.sy.m;
 const rkTag=p=>{const r=rank(p.sp.n);return r?` <span class="rk">단골 Lv${r}</span>`:""};
@@ -784,22 +916,24 @@ function draw(){
  const showSay=S.phase==="day"&&S.tab!=="desk"&&!(S.tut>0);
  if(showSay||S.log)h+=`<div class="bar">${showSay?`${yagen("s",mood())} 렌: <span class="sayt" data-k="r" data-full="${esc(S.say)}">${ty(S.say,"r")}</span> <small>(${S.spawned}/${S.total}) <span id="nx"></span></small>`:""}${S.log?`<div>${S.log}</div>`:""}</div>`;
  if(S.tab==="field"){
-  h+=`<div class="scene field"><div class="grid">`+Object.entries(HERBS).filter(([k])=>open(k)).map(([k,v])=>`<button class="plot" onclick="gather('${k}')"><canvas data-k="${k}" style="width:100%"></canvas>${v.n}<br><small>${yen(cost(k))} · ×${S.inv[k]||0}</small> <span id="gs_${k}"></span></button>`).join("")+(CAT?`<div class="catcell" onclick="sfx('meow')"><canvas id="catc"></canvas></div>`:"")+`</div></div><div class="box">${CAT?`<div class="catsay">${yagen("s",S.phase==="over"?"hurt":"base")} 렌: ${CATLINE}</div>`:""}<small>재료를 누를 때마다 돈을 내고 1개씩 사 와요. 돈만 있으면 얼마든지 살 수 있어요.${W().pm&&W().pm!==1?` <b>오늘은 날씨 때문에 재료값이 ${W().pm<1?"10% 싸요":"20% 비싸요"}.</b>`:""}</small></div>`;
+  h+=`<div class="scene field"><div class="grid">`+Object.entries(HERBS).filter(([k])=>open(k)).map(([k,v])=>`<button class="plot" onclick="gather('${k}')"><canvas data-k="${k}" style="width:100%"></canvas>${v.n}${SEASONAL[k]?'<span class="sstag">한정</span>':""}<br><small>${yen(cost(k))} · ×${S.inv[k]||0}</small> <span id="gs_${k}"></span></button>`).join("")+(CAT?`<div class="catcell" onclick="sfx('meow')"><canvas id="catc"></canvas></div>`:"")+`</div></div>`+(CAT||(W().pm&&W().pm!==1)?`<div class="box">${CAT?`<div class="catsay">${yagen("s",S.phase==="over"?"hurt":"base")} 렌: ${CATLINE}</div>`:""}${W().pm&&W().pm!==1?`<small><b>${ic(W().ic)} 오늘은 날씨 때문에 재료값이 ${W().pm<1?"10% 싸요":"20% 비싸요"}.</b></small>`:""}</div>`:"");
  }else if(S.tab==="desk"){
   h+=`<div class="bub${S.phase==="day"||S.phase==="over"?"":" tap"}" style="margin:10px 0"${S.phase==="day"||S.phase==="over"?"":' onclick="tapBub()"'}><b>${yagen("",mood())} 아마미야 렌</b><br>${bub()}</div>`;
   if(S.phase==="prep")h+=`<div class="box wxb">${ic(W().ic)} <b>${season()} · ${W().n}</b><br><small>${W().eff}</small></div><div class="box"><b>${ic("basket")} 보유 재료</b><br>${Object.entries(HERBS).filter(([k])=>open(k)).map(([k,v])=>`${v.n}×${S.inv[k]||0}`).join(" ")}<br><small>소지금 ${yen(S.money)}</small><button class="p" onclick="startDay()">가게 열기</button>${S.tut>0?"":`<button class="shopbtn" onclick="openShop()">${ic("lantern")} 가게 관리</button>`}</div>`;
   else if(S.phase==="end"){const net=S.earn+S.tips-S.spend;h+=`<div class="box"><b>${ic("lantern")} 오늘의 정산</b><div class="calc"><span>메뉴 매출</span><b>${yen(S.earn)}</b><span>팁</span><b>${yen(S.tips)}</b><span>재료비</span><b>-${yen(S.spend)}</b><span class="tot">순이익</span><b class="tot ${net>=0?"ok":"bad"}">${net<0?"-":""}${yen(Math.abs(net))}</b><span>소지금</span><b>${yen(S.money)}</b></div><button class="p" onclick="next()">다음 날로</button><button class="shopbtn" onclick="openShop()">${ic("lantern")} 가게 관리</button></div>`}
-  else h+=`<div class="scene desk"><div class="papers">`+(S.desk.length?S.desk.map(p=>paper(p)).join(""):`<div class="note">손님이 올 때까지 기다리는 중…<br>창고에서 재료를 사 두자.</div>`)+`</div></div>`;
+  else h+=`<div class="scene desk"><div class="papers">`+(S.desk.length?S.desk.map(p=>paper(p)).join(""):`<div class="note">손님을 기다리는 중…</div>`)+`</div></div>`;
  }else{
-  const p=S.desk.find(x=>x.id===S.sel);
-  h+=`<div class="scene lab"><canvas id="pot" style="width:96px"></canvas><button class="bkbtn nbtn" onclick="toggleMemo()"><canvas id="np" style="width:46px"></canvas><small>고민 상담</small></button><button class="bkbtn" onclick="toggleBook()"><canvas id="bk" style="width:52px"></canvas><small>레시피</small></button></div>`;
-  if(S.phase==="day"&&p){
-   h+=`<div class="box"><div class="rx" style="margin:0 0 8px;padding:6px;border:4px solid #8a6a2f">${rxCard(p)}</div><b>재료 선택 (최대 ${MAXPICK})</b><div class="grid2" style="margin-top:6px">`+
-   Object.entries(HERBS).filter(([k])=>open(k)).map(([k,v])=>`<button class="plot ${S.pick.includes(k)?"sel":""}" onclick="toggle('${k}')" ${!(S.inv[k]>0)?"disabled":""}><canvas data-k="${k}" data-g="1" style="width:36%"></canvas>${v.n}<br>×${S.inv[k]||0}</button>`).join("")+
-   `</div>${procHTML()}<button class="p" onclick="brew()" ${S.pick.length&&S.pick.every(k=>S.proc[k]||NOPROC[k])?"":"disabled"}>메뉴 완성</button>${S.day>=10?`<button class="pk" onclick="pack()" ${S.pick.length?"":"disabled"}>${ic("basket")} 포장하기</button>`:""}<button style="width:100%;margin-top:6px" onclick="skip()">돌려보내기</button>${p.sy.req?'<div class="bnote" style="margin-top:6px"><b>재료 포장</b>: 주문한 재료 하나만 골라 <b>손질하지 말고</b> 그대로 <b>포장하기</b>를 누르세요. (메뉴 완성·돌려보내기는 신뢰 -1)</div>':""}<small class="hint">※ 레시피 노트에 적힌 재료만 빠짐없이 넣고, 재료마다 맞는 손질법으로 손질하세요. 얼음과 우유는 손질 없이 그대로 써요.</small></div>`;
-  }else h+=`<div class="box"><small>주문대에서 주문서를 골라 오세요.</small></div>`;
+  const p=S.desk.find(x=>x.id===S.sel),K=S.tab==="kitchen",PLK=pickList(K);
+  h+=K?`<div class="scene lab kitchen"><canvas id="pan" style="width:112px"></canvas><button class="bkbtn" onclick="toggleBook()"><canvas id="bk" style="width:52px"></canvas><small>레시피</small></button></div>`
+   :`<div class="scene lab"><canvas id="pot" style="width:96px"></canvas><button class="bkbtn nbtn" onclick="toggleMemo()"><canvas id="np" style="width:46px"></canvas><small>고민 상담</small></button><button class="bkbtn" onclick="toggleBook()"><canvas id="bk" style="width:52px"></canvas><small>레시피</small></button></div>`;
+  if(S.phase==="day"&&p&&placeOf(p)!==S.tab){h+=`<div class="box" style="text-align:center"><div class="rx" style="margin:0 0 10px;padding:6px;border:4px solid #8a6a2f;text-align:left">${rxCard(p)}</div>이 주문은 <b>${placeOf(p)==="kitchen"?"주방":"카운터"}</b>에서 만들어요.<button class="p" style="margin-top:10px" onclick="go('${placeOf(p)}')">${placeOf(p)==="kitchen"?"주방으로":"카운터로"} 가기</button></div>`}
+  else if(S.phase==="day"&&p){
+   h+=`<div class="box"><div class="rx" style="margin:0 0 8px;padding:6px;border:4px solid #8a6a2f">${rxCard(p)}</div><div class="pkh"><b>재료 선택 (최대 ${MAXPICK})</b>${(()=>{const n=Math.ceil(PLK.length/LBN);LBP=Math.max(0,Math.min(LBP,n-1));return n>1?`<span class="pgb mini"><button onclick="lbPg(-1)" ${LBP<=0?"disabled":""}>◀</button><span>${LBP+1}/${n}</span><button onclick="lbPg(1)" ${LBP>=n-1?"disabled":""}>▶</button></span>`:""})()}</div><div class="grid2 ${PLK.length>LBN?"paged":""}" style="margin-top:6px">`+
+   PLK.slice(LBP*LBN,LBP*LBN+LBN).map(k=>[k,HERBS[k]]).map(([k,v])=>`<button class="plot ${S.pick.includes(k)?"sel":""}" onclick="toggle('${k}')" ${!(S.inv[k]>0)?"disabled":""}><canvas data-k="${k}" data-g="1" style="width:36%"></canvas>${v.n}<br>×${S.inv[k]||0}</button>`).join("")+(()=>{const L=PLK.length;if(L<=LBN)return "";const c=Math.min(LBN,L-LBP*LBN);return '<div class="plot lbph"></div>'.repeat(LBN-c)})()+
+   `</div>${procHTML()}<button class="p" onclick="brew()" ${S.pick.length&&S.pick.every(k=>S.proc[k]||NOPROC[k])?"":"disabled"}>${K?"요리 완성":"메뉴 완성"}</button>${S.day>=10?`<button class="pk" onclick="pack()" ${S.pick.length?"":"disabled"}>${ic("basket")} 포장하기</button>`:""}<button style="width:100%;margin-top:6px" onclick="skip()">돌려보내기</button></div>`;
+  }else h+=`<div class="box" style="text-align:center;opacity:.6">주문서 없음</div>`;
  }
- if(S.book)h+=bookHTML();if(S.memo)h+=memoHTML();if(S.notice)h+=noticeHTML();if(S.notice7)h+=notice7HTML();if(S.notice10)h+=notice10HTML();if(S.notice17)h+=notice17HTML();if(SHOP)h+=shopHTML();if(S.phase==="over")h+=overHTML();if(S.help)h+=helpHTML();if(MENU)h+=menuHTML();
+ if(S.book)h+=bookHTML();if(S.memo)h+=memoHTML();if(S.notice)h+=noticeHTML();if(S.notice7)h+=notice7HTML();if(S.notice10)h+=notice10HTML();if(S.notice17)h+=notice17HTML();if(SHOP)h+=shopHTML();if(!BA&&!MG&&S.evq&&S.evq.length&&!S.notice&&!S.notice7&&!S.notice10&&!S.notice17)h+=coopHTML();if(S.phase==="over")h+=overHTML();if(S.help)h+=helpHTML();if(MENU)h+=menuHTML();
 
  $.innerHTML=h}
 document.addEventListener("contextmenu",e=>e.preventDefault());
@@ -848,14 +982,16 @@ function tutHL(){document.querySelectorAll(".tuthl").forEach(e=>e.classList.remo
  if(sel){const e=document.querySelector(sel);if(e)e.classList.add("tuthl")}}
 const UL=a=>`<ul>${a.map(x=>`<li>${x}</li>`).join("")}</ul>`,H4=t=>`<h4>${t}</h4>`;
 const HP=[
- {t:"하루의 흐름",u:1,h:()=>H4("순서")+`<ol><li><b>창고</b>에서 재료를 사요.</li><li><b>주문대</b>에서 가게를 열고 주문서를 집어요.</li><li><b>카운터</b>에서 재료를 고르고 손질한 뒤 <b>메뉴 완성</b>.</li><li>하루가 끝나면 <b>정산</b>해요.</li></ol>`+H4("신뢰")+UL(["주문을 틀리거나 너무 기다리게 하면 <b>신뢰 -1</b>","3개를 모두 잃으면 영업 종료"])},
- {t:"레시피 노트",u:1,h:()=>UL(["주문서의 <b>메뉴 이름</b>을 노트에서 찾아요.","적힌 재료를 <b>빠짐없이, 다른 재료 없이</b> 넣어야 대만족이에요.","재료가 다르면 값을 깎아 줘야 해요.","새 메뉴는 처음 나온 날 별 표시가 붙어요."])},
- {t:"손질과 등급",u:1,h:()=>H4("손질법")+UL(["재료마다 맞는 방법이 있어요: <b>자르기 · 갈기 · 추출</b> (노트에 표시)","<b>얼음·우유</b>는 손질 없이 그대로 넣어요.","추출한 재료가 들어가면 끓이지 않고 바로 유리잔에 담아요."])+H4("등급")+UL(["미니게임을 잘할수록 별 1~3개","가격: <b>보통 90% · 좋음 100% · 일품 120%</b>","일품이면 쓴 재료 하나를 돌려받아요."])},
+ {t:"하루의 흐름",u:1,h:()=>H4("순서")+`<ol><li><b>창고</b>에서 재료를 사요. 누를 때마다 1개씩, 돈만 있으면 얼마든지 살 수 있어요.</li><li><b>주문대</b>에서 가게를 열고 주문서를 집어요.</li><li>음료는 <b>카운터</b>, 음식은 <b>주방</b>에서 재료를 고르고 손질한 뒤 완성해요. 주문서를 집으면 알맞은 곳으로 바로 가요.</li><li>하루가 끝나면 <b>정산</b>해요.</li></ol>`+H4("신뢰")+UL(["주문을 틀리거나 너무 기다리게 하면 <b>신뢰 -1</b>","3개를 모두 잃으면 영업 종료"])},
+ {t:"레시피 노트",u:1,h:()=>UL(["카운터 오른쪽 <b>레시피</b> 버튼으로 열어요.","주문서의 <b>메뉴 이름</b>을 노트에서 찾아요.","노트의 가격은 ‘좋음’ 등급 기준이에요.","메뉴·재료가 많아지면 ◀ ▶로 넘겨 봐요.","적힌 재료를 <b>빠짐없이, 다른 재료 없이</b> 넣어야 대만족이에요.","재료가 다르면 값을 깎아 줘야 해요.","새 메뉴는 처음 나온 날 별 표시가 붙어요."])},
+ {t:"손질과 등급",u:1,h:()=>H4("카운터·주방 사용법")+UL(["주문서를 집으면 음료는 카운터, 음식은 주방에 주문 카드가 떠요.","재료 칸에는 그곳에서 쓰는 재료만 보여요. 음료와 음식에 모두 쓰는 재료는 양쪽에 다 나와요.","고민 상담은 카운터에서만 해요.","재료를 최대 3개까지 고르고, 고른 재료마다 손질 버튼을 눌러요.","재료가 많으면 ‘재료 선택’ 옆 ◀ ▶로 넘겨요.","모두 손질되면 <b>메뉴 완성</b>을 눌러요."])+H4("손질법")+UL(["재료마다 맞는 방법이 있어요: <b>자르기 · 갈기 · 추출</b> (카레 루는 <b>끓이기</b>, 노트에 표시)","<b>얼음·우유</b>는 손질 없이 그대로 넣어요.","추출한 재료가 들어가면 끓이지 않고 바로 유리잔에 담아요."])+H4("등급")+UL(["미니게임을 잘할수록 별 1~3개","가격: <b>보통 90% · 좋음 100% · 일품 120%</b>","일품이면 쓴 재료 하나를 돌려받아요."])},
  {t:"매출·팁·인내심",u:1,h:()=>H4("인내심 게이지")+UL(["주문서가 놓인 순간부터 줄어요.","한 손님 주문을 만드는 동안엔 <b>그 손님만</b> 줄어요.","게임 화면을 떠나 있으면 멈춰요.","다 떨어지면 손님이 돌아가고 <b>신뢰 -1</b>"])+H4("돈")+UL(["대만족 팁: 초록 20% · 노랑 10% · 빨강 없음","주문과 조금 다르면 60%나 40%만, 완전히 틀리면 0원","순이익 = 매출 + 팁 − 재료비","¥200 아래로 떨어지면 소지로 씨가 ¥500 지원 (게임당 1번)"])},
- {t:"가게 관리·단골",u:1,h:()=>`<small>영업 전이나 정산 후, 주문대의 <b>가게 관리</b>에서 열어요.</small>`+H4("장비")+UL(UPG.map(u=>`<b>${u.n}</b> ${yen(u.c)} — ${u.d}`))+H4("단골")+UL(["같은 손님을 대만족시키거나 고민을 들어 주면 친밀도가 올라요.","랭크 Lv1~3, 랭크마다 팁 +10% · 인내심 +5초"])},
+ {t:"가게 관리·단골",u:1,h:()=>`<small>영업 전이나 정산 후, 주문대의 <b>가게 관리</b>에서 열어요.</small>`+H4("장비")+UL(UPG.map(u=>`<b>${u.n}</b> ${yen(u.c)} — ${u.d}`))+H4("단골")+UL(["같은 손님을 대만족시키거나 고민을 들어 주면 친밀도가 올라요.","랭크 Lv1~3, 랭크마다 팁 +10% · 인내심 +5초"])+H4("단골 이벤트")+UL(["<b>Lv3</b>에 오르면 그 손님과의 짧은 대화 장면이 나와요.","장면이 끝나면 그 손님 <b>전용 메뉴</b>가 레시피 노트에 올라가요. (보라색 ‘전용’ 딱지)","전용 메뉴는 그 손님만 주문하고, 다른 메뉴보다 ¥300 비싸요."])},
  {t:"연속 대만족",u:1,h:()=>UL(["대만족을 이어 가면 상단에 ★연속 횟수가 떠요.","대만족이 아니면 0으로 돌아가요.","3·5·7·10연속엔 렌의 독백이 나와요.","최고 기록은 영업 종료 화면에서 볼 수 있어요."])},
  {t:"계절과 날씨",u:2,h:()=>UL(["7일마다 봄 → 여름 → 가을 → 겨울","날씨는 영업 전 주문대에서 확인해요."])+H4("날씨별 효과")+UL(Object.values(WX).map(w=>`${ic(w.ic)} <b>${w.n}</b> ${w.eff}`))},
- {t:"상담 손님",u:3,h:()=>UL(["보라색 <b>상담</b> 딱지가 붙어요.","카운터의 <b>고민 상담</b>에서 알맞은 답을 고르고 <b>돌려보내기</b>","정답이면 ¥200 + 친밀도 ↑","메뉴를 내거나, 답이 틀리거나, 답 없이 보내면 <b>신뢰 -1</b>"])},
+ {t:"계절 한정 메뉴",u:2,h:()=>UL(["계절마다 한정 재료와 한정 메뉴가 하나씩 나와요.","한정 재료는 그 계절에만 창고에서 팔아요. (분홍 ‘한정’ 표시)","한정 메뉴는 다른 메뉴보다 자주 주문이 들어오고 ¥150 더 비싸요."])+H4("계절별")+UL(["봄 · 벚꽃 — 벚꽃 라테","여름 · 수박 — 수박 주스","가을 · 고구마 — 고구마 라테","겨울 · 유자 — 유자차"])},
+ {t:"르블랑 카레·음식",u:5,h:()=>UL(["레시피: <b>카레 루 + 블렌드</b> (르블랑 카레의 비밀은 커피!)","가격 ¥900, 특수 주문은 들어오지 않아요.","5일차부터 <b>식빵</b>(자르기)·<b>달걀</b>(끓이기)도 팔아요. 토스트 같은 음식 메뉴에 써요.","음식은 노트에 갈색 ‘음식’ 딱지가 붙고, 접시에 재료를 쌓아 완성해요."])+H4("끓이기")+UL(["불은 저절로 약해져요. 탭해서 불을 올리고 저어요.","화력을 초록 구간에 맞춘 시간이 <b>4초</b>가 되면 완성","너무 세면 눌어붙어서 별이 줄어요."])},
+ {t:"상담 손님",u:3,h:()=>UL(["보라색 <b>상담</b> 딱지가 붙어요.","고민 상담 창은 카운터 왼쪽 <b>고민 상담</b> 버튼으로 열어요. 상담 손님이 아니면 쓸 일이 없어요.","카운터의 <b>고민 상담</b>에서 알맞은 답을 고르고 <b>돌려보내기</b>","정답이면 ¥200 + 친밀도 ↑","메뉴를 내거나, 답이 틀리거나, 답 없이 보내면 <b>신뢰 -1</b>"])},
  {t:"급한 손님",u:7,h:()=>UL(["붉은 <b>급함</b> 딱지, 인내심이 <b>60초</b>뿐이에요.","대만족시키면 팁 <b>2배</b>","연달아 오지 않아요. 상담·포장 손님은 급하지 않아요."])},
  {t:"재료 포장 손님",u:10,h:()=>UL(["파란 <b>포장</b> 딱지, 재료값의 <b>3배</b>를 내요.","주문한 재료 1개를 <b>손질하지 말고</b> 골라 <b>포장하기</b>"])+H4("신뢰 -1이 되는 경우")+UL(["메뉴 완성 · 돌려보내기를 누름","다른 재료를 넣거나 손질한 재료를 포장함","포장 손님이 아닌데 포장하기를 누름"])},
  {t:"특수 주문",u:17,h:()=>UL(["주황색 <b>특수</b> 딱지, 레시피 노트에는 없어요.","“○○, ×× 빼고.” → 원래 레시피에서 ×× 빼기","“○○, ×× 추가.” → 원래 레시피에 ×× 더하기 (+¥100)","말과 다르게 만들면 값을 깎아 줘야 해요."])}];
