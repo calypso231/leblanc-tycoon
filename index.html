@@ -356,7 +356,7 @@ function playBrew(cb){const all=S.pick.slice();if(!all.length||BA)return;const f
   el.innerHTML=`<div class="mbox"><div class="mh"><b>${ic("sake")} 요리를 만드는 중</b><button onclick="baEnd()">건너뛰기</button></div><canvas id="bac" style="width:100%;border:4px solid var(--bd)"></canvas><div id="bam" style="min-height:20px;margin-top:6px;text-align:center"></div></div>`;
   const pr=k=>k==="bread"?0:k==="egg"?1:2,pk=all.slice().sort((a,b)=>pr(a)-pr(b));const n=pk.length,end=500+n*700+1500;
   BA={t0:Date.now(),food:1,picks:pk,cb,end};clearInterval(MT);MT=setInterval(baLoop,40);stopBrewSnd();
-  pk.forEach((k,i)=>BAT.push(setTimeout(()=>{sfx("plop");if(k==="egg"||k==="bread")sfx("sizzle")},500+i*700+260)));BAT.push(setTimeout(()=>sfx("ting"),500+n*700+300));return}const ice=all.includes("seokgo"),ext=all.some(k=>S.proc[k]==="추출"),picks=all.filter(k=>k!=="seokgo");
+  pk.forEach((k,i)=>BAT.push(setTimeout(()=>{sfx("plop");if(k==="egg"||k==="bread")sfx("sizzle")},500+i*700+260)));BAT.push(setTimeout(()=>sfx("ting"),500+n*700+300));return}const ice=all.includes("seokgo"),juice=!!(fp&&/주스|에이드|스무디/.test(fp.sy.d)),ext=juice||all.some(k=>S.proc[k]==="추출"),picks=all.filter(k=>k!=="seokgo");
  const el=document.getElementById("mg");el.style.display="flex";
  el.innerHTML=`<div class="mbox"><div class="mh"><b>${ic("sake")} ${all.includes("curry")?"카레를 끓이는 중":ice||ext?"음료를 만드는 중":"커피를 내리는 중"}</b><button onclick="baEnd()">건너뛰기</button></div><canvas id="bac" style="width:100%;border:4px solid var(--bd)"></canvas><div id="bam" style="min-height:20px;margin-top:6px;text-align:center"></div></div>`;
  const liq=picks.length?mixCol(picks.map(k=>COL[k])):"#bfe0ea",kc=document.createElement("canvas");
