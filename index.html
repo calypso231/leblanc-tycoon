@@ -128,6 +128,7 @@ textarea{-webkit-user-select:text;user-select:text;font-size:12px;background:var
 .tut{display:flex;gap:8px;align-items:flex-start;background:#fff8dc;color:#2a2420;border:2px solid #c8a24a;border-radius:3px;padding:6px 8px;margin:8px 0;font-size:13px;line-height:1.45}
 .tut .ic.s{flex:none}.tut small{color:#8a6a2f}.tut .p{margin-top:6px}
 .tuthl{outline:3px solid #f2d24b;outline-offset:2px;animation:tutp .8s infinite alternate;position:relative;z-index:1}
+.bkbtn.tuthl{position:absolute;z-index:2}
 @keyframes tutp{to{outline-color:#e0442f;outline-offset:4px}}
 .hnav{display:flex;justify-content:space-between;align-items:center;margin-top:8px}.hnav span{font-size:13px}
 @media (max-width:380px){.top{font-size:13px}.top .mini{padding:2px 4px!important;margin-left:2px}.top .ic.big{height:1.3em}.cmb{font-size:11px}}
@@ -182,10 +183,16 @@ button.sel{background:#111;color:#fff;border-color:var(--red)}
 .pat{height:7px;background:#0002;border:1px solid #111;margin:6px 34px 0 0}.pat i{display:block;height:100%;transition:width .5s linear}
 .rx .pat{margin:6px 0 0}
 .rk{display:inline-block;font-size:11px;background:#ffd400;color:#111;border:1px solid #111;padding:0 4px;transform:skew(-8deg)}
-.mood{display:block;color:#6b6157;font-size:12px;margin-top:2px}
+.mood{display:block;color:#6b6157;font-size:12px;margin-top:2px}.spc{color:#c2410c;font-weight:bold}.mood.spc{font-size:13px}
 .shopbtn{width:100%;margin-top:6px;background:#111;color:#fff;font-family:"Black Han Sans",sans-serif;font-weight:400;letter-spacing:2px}
 .calc{display:grid;grid-template-columns:1fr auto;gap:3px 10px;margin:8px 0;font-size:14px;border-top:2px solid #111;padding-top:6px}.calc .tot{border-top:2px dashed #111;padding-top:3px;font-size:16px}
 .bk-sec{background:#111;color:#fff;font-family:"Black Han Sans",sans-serif}
+.catcell{grid-column:span 2;display:flex;align-items:flex-end;justify-content:center;padding:2px}.catcell canvas{width:100%;image-rendering:pixelated}
+.catsay{margin-bottom:6px;font-size:14px}
+.shopbox{display:flex;flex-direction:column;overflow-y:auto}.shopbox>*{flex:none}
+.shopbox .regs{flex:1 1 auto;min-height:96px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;border:2px solid #111;padding:0 6px;margin-top:6px;background:#fff8}
+.shopbox .regs .slot:last-child{border-bottom:none}
+.hpg ul,.hpg ol{margin:2px 0 8px;padding-left:18px}.hpg li{margin:3px 0}.hpg h4{margin:8px 0 2px;font-size:14px;color:var(--ac);font-family:"Black Han Sans",sans-serif;font-weight:400;letter-spacing:1px}.hpg h4:first-child{margin-top:0}
 button.pk{width:100%;margin-top:6px;padding:8px;background:#1f5f8f;color:#fff;font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:15px;letter-spacing:2px;box-shadow:4px 4px 0 #111}
 </style></head><body>
 <h1><span class="seal">LB</span>르블랑 타이쿤</h1>
@@ -212,7 +219,7 @@ const SYMPTOMS=[
  {a:"아침을 거르고 옴",b:"든든한 커피가 필요함",d:"버터 커피(잠 깨움)",need:["각성"],rx:"hwanggi+gamcho",u:9,ex:1},
  {a:"공부하다 쉬러 옴",b:"부드러운 커피가 당김",d:"카페 라테(잠 깨움)",need:["각성"],rx:"hwanggi+milk",u:11,ex:1},
  {a:"한여름 더위에 축 처짐",b:"졸림",d:"아이스 커피(시원·잠 깨움)",need:["시원","각성"],rx:"hwanggi+seokgo",u:13,ex:1},
- {a:"눈길에 넘어지고 옴",b:"춥고 단 게 당김",d:"핫 초코(데움·달콤)",need:["따뜻","달콤"],rx:"sukji+milk",u:15,ex:1},
+ {a:"눈길에 미끄러져 들어옴",b:"춥고 단 게 당김",d:"핫 초코(데움·달콤)",need:["따뜻","달콤"],rx:"sukji+milk",u:15,ex:1},
  {a:"시험공부로 녹초",b:"춥고 당이 떨어짐",d:"카페 모카(데움·잠 깨움·달콤)",need:["따뜻","각성","달콤"],rx:"hwanggi+sukji+milk",u:17,ex:1},
  {a:"손발이 꽁꽁 얾",b:"달콤한 게 당김",d:"시나몬 코코아(데움·달콤)",need:["따뜻","달콤"],rx:"sukji+saenggang+milk",u:18,ex:1},
  {a:"목이 칼칼함",b:"달달하고 시원한 게 당김",d:"피치 아이스티(시원·달콤)",need:["시원","달콤"],rx:"jakyak+seokgo",u:20,ex:1},
@@ -222,20 +229,20 @@ const SYMPTOMS=[
 const HU={saenggang:1,hwanggi:1,danggwi:1,bakha:1,seokgo:1,milk:1,insam:3,gamcho:8,sukji:15,jakyak:20,cheongung:23};
 const open=k=>(HU[k]||1)<=S.day;
 const rxText=s=>s.rx.split("|").map(a=>a.split("+")).filter(a=>a.every(open)).map(a=>a.map(k=>HERBS[k].n).join(" + ")).join(" 또는 ");
-const SPIRITS=[{n:"사카모토 류지",c:"류지",p:0},{n:"타카마키 안",c:"안",p:0},{n:"키타가와 유스케",c:"유스케",p:0},{n:"니지마 마코토",c:"마코토",p:0},{n:"사쿠라 후타바",c:"후타바",p:0},{n:"오쿠무라 하루",c:"하루",p:0},{n:"아케치 고로",c:"아케치",p:0},{n:"모르가나",c:"모르가나",p:0},{n:"요시자와 카스미",c:"카스미",p:0},{n:"타케미 타에",c:"타케미 선생님",p:1},{n:"카와카미 사다요",c:"카와카미 선생님",p:1},{n:"이와이 무네히사",c:"이와이 씨",p:1},{n:"오야 이치코",c:"오야 씨",p:1},{n:"미후네 치하야",c:"치하야 씨",p:1},{n:"미시마 유키",c:"미시마",p:0},{n:"요시다 토라노스케",c:"요시다 씨",p:1},{n:"오다 신야",c:"신야",p:0},{n:"토고 히후미",c:"히후미",p:0},{n:"니지마 사에",c:"사에 씨",p:1},{n:"스즈이 시호",c:"시호",p:0},{n:"이와이 카오루",c:"카오루",p:0},{n:"나카노하라 나츠히코",c:"나카노하라 씨",p:1}];
+const SPIRITS=[{st:1,n:"사카모토 류지",c:"류지",p:0},{st:1,n:"타카마키 안",c:"안",p:0},{st:1,n:"키타가와 유스케",c:"유스케",p:0},{st:1,n:"니지마 마코토",c:"마코토",p:0},{st:1,n:"사쿠라 후타바",c:"후타바",p:0},{st:1,n:"오쿠무라 하루",c:"하루",p:0},{st:1,n:"아케치 고로",c:"아케치",p:0},{n:"모르가나",c:"모르가나",p:0},{st:1,n:"요시자와 카스미",c:"카스미",p:0},{n:"타케미 타에",c:"타케미 선생님",p:1},{n:"카와카미 사다요",c:"카와카미 선생님",p:1},{n:"이와이 무네히사",c:"이와이 씨",p:1},{n:"오야 이치코",c:"오야 씨",p:1},{n:"미후네 치하야",c:"치하야 씨",p:1},{st:1,n:"미시마 유키",c:"미시마",p:0},{n:"요시다 토라노스케",c:"요시다 씨",p:1},{st:1,n:"오다 신야",c:"신야",p:0},{st:1,n:"토고 히후미",c:"히후미",p:0},{n:"니지마 사에",c:"사에 씨",p:1},{st:1,n:"스즈이 시호",c:"시호",p:0},{st:1,n:"이와이 카오루",c:"카오루",p:0},{n:"나카노하라 나츠히코",c:"나카노하라 씨",p:1}];
 const SPI=n=>SPIRITS.find(x=>x.n===n)||{n,c:n,p:0};
 function pickSp(){const pool=SPIRITS.filter(x=>x.n!==S.lastSp),sp=rnd(pool.length?pool:SPIRITS);S.lastSp=sp.n;return sp}
-const LINES=["새 주문 들어왔다.","손님이다. 잘 부탁한다."];
-const TAPS=["왜, 무슨 일이야?","할 말이라도 있냐?","손님 앞에선 좀 진지하게 해라.","컵 닦는 중이다. 용건은?","…심심하면 원두라도 골라 둬.","커피 맛은 정성이야. 알지?","어이, 장난치지 마라."];
-const TEASE="하여간… 너도 참 별난 녀석이라니까. 뭐, 싫진 않다만......";
-const HURT=["어이, 정신 차려라.","…그 손님, 표정이 영 아니던데.","이봐, 손님 상대는 장난이 아니야."];
+const LINES=["새 주문이 들어왔다.", "손님이다. 서두르자."];
+const TAPS=["…뭘 하려고 했더라.", "손님 앞에선 좀 더 진지해지자.", "컵이라도 닦아 둘까.", "…원두라도 골라 둘까.", "커피 맛은 정성이다. 잊지 말자.", "모르가나가 또 어딘가에서 졸고 있는 것 같다.", "가게 안에 커피 향이 가득하다."];
+const TEASE="…괜히 혼자 들떠 있는 것 같다. 마음을 가라앉히자.";
+const HURT=["…실수했다. 정신 차리자.", "그 손님, 표정이 영 좋지 않았다…", "손님 상대는 만만치 않다. 더 신중하게 하자."];
 const MAXPICK=3,SPAWN=14,DESKMAX=5;
 const WX={
- clear:{n:"맑음",ic:"sun",say:"날씨 좋네. 재료는 넉넉하냐? 오늘도 가게 열자.",eff:"평온한 하루예요. 특별한 변화는 없어요.",bias:[],w:1,grow:1,sp:1},
- rain:{n:"비",ic:"rain",say:"비 오는군. 입고는 빨리 되겠지만, 꾸벅꾸벅 조는 손님들이 몰려올 거다.",eff:"재료가 빨리 들어와요. 졸린 손님이 늘어요.",bias:["각성"],w:2,grow:0.7,sp:1},
- cold:{n:"한파",ic:"cold",say:"오늘은 꽤 춥다. 몸 녹이러 오는 손님이 많을 거야.",eff:"몸이 언 손님이 늘고, 주문이 더 자주 와요.",bias:["따뜻"],w:3,grow:1,sp:0.85},
- hot:{n:"무더위",ic:"hot",say:"오늘은 푹푹 찌는군. 시원한 거 찾는 손님이 올 테니 얼음 챙겨 둬.",eff:"더위에 지친 손님이 늘고, 주문이 더 자주 와요.",bias:["시원"],w:3,grow:1,sp:0.85},
- snow:{n:"눈",ic:"snow",say:"눈이 온다. 입고가 늦어지니 재료는 아껴 써라.",eff:"재료가 천천히 들어와요. 몸이 찬 손님이 늘어요.",bias:["따뜻"],w:2,grow:1.4,sp:1}};
+ clear:{n:"맑음",ic:"sun",say:"날씨가 좋다. 재료가 넉넉한지 확인하고 가게를 열자.",eff:"평온한 하루예요. 특별한 변화는 없어요.",bias:[],w:1,grow:1,sp:1},
+ rain:{n:"비",ic:"rain",say:"비가 온다. 도매상이 재료를 싸게 내놨지만, 꾸벅꾸벅 조는 손님이 많을 것 같다.",eff:"재료값이 10% 싸져요. 졸린 손님이 늘어요.",bias:["각성"],w:2,pm:0.9,sp:1},
+ cold:{n:"한파",ic:"cold",say:"오늘은 꽤 춥다. 몸을 녹이러 오는 손님이 많을 것 같다.",eff:"몸이 언 손님이 늘고, 주문이 더 자주 와요.",bias:["따뜻"],w:3,grow:1,sp:0.85},
+ hot:{n:"무더위",ic:"hot",say:"푹푹 찐다… 시원한 걸 찾는 손님이 올 테니 얼음을 챙겨 두는 게 좋겠다.",eff:"더위에 지친 손님이 늘고, 주문이 더 자주 와요.",bias:["시원"],w:3,grow:1,sp:0.85},
+ snow:{n:"눈",ic:"snow",say:"눈이 온다. 배송이 어려워 재료값이 올랐다. 아껴 쓰자.",eff:"재료값이 20% 올라요. 몸이 찬 손님이 늘어요.",bias:["따뜻"],w:2,pm:1.2,sp:1}};
 const SEA=["봄","여름","가을","겨울"],WXW={"봄":{clear:3,rain:2,cold:0.6},"여름":{clear:2,rain:2,hot:4},"가을":{clear:4,rain:1,cold:0.6,hot:0.4},"겨울":{clear:2,cold:3,snow:3}};
 const season=()=>SEA[Math.floor((S.day-1)/7)%4],W=()=>WX[S.wx]||WX.clear;
 function rollWx(){if(S.day<=1)return "clear";const w=WXW[season()];let t=0,k;for(k in w)t+=w[k];let r=Math.random()*t;for(k in w){r-=w[k];if(r<=0)return k}return "clear"}
@@ -250,7 +257,8 @@ const METHOD={insam:"자르기",hwanggi:"갈기",danggwi:"자르기",sukji:"갈�
 const MET=["자르기","갈기","추출"];const NOPROC={seokgo:1,milk:1};
 const COST={saenggang:40,hwanggi:60,danggwi:80,bakha:50,insam:90,seokgo:20,gamcho:30,sukji:120,jakyak:100,cheongung:110,milk:30};
 const MUL=[0,0.9,1,1.2];
-const menuPrice=sy=>350+150*sy.rx.split("|")[0].split("+").length;
+const menuPrice=sy=>sy.bp||350+150*sy.rx.split("|")[0].split("+").length;
+const cost=k=>Math.round(COST[k]*(W().pm||1));
 const yen=n=>"¥"+Math.round(n).toLocaleString();
 function patR(p){return p&&p.t0?Math.max(0,1-(p.el||0)/p.pat):1}
 let LASTP=Date.now(),AWAY=false;
@@ -307,24 +315,34 @@ function baLoop(){const b=BA;if(!b)return;const t=Date.now()-b.t0;if(t>b.end){ba
  if(boil||(!b.glass&&t>=8400)||(pour&&t<8000&&!b.ext)){for(let i=0;i<3;i++){const ph=((t/450)+i*0.7)%1,sx=(pour?(t>=8400?20:px-8):24)+Math.sin(ph*6+i)*1.5;f("#ffffffaa",sx,(pour?(t>=8400?20:py-4):6)-ph*6,1,1)}}
  const m=document.getElementById("bam");if(m)m.textContent=b.ext&&t<5400?"추출한 음료를 준비한다…":t<2400?"재료를 주전자에 넣는다…":t<5400?"보글보글 끓인다…":t<(b.ice?8300:8400)?(b.glass?"긴 유리잔에 따른다…":"잔에 따른다…"):b.ice&&t<9800?"얼음을 넣는다…":"완성!"}
 const ADV=[
- {s:"잠이 오지 않음",o:[["오늘은 카페인 끊고 일찍 자기","오늘은 커피 대신 따뜻한 물 마시고 일찍 자.","오늘은 커피 대신 따뜻한 물 드시고 일찍 주무세요."],["에스프레소 더 마시기","잠이 안 오면 에스프레소를 한 잔 더 해.","잠이 안 오시면 에스프레소를 한 잔 더 드세요."],["밤새 게임하기","어차피 못 잘 거면 밤새 게임이나 해.","어차피 못 주무실 거면 밤새 게임이라도 하세요."],["찬물로 샤워하기","찬물로 샤워하고 정신을 번쩍 차려.","찬물로 샤워하고 정신을 번쩍 차리세요."]]},
- {s:"입맛이 없음",o:[["조금씩 규칙적으로 먹기","끼니 거르지 말고 조금씩이라도 챙겨 먹어.","끼니 거르지 마시고 조금씩이라도 챙겨 드세요."],["한 끼 굶기","아예 한 끼 굶고 쉬어.","아예 한 끼 굶고 쉬세요."],["단 것만 먹기","단 거만 골라 먹어.","단 것만 골라 드세요."],["과자로 때우기","밥 대신 과자로 때워.","식사 대신 과자로 때우세요."]]},
- {s:"어깨가 뻐근함",o:[["가볍게 스트레칭하기","틈틈이 어깨를 가볍게 풀어 줘.","틈틈이 어깨를 가볍게 풀어 주세요."],["가방 더 무겁게 메기","가방을 더 무겁게 해서 단련해.","가방을 더 무겁게 해서 단련하세요."],["그냥 참기","그냥 참고 버텨.","그냥 참고 버티세요."],["주먹으로 세게 두드리기","주먹으로 어깨를 세게 두드려.","주먹으로 어깨를 세게 두드리세요."]]},
- {s:"마음이 울적함",o:[["친구랑 수다 떨며 산책하기","친구랑 수다 떨면서 동네라도 한 바퀴 걸어.","좋은 분이랑 이야기 나누면서 동네라도 한 바퀴 걸어 보세요."],["방에 틀어박히기","아무도 만나지 말고 방에만 있어.","아무도 만나지 마시고 방에만 계세요."],["일을 더 하기","잡생각 안 나게 일을 더 해.","잡생각 안 나시게 일을 더 하세요."],["밤새 고민하기","밤새 곰곰이 고민해 봐.","밤새 곰곰이 고민해 보세요."]]},
- {s:"눈이 피로함",o:[["눈을 쉬고 먼 곳 보기","화면 그만 보고 창밖 먼 곳을 좀 바라봐.","화면은 그만 보시고 창밖 먼 곳을 좀 바라보세요."],["화면 더 가까이 보기","화면을 더 가까이서 봐.","화면을 더 가까이서 보세요."],["불 끄고 폰 보기","불 끄고 폰을 봐.","불 끄고 휴대폰을 보세요."],["눈 비비기","눈을 꾹꾹 비벼.","눈을 꾹꾹 비비세요."]]},
- {s:"속이 더부룩함",o:[["꼭꼭 씹고 가볍게 걷기","천천히 꼭꼭 씹어 먹고, 먹은 뒤엔 가볍게 걸어.","천천히 꼭꼭 씹어 드시고, 드신 뒤엔 가볍게 걸으세요."],["바로 눕기","먹자마자 바로 누워.","드시자마자 바로 누우세요."],["더 먹기","더 먹으면 내려갈 거야.","더 드시면 내려갈 거예요."],["찬 것 먹기","찬 걸 먹어.","찬 걸 드세요."]]},
- {s:"목이 마름",o:[["물을 조금씩 자주 마시기","물을 조금씩 자주 나눠 마셔.","물을 조금씩 자주 나눠 드세요."],["짠 거 먹기","짠 걸 먹으면 갈증이 가셔.","짠 걸 드시면 갈증이 가셔요."],["탄산만 마시기","물 대신 탄산음료만 마셔.","물 대신 탄산음료만 드세요."],["아무것도 안 마시기","참고 아무것도 마시지 마.","참고 아무것도 드시지 마세요."]]},
- {s:"다리가 저림",o:[["자세 바꾸고 주무르기","자세를 바꾸고 다리를 살살 주물러 줘.","자세를 바꾸시고 다리를 살살 주물러 주세요."],["같은 자세로 계속 앉기","그대로 오래 앉아 있어.","그대로 오래 앉아 계세요."],["다리를 세게 두드리기","다리를 세게 두드려.","다리를 세게 두드리세요."],["쉬지 않고 계속 뛰기","저려도 쉬지 말고 계속 뛰어.","저리셔도 쉬지 마시고 계속 뛰세요."]]},
- {s:"악몽을 꿈",o:[["따뜻한 우유 마시고 마음 가라앉히기","자기 전에 따뜻한 우유 한 잔 하고 마음을 가라앉혀.","주무시기 전에 따뜻한 우유 한 잔 드시고 마음을 가라앉히세요."],["무서운 영화 더 보기","자기 전에 무서운 영화를 더 봐.","주무시기 전에 무서운 영화를 더 보세요."],["아예 안 자기","무서우면 아예 자지 마.","무서우시면 아예 주무시지 마세요."],["밤새 시부야 돌아다니기","잠이 안 오면 밤새 시부야를 돌아다녀.","잠이 안 오시면 밤새 시부야를 돌아다니세요."]]},
- {s:"가슴이 두근거림",o:[["천천히 깊게 숨 쉬기","숨을 천천히 깊게 들이쉬고 내쉬어.","숨을 천천히 깊게 들이쉬고 내쉬세요."],["더 빨리 숨 쉬기","숨을 더 빠르게 몰아쉬어.","숨을 더 빠르게 몰아쉬세요."],["크게 소리 지르기","크게 소리를 질러.","크게 소리를 지르세요."],["숨 꾹 참기","숨을 꾹 참고 있어.","숨을 꾹 참고 계세요."]]},
- {s:"몸이 나른함",o:[["햇볕 쬐며 가볍게 움직이기","햇볕 쬐면서 몸을 가볍게 움직여.","햇볕 쬐시면서 몸을 가볍게 움직여 보세요."],["종일 누워 있기","오늘은 종일 누워만 있어.","오늘은 종일 누워만 계세요."],["낮잠만 자기","해 질 때까지 낮잠만 자.","해 질 때까지 낮잠만 주무세요."],["야식 더 먹기","야식을 더 챙겨 먹어.","야식을 더 챙겨 드세요."]]},
- {s:"손이 거칠어짐",o:[["씻고 핸드크림 바르기","손 씻은 다음 핸드크림을 얇게 발라.","손 씻으신 다음 핸드크림을 얇게 바르세요."],["찬물에 자주 담그기","손을 찬물에 더 자주 담가.","손을 찬물에 더 자주 담그세요."],["세게 문지르기","손을 세게 박박 문질러.","손을 세게 박박 문지르세요."],["그냥 내버려 두기","아무것도 하지 말고 그냥 둬.","아무것도 하지 마시고 그냥 두세요."]]}];
+ {s:"악플이 자꾸 신경 쓰임",o:[["악플은 차단하고 잠시 SNS 쉬기", "악플은 차단하고, 며칠은 SNS를 쉬어 봐.", "악플은 차단하시고, 며칠은 SNS를 쉬어 보세요."], ["일일이 반박 댓글 달기", "하나하나 반박 댓글을 달아 줘.", "하나하나 반박 댓글을 달아 주세요."], ["밤새 댓글 정독하기", "밤새 댓글을 하나도 빠짐없이 읽어 봐.", "밤새 댓글을 하나도 빠짐없이 읽어 보세요."], ["부계정으로 맞불 놓기", "부계정 만들어서 똑같이 갚아 줘.", "부계정을 만들어서 똑같이 갚아 주세요."]]},
+ {st:1,s:"공부에 집중이 안 됨",o:[["폰은 멀리 두고 짧게 끊어 공부하기", "폰은 다른 방에 두고 25분씩 끊어서 해 봐.", "휴대폰은 다른 방에 두시고 25분씩 끊어서 해 보세요."], ["벼락치기로 밤새우기", "그냥 전날 밤새서 한 번에 몰아서 해.", "그냥 전날 밤새서 한 번에 몰아서 하세요."], ["공부 브이로그부터 찍기", "일단 공부 브이로그부터 찍어서 올려.", "일단 공부 브이로그부터 찍어서 올리세요."], ["포기하고 게임하기", "어차피 안 되는 거, 오늘은 게임이나 해.", "어차피 안 되시는 거, 오늘은 게임이나 하세요."]]},
+ {s:"친구랑 싸우고 어색해짐",o:[["먼저 짧게 사과 메시지 보내기", "먼저 짧게라도 미안하다고 연락해 봐.", "먼저 짧게라도 미안하다고 연락해 보세요."], ["단톡방에 폭로하기", "단톡방에 무슨 일 있었는지 다 올려 버려.", "단톡방에 무슨 일 있었는지 다 올려 버리세요."], ["읽씹으로 버티기", "연락 와도 그냥 읽씹해.", "연락이 와도 그냥 읽고 답하지 마세요."], ["SNS에 저격 글 올리기", "SNS에 돌려 까는 글 하나 올려.", "SNS에 돌려서 저격하는 글을 올리세요."]]},
+ {st:1,s:"진로를 못 정하겠음",o:[["관심 가는 일을 작게 먼저 해 보기", "관심 가는 일부터 작게 직접 해 봐. 해 봐야 알아.", "관심 가는 일부터 작게 직접 해 보세요. 해 보셔야 알아요."], ["유행하는 직업 따라가기", "요즘 뜬다는 거 아무거나 골라.", "요즘 뜬다는 일 아무거나 고르세요."], ["점괘로 정하기", "점집 가서 정해 달라고 해.", "점 보러 가셔서 정해 달라고 하세요."], ["결정을 계속 미루기", "그냥 생각 안 하고 계속 미뤄 둬.", "그냥 생각하지 마시고 계속 미뤄 두세요."]]},
+ {s:"단톡방 답장이 부담됨",o:[["알림 끄고 여유 있을 때 답하기", "알림 꺼 두고 여유 있을 때 답해도 돼.", "알림은 꺼 두시고 여유 있을 때 답하셔도 돼요."], ["24시간 대기하기", "메시지 오면 1초 안에 답해.", "메시지가 오면 바로바로 답하세요."], ["말없이 방 나가기", "아무 말 없이 방을 나가 버려.", "아무 말 없이 방을 나가 버리세요."], ["이모티콘으로만 답하기", "앞으로는 이모티콘으로만 답해.", "앞으로는 이모티콘으로만 답하세요."]]},
+ {s:"돈을 금방 다 써 버림",o:[["쓸 돈을 미리 나눠 두고 가계부 쓰기", "쓸 돈을 미리 나눠 두고 간단하게 가계부를 써 봐.", "쓰실 돈을 미리 나눠 두시고 간단하게 가계부를 써 보세요."], ["스트레스 받을 땐 쇼핑하기", "스트레스 받으면 일단 지르고 봐.", "스트레스 받으시면 일단 지르고 보세요."], ["모자라면 계속 빌리기", "모자라면 친구한테 빌려.", "모자라시면 주변에 빌리세요."], ["복권에 몰빵하기", "남은 돈으로 복권을 사.", "남은 돈으로 복권을 사세요."]]},
+ {st:1,s:"고백할지 고민됨",o:[["떨려도 직접 솔직하게 말하기", "떨려도 직접 만나서 솔직하게 말해 봐.", "떨리셔도 직접 만나서 솔직하게 말해 보세요."], ["SNS 스토리로 돌려 말하기", "스토리에 은근슬쩍 티 나게 올려.", "SNS 스토리에 은근슬쩍 티 나게 올리세요."], ["친구에게 대신 전해 달라기", "친구한테 대신 말해 달라고 해.", "지인분께 대신 말해 달라고 하세요."], ["상대 SNS 매일 염탐하기", "고백 말고 그 사람 SNS를 매일 들여다봐.", "고백하지 마시고 그분 SNS를 매일 들여다보세요."]]},
+ {st:1,s:"알바랑 공부 병행이 힘듦",o:[["우선순위 정하고 쉬는 시간도 일정에 넣기", "할 일 순서를 정하고, 쉬는 시간도 일정에 꼭 넣어.", "할 일 순서를 정하시고, 쉬는 시간도 일정에 꼭 넣으세요."], ["잠을 줄여서 둘 다 하기", "잠을 줄이면 둘 다 할 수 있어.", "잠을 줄이시면 둘 다 하실 수 있어요."], ["알바를 하나 더 늘리기", "차라리 알바를 하나 더 해.", "차라리 알바를 하나 더 늘리세요."], ["에너지 드링크로 버티기", "에너지 드링크로 버텨.", "에너지 드링크로 버티세요."]]},
+ {s:"이상한 소문이 돌고 있음",o:[["믿을 만한 사람에게 차분히 사실 말하기", "믿을 만한 사람들한테 차분하게 사실을 얘기해 둬.", "믿을 만한 분들께 차분하게 사실을 말씀해 두세요."], ["소문 낸 사람 찾아 따지기", "누가 냈는지 찾아내서 따져.", "누가 냈는지 찾아내서 따지세요."], ["더 센 소문으로 덮기", "더 센 소문을 퍼뜨려서 덮어.", "더 센 소문을 퍼뜨려서 덮으세요."], ["아예 밖에 안 나가기", "당분간 아예 밖에 나가지 마.", "당분간 아예 밖에 나가지 마세요."]]},
+ {s:"SNS 보면 남이랑 비교하게 됨",o:[["보이는 건 일부라 생각하고 피드 정리하기", "SNS엔 잘 나온 순간만 올라와. 비교되는 계정은 좀 숨겨 봐.", "SNS엔 잘 나온 순간만 올라와요. 비교되는 계정은 좀 숨겨 보세요."], ["더 화려하게 꾸며 올리기", "너도 더 화려하게 꾸며서 올려.", "더 화려하게 꾸며서 올리세요."], ["밤새 남의 피드 구경하기", "밤새 남들 피드를 끝까지 구경해 봐.", "밤새 남들 피드를 끝까지 구경해 보세요."], ["명품 사서 인증하기", "명품 하나 사서 인증해.", "명품 하나 사셔서 인증하세요."]]},
+ {s:"부탁을 거절하지 못함",o:[["무리한 부탁은 정중하게 거절하기", "무리한 건 ‘이번엔 어려워’라고 정중하게 말해도 돼.", "무리한 부탁은 ‘이번엔 어렵겠어요’라고 정중하게 말씀하셔도 돼요."], ["전부 다 들어주기", "부탁은 무조건 다 들어줘.", "부탁은 무조건 다 들어주세요."], ["잠수 타기", "부탁받으면 그냥 잠수 타.", "부탁받으시면 그냥 연락을 끊으세요."], ["다른 사람에게 떠넘기기", "다른 사람한테 슬쩍 떠넘겨.", "다른 분께 슬쩍 떠넘기세요."]]},
+ {s:"폰을 손에서 못 놓음",o:[["사용 시간 정하고 잘 땐 폰 멀리 두기", "하루 사용 시간을 정하고, 잘 땐 폰을 멀리 둬.", "하루 사용 시간을 정하시고, 주무실 땐 휴대폰을 멀리 두세요."], ["보조배터리 하나 더 사기", "보조배터리를 하나 더 사서 계속 봐.", "보조배터리를 하나 더 사셔서 계속 보세요."], ["샤워할 때도 들고 가기", "샤워할 때도 방수팩 씌워서 들고 가.", "샤워하실 때도 방수팩 씌워서 들고 가세요."], ["앱 알림 전부 켜 두기", "모든 앱 알림을 다 켜 둬.", "모든 앱 알림을 다 켜 두세요."]]}];
 const NOTE=[".s.s.s.s.s.s","kkkkkkkkkkkk","kppppppppppk","kpbbbbbbbppk","kppppppppppk","kpbbbbbppppk","kppppppppppk","kpbbbbbbpppk","kppppppppppk","kkkkkkkkkkkk"];
 const NP={k:"#111111",p:"#fbf8f2",b:"#d7141a",s:"#9aa0ad"};
 function mkReq(){const ks=Object.keys(HERBS).filter(k=>open(k));let pool=ks.filter(k=>"req"+k!==S.lastD);if(!pool.length)pool=ks;const k=rnd(pool);S.lastD="req"+k;return{s:HERBS[k].n+" 한 개",d:"재료 포장",need:[],req:k,u:10}}
 function mkSy(m,one){return{s:one?m.a:m.a+", "+m.b,d:m.d,m:m.d.split("(")[0],need:m.need,rx:m.rx,u:m.u,ex:m.ex?1:0,one:one?1:0}}
-function pickSym(){const pool=SYMPTOMS.filter(x=>x.u<=S.day&&x.d!==S.lastD),base=pool.length?pool:SYMPTOMS.filter(x=>x.u<=S.day),m=rnd(base.flatMap(x=>x.need.some(t=>W().bias.includes(t))?Array(W().w).fill(x):[x]));S.lastD=m.d;return mkSy(m,Math.random()<0.4)}
-function mkAdv(){let i;do{i=Math.floor(Math.random()*ADV.length)}while("adv"+i===S.lastD&&ADV.length>1);S.lastD="adv"+i;return{s:ADV[i].s,d:"커피가 필요 없음",need:[],note:i,o:[0,1,2,3].sort(()=>Math.random()-.5)}}
+function pickSym(sp){const pool=SYMPTOMS.filter(x=>x.u<=S.day&&x.d!==S.lastD),base=pool.length?pool:SYMPTOMS.filter(x=>x.u<=S.day),m=rnd(base.flatMap(x=>x.need.some(t=>W().bias.includes(t))?Array(W().w).fill(x):[x]));S.lastD=m.d;const sy=mkSy(m,Math.random()<0.4);return S.day>=17&&Math.random()<0.35?special(sy,sp):sy}
+const bat=w=>{const c=w.charCodeAt(w.length-1);return c>=0xAC00&&c<=0xD7A3&&(c-0xAC00)%28!==0};
+const eun=w=>w+(bat(w)?"은":"는"),eul=w=>w+(bat(w)?"을":"를");
+const ADDK=["milk","seokgo","saenggang"];
+function special(sy,sp){const ks=sy.rx.split("+"),opts=[];
+ if(ks.length>=2)ks.forEach(k=>{const rest=ks.filter(x=>x!==k);if(rest.some(x=>HERBS[x].t.some(t=>t!=="부드러움")))opts.push({t:"del",k,rest})});
+ if(ks.length<3)ADDK.forEach(k=>{if(!ks.includes(k)&&open(k))opts.push({t:"add",k,rest:ks.concat(k)})});
+ if(!opts.length)return sy;const o=rnd(opts),n=HERBS[o.k].n,m=sy.m;
+ const L=[o.t==="del"?`${m}, ${n} 빼고.`:`${m}, ${n} 추가.`];
+ const need=["따뜻","시원","각성","달콤"].filter(t=>o.rest.some(k=>HERBS[k].t.includes(t)));
+ return {...sy,rx:o.rest.join("+"),need,mod:rnd(L),bp:menuPrice(sy)+(o.t==="add"?100:0)}}
+function mkAdv(sp){const st=!!(sp&&SPI(sp.n).st);let pool=ADV.map((_,i)=>i).filter(i=>(st||!ADV[i].st)&&"adv"+i!==S.lastD);if(!pool.length)pool=ADV.map((_,i)=>i).filter(i=>st||!ADV[i].st);const i=rnd(pool);S.lastD="adv"+i;return{s:ADV[i].s,d:"커피가 필요 없음",need:[],note:i,o:[0,1,2,3].sort(()=>Math.random()-.5)}}
 function toggleMemo(){S.memo=!S.memo;sfx("page");render()}
 function pickNote(i){S.notes[S.sel]=i;render()}
 function closeNotice(){S.notice=false;S.seen3=true;save();render()}
@@ -332,11 +350,11 @@ function memoHTML(){const p=S.desk.find(x=>x.id===S.sel);let body;
  if(p&&p.sy.req)body=`<div style="padding:10px">이 손님은 재료 포장을 주문했어요.<br><small>고민 상담은 필요 없어요. 재료를 손질하지 말고 그대로 포장하기를 눌러 주세요.</small></div>`;
  else if(!p||p.sy.note===undefined)body=`<div style="padding:10px">이 손님은 메뉴를 주문한 손님이에요.<br><small>고민 상담은 ‘상담’ 손님에게만 해요.</small></div>`;
  else{const a=ADV[p.sy.note],n=S.notes[p.id];
-  body=`<div class="hw">${p.sp.n} · 고민: ${p.sy.s}</div><small>어떤 말을 해 줄까요? <span class="tag">${SPI(p.sp.n).p?"존댓말":"반말"}</span></small>`+p.sy.o.map(i=>`<button class="op ${n===i?"sel":""}" onclick="pickNote(${i})">${a.o[i][0]}</button>`).join("")+`<div class="memo hw">${n===undefined?"<span style='opacity:.5'>(답을 고르면 여기에 적혀요)</span>":`<b>${SPI(p.sp.n).c}</b>, ${a.o[n][SPI(p.sp.n).p?2:1]}`}</div>`}
+  body=`<div class="hw">${p.sp.n} · 고민: ${p.sy.s}</div><small>어떤 말을 해 줄까요?</small>`+p.sy.o.map(i=>`<button class="op ${n===i?"sel":""}" onclick="pickNote(${i})">${a.o[i][0]}</button>`).join("")+`<div class="memo hw">${n===undefined?"<span style='opacity:.5'>(답을 고르면 여기에 적혀요)</span>":`<b>${SPI(p.sp.n).c}</b>, ${a.o[n][SPI(p.sp.n).p?2:1]}`}</div>`}
  return `<div class="modal" onclick="toggleMemo()"><div class="mbox" onclick="event.stopPropagation()"><div class="mh"><b>${ic("memo")} 고민 상담</b><button onclick="toggleMemo()">${ic("x")}</button></div>${body}</div></div>`}
 function noticeHTML(){return `<div class="modal"><div class="mbox"><div class="mh"><b>${ic("notice")} 3일차부터 달라지는 점</b></div><div style="font-size:14px;line-height:1.6">· 메뉴 대신 고민을 들고 오는 <b>상담 손님</b>이 찾아와요. 보라색 ‘상담’ 딱지가 붙어 있어요.<br>· 카운터의 <b>${ic("memo")} 고민 상담</b>에서 알맞은 답을 골라요. 친구·후배에게는 반말, 어른에게는 존댓말로 말해 줘요.<br>· 답을 고른 뒤 <b>돌려보내기</b>를 누르면 끝! 알맞은 답을 골라야 해요.<br>· 고민을 잘 들어 주면 고맙다며 ¥200을 두고 가요. 메뉴를 내거나 답이 틀리면 신뢰가 줄어요.</div><button class="p" onclick="closeNotice()">알겠어요</button></div></div>`}
 function restart(){if(MG)closeMG();S=JSON.parse(FRESH);fix();MENU=false;save();render()}
-function overHTML(){return `<div class="modal"><div class="mbox"><div class="mh"><b>${ic("lantern")} 영업 종료</b></div><div style="margin:6px 0;line-height:1.6"><b>${yagen("",mood())} 사쿠라 소지로</b><br>…오늘은 이만 셔터 내리자. 너무 무리하지 마라. 수고했다.</div><div class="box" style="margin:8px 0">버틴 날: ${S.day}일차<br>총 매출: ${yen(S.totalEarn||0)}<br>만족한 손님: ${S.cured||0}명<br>최고 연속 대만족: ${S.bestCombo||0}회<br>일품 메뉴: ${S.top||0}잔</div><button class="p" onclick="restart()">처음부터 다시 시작</button><button style="width:100%;margin-top:6px" onclick="openMenu()">${ic("disk")} 저장 불러오기</button></div></div>`}
+function overHTML(){return `<div class="modal"><div class="mbox"><div class="mh"><b>${ic("lantern")} 영업 종료</b></div><div style="margin:6px 0;line-height:1.6"><b>${yagen("",mood())} 아마미야 렌</b><br>…오늘은 이만 쉬자. 너무 무리했던 것 같다.</div><div class="box" style="margin:8px 0">버틴 날: ${S.day}일차<br>총 매출: ${yen(S.totalEarn||0)}<br>만족한 손님: ${S.cured||0}명<br>최고 연속 대만족: ${S.bestCombo||0}회<br>일품 메뉴: ${S.top||0}잔</div><button class="p" onclick="restart()">처음부터 다시 시작</button><button style="width:100%;margin-top:6px" onclick="openMenu()">${ic("disk")} 저장 불러오기</button></div></div>`}
 let MENU=false,MSG="",NG=false;
 function openMenu(){MENU=true;MSG="";NG=false;render()}
 function closeMenu(){MENU=false;render()}
@@ -389,64 +407,71 @@ const TYMS=45;
 function ty(text,k){let m=TYS[k];if(!m||m.txt!==text)m=TYS[k]={txt:text,t0:Date.now()};return text.slice(0,Math.floor((Date.now()-m.t0)/TYMS)+1)}
 function typeTick(){document.querySelectorAll(".sayt").forEach(e=>{const full=e.dataset.full,t=ty(full,e.dataset.k);if(e._t===t&&e.firstChild)return;e._t=t;e.textContent=t;if(t.length<full.length){const g=document.createElement("span");g.className="gh";g.textContent=full.slice(t.length);e.appendChild(g)}})}
 setInterval(typeTick,15);
-function bub(){if(S.tapSay&&S.phase!=="over"){const t=S.tapSay;return `<span class="sayt" data-k="b" data-full="${esc(t)}">${ty(t,"b")}</span>`}const t=S.phase==="prep"?(S.day===1?"왔냐. 커피 내리는 건 내가 봐 주마. 장사 밑천은 1,500엔이다. 먼저 창고에서 재료부터 사 와. 주문을 틀리거나 손님을 너무 오래 기다리게 하면 신뢰가 하나씩 깎인다. 셋 다 잃으면 장사는 끝이야.":W().say):S.phase==="end"?S.say:(S.say||"…");return `<span class="sayt" data-k="b" data-full="${esc(t)}">${ty(t,"b")}</span>`}
+function bub(){if(S.tapSay&&S.phase!=="over"){const t=S.tapSay;return `<span class="sayt" data-k="b" data-full="${esc(t)}">${ty(t,"b")}</span>`}const t=S.phase==="prep"?(S.day===1?"오늘부터 르블랑 카운터를 맡게 됐다. 장사 밑천은 1,500엔… 먼저 창고에서 재료부터 사 두자. 주문을 틀리거나 손님을 너무 오래 기다리게 하면 신뢰를 잃는다. 셋 다 잃으면 끝이다. 조심하자.":W().say):S.phase==="end"?S.say:(S.say||"…");return `<span class="sayt" data-k="b" data-full="${esc(t)}">${ty(t,"b")}</span>`}
 function clearTap(){S.tapSay="";S.tease=false;S.back=false}
 function tapBub(){if(S.phase==="over"||S.phase==="day")return;S.taps=(S.taps||0)+1;S.hurtUntil=0;S.back=false;delete TYS.b;
  if(S.taps>5&&S.teaseDay!==S.day){S.teaseDay=S.day;S.tease=true;S.tapSay=TEASE}
  else{S.tease=false;let l;do{l=rnd(TAPS)}while(l===S.tapSay&&TAPS.length>1);S.tapSay=l}
  save();render()}
 function mood(){if(S.phase!=="over"&&S.tease)return "smug";if(S.phase!=="over"&&S.back)return "back";return S.phase==="over"||Date.now()<(S.hurtUntil||0)?"hurt":"base"}
-function yagen(c,m){return `<img class="ic ptr ${c||""}" src="${YIMG[m||"base"]}" alt="사쿠라 소지로">`}
+function yagen(c,m){return `<img class="ic ptr ${c||""}" src="${YIMG[m||"base"]}" alt="아마미야 렌">`}
 SP.spk=["...k......","..kek..k..","kkkek...k.","keeek.k.k.","keeek.k.k.","kkkek...k.","..kek..k..","...k......"];
 SP.spk0=["...k......","..kek.....","kkkek.r.r.","keeek..r..","keeek.r.r.","kkkek.....","..kek.....","...k......"];
 // ===== 효과음 (웹 오디오로 합성, 파일 없음) =====
 let AC=null,NB=null,SND=true,WS=null,WT=null,BAT=[],BL=null,POURL=null;
 try{SND=localStorage.getItem("lbt1_snd")!=="0"}catch(e){}
-function ac(){if(!AC){try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;AC=new C();const m=AC.createGain();m.gain.value=0.8;m.connect(AC.destination);AC.master=m;const n=AC.sampleRate;NB=AC.createBuffer(1,n,n);const d=NB.getChannelData(0);for(let i=0;i<n;i++)d[i]=Math.random()*2-1}catch(e){AC=null;return null}}
+function ac(){if(!AC){try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;AC=new C();AC.master=mkMaster(AC);const n=AC.sampleRate;NB=AC.createBuffer(1,n,n);const d=NB.getChannelData(0);for(let i=0;i<n;i++)d[i]=Math.random()*2-1}catch(e){AC=null;return null}}
  if(AC.state==="suspended"){try{const r=AC.resume();if(r&&r.catch)r.catch(()=>{})}catch(e){}}return AC}
+function mkMaster(c){const m=c.createGain();m.gain.value=0.7;const cp=c.createDynamicsCompressor();cp.threshold.value=-16;cp.knee.value=14;cp.ratio.value=8;cp.attack.value=0.002;cp.release.value=0.18;const lp=c.createBiquadFilter();lp.type="lowpass";lp.frequency.value=6500;lp.Q.value=0.5;const hp=c.createBiquadFilter();hp.type="highpass";hp.frequency.value=40;m.connect(hp);hp.connect(cp);const og=c.createGain();og.gain.value=1.7;cp.connect(lp);lp.connect(og);og.connect(c.destination);return m}
 function unlockAudio(){if(SND)ac()}
-function sTone(f,t,dur,type,vol,f2){const a=AC,o=a.createOscillator(),g=a.createGain();o.type=type||"sine";o.frequency.setValueAtTime(f,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+dur);g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+0.008);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);o.connect(g);g.connect(a.master);o.start(t);o.stop(t+dur+0.03)}
+function sTone(f,t,dur,type,vol,f2){const a=AC,o=a.createOscillator(),g=a.createGain();o.type=type||"sine";o.frequency.setValueAtTime(f,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+dur);g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+Math.min(0.014,dur*0.3));g.gain.exponentialRampToValueAtTime(0.0001,t+dur);o.connect(g);g.connect(a.master);o.start(t);o.stop(t+dur+0.03)}
 function sSwish(t,dur,f1,f2,vol,att){const a=AC,x=a.createBufferSource();x.buffer=NB;x.loop=true;const f=a.createBiquadFilter();f.type="lowpass";f.Q.value=0.3;f.frequency.setValueAtTime(f1,t);f.frequency.linearRampToValueAtTime(f2,t+dur*0.5);f.frequency.linearRampToValueAtTime(f1,t+dur);const g=a.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+att);g.gain.linearRampToValueAtTime(0,t+dur);x.connect(f);f.connect(g);g.connect(a.master);x.start(t,Math.random()*0.5);x.stop(t+dur+0.03)}
-function sNoise(t,dur,type,freq,q,vol,f2){const a=AC,s=a.createBufferSource();s.buffer=NB;s.loop=true;const f=a.createBiquadFilter();f.type=type;f.frequency.setValueAtTime(freq,t);if(f2)f.frequency.exponentialRampToValueAtTime(f2,t+dur);f.Q.value=q||1;const g=a.createGain();g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+0.006);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);s.connect(f);f.connect(g);g.connect(a.master);s.start(t,Math.random()*0.5);s.stop(t+dur+0.03)}
+function sNoise(t,dur,type,freq,q,vol,f2){const a=AC,s=a.createBufferSource();s.buffer=NB;s.loop=true;const f=a.createBiquadFilter();f.type=type;f.frequency.setValueAtTime(freq,t);if(f2)f.frequency.exponentialRampToValueAtTime(f2,t+dur);f.Q.value=q||1;const g=a.createGain();g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+Math.min(0.01,dur*0.3));g.gain.exponentialRampToValueAtTime(0.0001,t+dur);s.connect(f);f.connect(g);g.connect(a.master);s.start(t,Math.random()*0.5);s.stop(t+dur+0.03)}
 function sBell(t,f,v){sTone(f,t,1.4,"sine",v);sTone(f*2.76,t,0.7,"sine",v*0.35);sTone(f*5.4,t,0.32,"sine",v*0.14)}
+const N=m=>440*Math.pow(2,(m-69)/12);
+function sEP(f,t,dur,vol){const a=AC,c=a.createOscillator(),m=a.createOscillator(),mg=a.createGain(),g=a.createGain();c.type="sine";m.type="sine";c.frequency.value=f;m.frequency.value=f;mg.gain.setValueAtTime(Math.min(f*1.6,700),t);mg.gain.exponentialRampToValueAtTime(f*0.08,t+0.3);m.connect(mg);mg.connect(c.frequency);g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+0.012);g.gain.exponentialRampToValueAtTime(vol*0.35,t+0.12);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);c.connect(g);g.connect(a.master);c.start(t);m.start(t);c.stop(t+dur+0.05);m.stop(t+dur+0.05);if(f<900)sTone(f*3,t,0.06,"sine",vol*0.12)}
+function sChord(ms,t,dur,vol,st){ms.forEach((m,i)=>sEP(N(m),t+i*(st||0),dur,vol))}
+function sBass(f,t,dur,vol,f2){const a=AC,o=a.createOscillator(),fl=a.createBiquadFilter(),g=a.createGain();o.type="triangle";o.frequency.setValueAtTime(f,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+dur);fl.type="lowpass";fl.Q.value=2;fl.frequency.setValueAtTime(f*8,t);fl.frequency.exponentialRampToValueAtTime(f*1.8,t+dur*0.7);g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+0.009);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);o.connect(fl);fl.connect(g);g.connect(a.master);o.start(t);o.stop(t+dur+0.05);sTone(f,t,dur,"sine",vol*0.6,f2)}
+const sHat=(t,v,d)=>sTone(2600,t,d||0.04,"sine",(v||0.06)*0.45),sSnare=(t,v)=>{sTone(240,t,0.14,"sine",(v||0.16)*0.9,150);sNoise(t,0.08,"lowpass",1400,0.5,(v||0.16)*0.18)},sKick=(t,v)=>sTone(140,t,0.2,"sine",v||0.3,42),sSlash=(t,v)=>{sTone(420,t,0.2,"sine",(v||0.1)*0.9,1300);sNoise(t,0.16,"lowpass",1800,0.5,(v||0.1)*0.2)};
 const SFX={
- click(t){sTone(660,t,0.09,"sine",0.08,990);sTone(1480,t+0.045,0.1,"sine",0.04)},
- bell(t){sBell(t,1568,0.2);sBell(t+0.13,2093,0.17)},
- cut(t,m){const v=m||1;sNoise(t,0.08,"bandpass",3200,0.9,0.45*v,1500);sNoise(t+0.01,0.05,"highpass",6500,0.6,0.1*v);sTone(180,t,0.1,"triangle",0.32*v,65)},
- hit(t){sTone(1175,t+0.05,0.18,"sine",0.14);sTone(1568,t+0.1,0.22,"sine",0.1)},
- miss(t){sTone(220,t,0.16,"triangle",0.16,150)},
- grind(t){const r=0.9+Math.random()*0.25;sNoise(t,0.14,"lowpass",900*r,0.7,0.5,450);sNoise(t+0.02,0.1,"bandpass",1700*r,1.4,0.16);sTone(105*r,t,0.12,"sine",0.28,62)},
- done(t){sTone(659,t,0.14,"sine",0.16);sTone(988,t+0.09,0.24,"sine",0.14)},
- gather(t){sTone(480,t,0.1,"sine",0.2,860);sNoise(t,0.05,"bandpass",5200,1,0.1)},
- page(t){sSwish(t,0.28,700,1500,0.14,0.09);sSwish(t+0.2,0.22,600,1100,0.09,0.07)},
- success(t){[523,659,784,1047].forEach((f,i)=>{sTone(f,t+i*0.085,0.28,"sine",0.17);sTone(f*2,t+i*0.085,0.18,"sine",0.04)})},
- soft(t){sTone(587,t,0.16,"sine",0.14);sTone(698,t+0.1,0.22,"sine",0.12)},
- hurt(t){sTone(196,t,0.4,"triangle",0.26,140);sTone(147,t+0.14,0.45,"triangle",0.22,105)},
- over(t){[392,330,262,196].forEach((f,i)=>sTone(f,t+i*0.26,0.5,"triangle",0.2,f*0.93))},
- start(t){[392,523,659].forEach((f,i)=>sTone(f,t+i*0.1,0.3,"sine",0.17));sBell(t+0.3,1319,0.08)},
- urgent(t){[0,0.17,0.34,0.51].forEach((d,i)=>sTone(i%2?660:880,t+d,0.14,"triangle",0.14))},
- drop(t){sTone(150,t,0.09,"triangle",0.28,80);sNoise(t,0.06,"lowpass",900,0.8,0.18)},
- plop(t){sTone(420+Math.random()*80,t,0.13,"sine",0.22,130);sNoise(t,0.1,"bandpass",1500,1,0.14,600)},
- boil(t){const n=1+Math.floor(Math.random()*3);for(let i=0;i<n;i++){const o=Math.random()*0.12,f=200+Math.random()*380;sTone(f,t+o,0.07+Math.random()*0.03,"sine",0.13,f*(1.7+Math.random()*0.9));if(Math.random()<0.45)sNoise(t+o+0.055,0.025,"highpass",3200,0.5,0.035)}},
+ click(t){sTone(1250,t,0.06,"sine",0.13,1500)},
+ bell(t){sChord([60,64,67,71,74],t,0.6,0.04,0.04);sHat(t+0.16,0.05)},
+ hit(t){sChord([84,88],t,0.28,0.07);sHat(t,0.06)},
+ miss(t){sBass(N(40),t,0.22,0.14,N(33));sHat(t,0.04)},
+ done(t){sChord([62,65,69,72,76],t,0.4,0.045);sSnare(t,0.07)},
+ gather(t){sTone(1976,t,0.05,"triangle",0.05);sEP(N(100),t+0.05,0.28,0.1);sEP(N(95),t+0.05,0.2,0.05);sHat(t,0.05)},
+ page(t){sSlash(t,0.16);sHat(t+0.14,0.04)},
+ success(t){sKick(t,0.25);sBass(N(43),t,0.3,0.12);sChord([67,71,74,78,81],t+0.03,0.6,0.05,0.055);sSnare(t+0.25,0.12);[0,0.07,0.14,0.21,0.28,0.35].forEach(d=>sHat(t+d,0.035))},
+ soft(t){sChord([57,60,64,67,71],t,0.6,0.04,0.03);sBass(N(45),t,0.35,0.08)},
+ hurt(t){sChord([61,62,67],t,0.45,0.06);sBass(N(38),t,0.4,0.16,N(31));sSnare(t,0.12)},
+ over(t){[[45,[57,60,64,67]],[43,[55,58,62,65]],[41,[53,57,60,64]],[40,[52,55,59,62]]].forEach(([b,c],i)=>{const d=t+i*0.34;sBass(N(b),d,0.32,0.13);sChord(c,d+0.02,0.5,0.035)});sHat(t+1.4,0.04,0.2)},
+ start(t){sKick(t);[[36,0],[36,0.15],[48,0.3],[46,0.42]].forEach(([m,d])=>sBass(N(m),t+d,0.13,0.15));sSnare(t+0.3,0.14);for(let i=0;i<8;i++)sHat(t+i*0.075,i%2?0.03:0.05);sChord([60,64,67,70,74],t+0.48,0.6,0.05);sSlash(t+0.45,0.1)},
+ urgent(t){[0,0.12,0.36].forEach(d=>sChord([74,77,81],t+d,0.12,0.05));sSnare(t+0.24,0.1);sHat(t,0.05);sHat(t+0.48,0.05)},
+ star(t){sChord([79,83,86,91],t,0.45,0.045,0.05);sHat(t+0.2,0.03)},
+ ting(t){sBell(t,2637,0.1);sEP(N(88),t,0.5,0.05)},
+ cut(t,m){const v=m||1;sNoise(t,0.06,"bandpass",2000,0.6,0.12*v,1100);sTone(430,t,0.06,"sine",0.2*v,260);sTone(170,t,0.11,"sine",0.26*v,70)},
+ grind(t){const r=0.9+Math.random()*0.25;sNoise(t,0.13,"lowpass",800*r,0.5,0.22,420);sTone(150*r,t,0.1,"sine",0.22,90);sTone(105*r,t,0.12,"sine",0.22,62)},
+ drop(t){sTone(150,t,0.1,"sine",0.28,80);sNoise(t,0.05,"lowpass",700,0.5,0.06)},
+ plop(t){sTone(420+Math.random()*80,t,0.14,"sine",0.22,130);sTone(260,t+0.03,0.1,"sine",0.1,180)},
+ boil(t){const n=1+Math.floor(Math.random()*3);for(let i=0;i<n;i++){const o=Math.random()*0.12,f=200+Math.random()*380;sTone(f,t+o,0.08+Math.random()*0.03,"sine",0.11,f*(1.7+Math.random()*0.9))}},
  bubble(t){sTone(280+Math.random()*280,t,0.08,"sine",0.1,650+Math.random()*350)},
- ting(t){sBell(t,2637,0.13)},
- star(t){[1568,2093,2637].forEach((f,i)=>sTone(f,t+i*0.07,0.3,"sine",0.1))},
- crackle(t){sNoise(t,0.03,"highpass",3800,0.7,0.07+Math.random()*0.1)},
- ice(t){const r=0.92+Math.random()*0.2;sTone(2480*r,t,0.14,"sine",0.15);sTone(3720*r,t+0.004,0.1,"sine",0.08);sTone(5600*r,t,0.05,"sine",0.04);sNoise(t,0.035,"highpass",5200,0.7,0.12);sTone(1900*r,t+0.06,0.1,"sine",0.07);sNoise(t+0.01,0.1,"bandpass",900,1.2,0.12,400);sTone(520,t+0.012,0.09,"sine",0.1,230)},
- fizz(t){sNoise(t,0.02+Math.random()*0.02,"highpass",6500,0.6,0.025+Math.random()*0.05)},
- rattle(t){[0,0.07,0.15,0.22].forEach((d,i)=>{const r=0.9+Math.random()*0.3;sTone((2200+i*240)*r,t+d,0.08,"sine",0.07);sTone((3300+i*300)*r,t+d,0.05,"sine",0.03);sNoise(t+d,0.02,"highpass",6000,0.7,0.04)})}
+ crackle(t){sTone(900+Math.random()*900,t,0.02,"sine",0.012+Math.random()*0.015)},
+ ice(t){const r=0.92+Math.random()*0.2;sTone(2200*r,t,0.16,"sine",0.12);sTone(3300*r,t+0.004,0.1,"sine",0.05);sTone(1700*r,t+0.06,0.12,"sine",0.06);sNoise(t+0.01,0.08,"lowpass",900,0.6,0.05);sTone(500,t+0.012,0.1,"sine",0.11,230)},
+ fizz(t){sTone(1400+Math.random()*1600,t,0.025,"sine",0.01+Math.random()*0.015)},
+ rattle(t){[0,0.07,0.15,0.22].forEach((d,i)=>{const r=0.9+Math.random()*0.3;sTone((2000+i*220)*r,t+d,0.09,"sine",0.07);sTone((3000+i*260)*r,t+d,0.05,"sine",0.025)})},
+ meow(t){sTone(760,t,0.2,"triangle",0.09,560);sTone(560,t+0.18,0.26,"triangle",0.07,660)}
 };
 function sfx(n,a){if(!SND)return;const c=ac();if(!c||!SFX[n])return;try{SFX[n](c.currentTime+0.01,a)}catch(e){}}
 function sLoop(type,freq,q,vol){if(!SND)return null;const a=ac();if(!a)return null;try{const s=a.createBufferSource();s.buffer=NB;s.loop=true;const f=a.createBiquadFilter();f.type=type;f.frequency.value=freq;f.Q.value=q;const g=a.createGain();g.gain.setValueAtTime(0.0001,a.currentTime);g.gain.linearRampToValueAtTime(vol,a.currentTime+0.15);s.connect(f);f.connect(g);g.connect(a.master);s.start();return{stop(){try{const n=a.currentTime;g.gain.cancelScheduledValues(n);g.gain.setValueAtTime(Math.max(g.gain.value,0.0001),n);g.gain.linearRampToValueAtTime(0.0001,n+0.12);s.stop(n+0.14)}catch(e){}}}}catch(e){return null}}
-function startWater(){stopWater();WS=sLoop("lowpass",260,0.7,0.05);const go=()=>{sfx("boil");WT=setTimeout(go,Math.max(70,190-(MG&&MG.v||0)*1.1+Math.random()*50))};WT=setTimeout(go,60)}
+function startWater(){stopWater();WS=sLoop("lowpass",220,0.5,0.03);const go=()=>{sfx("boil");WT=setTimeout(go,Math.max(70,190-(MG&&MG.v||0)*1.1+Math.random()*50))};WT=setTimeout(go,60)}
 function stopWater(){if(WS){WS.stop();WS=null}if(WT){clearTimeout(WT);WT=null}}
 function startBrewSnd(picks,ice,ext){stopBrewSnd();const at=(ms,f)=>{const m=ext?ms-5000:ms;if(m<0)return;BAT.push(setTimeout(f,m))};
  picks.forEach((k,i)=>at(300+i*600+750,()=>{sfx("drop");BAT.push(setTimeout(()=>sfx("plop"),90))}));
  for(let ms=100;ms<5400;ms+=230)at(ms,()=>sfx("crackle"));
- at(2400,()=>{BL=sLoop("lowpass",260,0.7,0.05)});
+ at(2400,()=>{BL=sLoop("lowpass",220,0.5,0.03)});
  for(let ms=2450;ms<5400;ms+=85+Math.floor(Math.random()*85))at(ms,()=>sfx("boil"));
  at(5400,()=>{if(BL){BL.stop();BL=null}});
- at(6200,()=>{POURL=sLoop("lowpass",1000,0.5,0.022)});
+ at(6200,()=>{POURL=sLoop("lowpass",700,0.4,0.016)});
  for(let ms=6250,i=0;ms<7950;ms+=85+Math.floor(Math.random()*40),i++)at(ms,()=>{const a=ac();if(a&&SND)sTone(420+(ms-6250)*0.22+Math.random()*60,a.currentTime+0.01,0.07,"sine",0.012)});
  at(8000,()=>{if(POURL){POURL.stop();POURL=null}});
  if(ice){[0,1,2].forEach(i=>at(8350+i*420+280,()=>sfx("ice")));for(let ms=8700;ms<9950;ms+=110+Math.floor(Math.random()*130))at(ms,()=>sfx("fizz"));at(10000,()=>sfx("rattle"));at(10350,()=>sfx("ting"))}
@@ -470,14 +495,16 @@ const UPG=[
 let SHOP=false;
 function openShop(){SHOP=true;sfx("page");render()}
 function closeShop(){SHOP=false;render()}
-function buyUp(k){const u=UPG.find(x=>x.k===k);if(!u||S.up[k]||S.money<u.c)return;S.money-=u.c;S.up[k]=1;sfx("success");S.say=`${u.n}이라… 좋은 걸 들였군. 잘 써라.`;delete TYS.b;save();render()}
+function buyUp(k){const u=UPG.find(x=>x.k===k);if(!u||S.up[k]||S.money<u.c)return;S.money-=u.c;S.up[k]=1;sfx("success");S.say=`${eul(u.n)} 들였다. 잘 써 보자.`;delete TYS.b;save();render()}
 function shopHTML(){const regs=SPIRITS.filter(x=>(S.aff[x.n]||0)>0).sort((a,b)=>(S.aff[b.n]||0)-(S.aff[a.n]||0));
- return `<div class="modal" onclick="closeShop()"><div class="mbox" onclick="event.stopPropagation()"><div class="mh"><b>${ic("lantern")} 가게 관리</b><button onclick="closeShop()">${ic("x")}</button></div><div class="bar" style="margin:4px 0 8px">소지금 <b>${yen(S.money)}</b></div><div class="bk-sec">장비·인테리어</div>`+
+ return `<div class="modal" onclick="closeShop()"><div class="mbox shopbox" onclick="event.stopPropagation()"><div class="mh"><b>${ic("lantern")} 가게 관리</b><button onclick="closeShop()">${ic("x")}</button></div><div class="bar" style="margin:4px 0 8px">소지금 <b>${yen(S.money)}</b></div><div class="bk-sec">장비·인테리어</div>`+
  UPG.map(u=>`<div class="slot"><div><b>${u.n}</b><br><small>${u.d}</small></div><div>${S.up[u.k]?`<span class="done" style="display:inline-block;padding:2px 6px">${ic("ok")} 보유</span>`:`<button onclick="buyUp('${u.k}')" ${S.money<u.c?"disabled":""}>${yen(u.c)}</button>`}</div></div>`).join("")+
- `<div class="bk-sec" style="margin-top:10px">단골 명부</div><small>대만족시키거나 고민을 들어 줄 때마다 친밀도가 올라요. 랭크마다 팁 +10%, 인내심 +5초.</small>`+
- (regs.length?regs.map(x=>{const a=S.aff[x.n],r=rank(x.n),nx=RANKN[r];return `<div class="slot"><div><b>${x.n}</b><br><small>${nx?`다음 랭크까지 ${nx-a}회`:"최고 랭크"}</small></div><div>${ic("star").repeat(r)}${ic("star0").repeat(3-r)}</div></div>`}).join(""):`<div style="padding:8px 0"><small>아직 단골이 없어요.</small></div>`)+`</div></div>`}
+ `<div class="bk-sec" style="margin-top:10px">단골 명부</div><small>대만족시키거나 고민을 들어 줄 때마다 친밀도가 올라요. 랭크마다 팁 +10%, 인내심 +5초.</small><div class="regs">`+
+ (regs.length?regs.map(x=>{const a=S.aff[x.n],r=rank(x.n),nx=RANKN[r];return `<div class="slot"><div><b>${x.n}</b><br><small>${nx?`다음 랭크까지 ${nx-a}회`:"최고 랭크"}</small></div><div>${ic("star").repeat(r)}${ic("star0").repeat(3-r)}</div></div>`}).join(""):`<div style="padding:8px 0"><small>아직 단골이 없어요.</small></div>`)+`</div></div></div>`}
 function closeNotice10(){S.notice10=false;S.seen10=true;save();render()}
-function notice10HTML(){return `<div class="modal"><div class="mbox"><div class="mh"><b>${ic("basket")} 10일차부터 달라지는 점</b></div><div style="font-size:14px;line-height:1.6">· 메뉴가 아니라 <b>재료 포장</b>만 주문하는 손님이 와요. 파란 ‘포장’ 딱지가 붙어 있어요.<br>· 주문한 재료를 카운터에서 골라 <b>손질하지 말고</b> 그대로 <b>${ic("basket")} 포장하기</b> 버튼을 누르세요.<br>· 메뉴를 만들거나, 그냥 돌려보내거나, 다른 재료를 넣거나, 재료를 손질해서 포장하면 <b>신뢰가 1</b> 줄어요.<br>· 포장 손님이 아닌데 포장하기를 눌러도 신뢰가 줄어요.<br>· 포장 손님은 재료값의 <b>3배</b>를 내요. 급한 손님이 아니에요.</div><button class="p" onclick="closeNotice10()">알겠어요</button></div></div>`}
+function closeNotice17(){S.notice17=false;S.seen17=true;save();render()}
+function notice17HTML(){return `<div class="modal"><div class="mbox"><div class="mh"><b>${ic("star")} 17일차부터 달라지는 점</b></div><div style="font-size:14px;line-height:1.6">· 메뉴를 조금 바꿔 달라는 <b>특수 주문</b>이 들어와요. 주황색 ‘특수’ 딱지가 붙어 있어요.<br>· 예: “아이스 커피, 블렌드 빼고.” → <b>얼음</b>만 넣어요.<br>· 예: “카페 라테, 시나몬 추가.” → <b>블렌드 + 우유 + 시나몬</b>.<br>· 특수 주문은 <b>레시피 노트에 나오지 않아요.</b> 주문서의 손님 말을 잘 읽고 정하세요.<br>· 재료를 추가하는 주문은 ¥100을 더 받아요. 말과 다르게 만들면 값을 깎아 줘야 해요.</div><button class="p" onclick="closeNotice17()">알겠어요</button></div></div>`}
+function notice10HTML(){return `<div class="modal"><div class="mbox"><div class="mh"><b>${ic("basket")} 10일차부터 달라지는 점</b></div><div style="font-size:14px;line-height:1.6">· 메뉴가 아니라 <b>재료 포장</b>만 주문하는 손님이 와요. 파란 ‘포장’ 딱지가 붙어 있어요.<br>· 주문한 재료를 카운터에서 골라 <b>손질하지 말고</b> 그대로 <b>${ic("basket")} 포장하기</b> 버튼을 누르세요.<br>· 메뉴를 만들거나, 그냥 돌려보내거나, 다른 재료를 넣거나, 재료를 손질해서 포장하면 <b>신뢰가 1</b> 줄어요.<br>· 포장 손님이 아닌데 포장하기를 눌러도 신뢰가 줄어요.<br>· 포장 손님은 재료값의 <b>3배</b>를 내요. 급한 손님으로는 오지 않아요.</div><button class="p" onclick="closeNotice10()">알겠어요</button></div></div>`}
 function closeNotice7(){S.notice7=false;S.seen7=true;save();render()}
 function notice7HTML(){return `<div class="modal"><div class="mbox"><div class="mh"><b>${ic("siren")} 7일차부터 달라지는 점</b></div><div style="font-size:14px;line-height:1.6" data-n7>· <b>급한 손님</b>이 찾아와요. 붉은 ‘급함’ 표시가 붙어 있어요.<br>· 인내심이 <b>60초</b>뿐이라 금방 바닥나요. 대신 대만족시키면 <b>팁이 2배</b>예요.<br>· 인내심이 다 떨어지면 화를 내며 돌아가고 <b>신뢰가 1</b> 줄어요.<br>· 급한 손님은 연달아 오지 않아요. 상담·포장 손님은 급하지 않아요.</div><button class="p" onclick="closeNotice7()">알겠어요</button></div></div>`}
 function setM(k,m){S.proc[k]=m;render()}
@@ -554,7 +581,7 @@ function mgDraw(){const c=document.getElementById("mgc"),g=MG;if(!c||!g)return;c
  }}
 function procHTML(){return S.pick.length?S.pick.map(k=>`<div class="pr"><b>${HERBS[k].n}</b>`+(NOPROC[k]?`<span class="done">${ic("ok")} 손질 필요 없음</span>`:S.proc[k]?`<span class="done">${ic("ok")} ${S.proc[k]} 완료 ${starsHTML(S.proc[k+"#"])}</span>`:MET.map(m=>`<button class="mb" onclick="openMG('${k}','${m}')"><canvas data-t="${m}"></canvas>${m}</button>`).join(""))+`</div>`).join(""):`<small>재료를 골라 손질해 주세요</small>`}
 const EFF={insam:"잠 깨움·몸 데움",hwanggi:"잠 깨움",danggwi:"달콤함",sukji:"달콤함·몸 데움",saenggang:"몸 데움",bakha:"시원함",seokgo:"아주 시원함",gamcho:"맛을 부드럽게",jakyak:"달콤함·시원함",cheongung:"달콤함·잠 깨움",milk:"맛을 부드럽게"};
-function bookHTML(){return `<div class="modal" onclick="toggleBook()"><div class="mbox" onclick="event.stopPropagation()"><div class="mh"><b>${ic("book")} 레시피 노트</b><button onclick="toggleBook()">${ic("x")}</button></div>${S.tut===5?`<div class="bnote" style="border:2px solid #c8a24a;margin-bottom:6px"><b>시나몬 티</b>는 <b>시나몬</b> 하나로 만들어요. 확인했다면 닫아 주세요.</div>`:""}<div class="bnote">주문서의 <b>메뉴 이름</b>을 찾아 레시피대로 만들어요. 가격은 ‘좋음’ 기준이고 등급에 따라 달라져요.</div><table class="bt"><tr><th>메뉴</th><th>레시피</th><th>가격</th></tr>`+SYMPTOMS.filter(s=>s.u<=S.day).map(s=>`<tr><td>${s.u===S.day&&S.day>1?ic("new")+" ":""}<b>${s.d.split("(")[0]}</b></td><td><b>${rxText(s)}</b></td><td>${yen(menuPrice(s))}</td></tr>`).join("")+`</table>${S.day>=10?'<div class="bnote" style="margin-top:6px">재료 포장 손님: 그 재료를 손질하지 말고 그대로 <b>포장하기</b>.</div>':""}<div class="bh">`+Object.entries(HERBS).filter(([k])=>open(k)).map(([k,v])=>`<span><b>${v.n}</b> ${EFF[k]} · ${METHOD[k]} · ${yen(COST[k])}</span>`).join("")+`</div></div></div>`}
+function bookHTML(){return `<div class="modal" onclick="toggleBook()"><div class="mbox" onclick="event.stopPropagation()"><div class="mh"><b>${ic("book")} 레시피 노트</b><button onclick="toggleBook()">${ic("x")}</button></div>${S.tut===5?`<div class="bnote" style="border:2px solid #c8a24a;margin-bottom:6px"><b>시나몬 티</b>는 <b>시나몬</b> 하나로 만들어요. 확인했다면 닫아 주세요.</div>`:""}<div class="bnote">주문서의 <b>메뉴 이름</b>을 찾아 레시피대로 만들어요. 가격은 ‘좋음’ 기준이고 등급에 따라 달라져요.</div><table class="bt"><tr><th>메뉴</th><th>레시피</th><th>가격</th></tr>`+SYMPTOMS.filter(s=>s.u<=S.day).map(s=>`<tr><td>${s.u===S.day&&S.day>1?ic("new")+" ":""}<b>${s.d.split("(")[0]}</b></td><td><b>${rxText(s)}</b></td><td>${yen(menuPrice(s))}</td></tr>`).join("")+`</table>${S.day>=17?'<div class="bnote" style="margin-top:6px;color:#c2410c"><b>특수 주문</b>은 이 노트에 없어요. 주문서에 적힌 손님 말대로 재료를 빼거나 더해서 만들어요.</div>':""}${S.day>=10?'<div class="bnote" style="margin-top:6px">재료 포장 손님: 그 재료를 손질하지 말고 그대로 <b>포장하기</b>.</div>':""}<div class="bh">`+Object.entries(HERBS).filter(([k])=>open(k)).map(([k,v])=>`<span><b>${v.n}</b> ${EFF[k]} · ${METHOD[k]} · ${yen(cost(k))}</span>`).join("")+`</div></div></div>`}
 function spr(cv,rows,pal){cv.width=rows[0].length;cv.height=rows.length;const x=cv.getContext("2d");x.clearRect(0,0,cv.width,cv.height);rows.forEach((r,j)=>[...r].forEach((ch,i)=>{if(pal[ch]){x.fillStyle=pal[ch];x.fillRect(i,j,1,1)}}))}
 const lD="#2f7d3a",lM="#4fae4f",lL="#8fd16a";
 const SPROUT=[["#8a5a2b",3,6,10,5],["#a06a35",3,6,10,1],["#6e4524",3,8,10,1],["#6e4524",7,6,1,5]];
@@ -608,14 +635,14 @@ function ingCv(k){if(INGC[k])return INGC[k];const c=document.createElement("canv
 function pot(cv){const liq=S.pick.length?COL[S.pick[0]]:"#5a3520";spr(cv,POT,{...KP,g:liq});
  const x=cv.getContext("2d"),t=Math.floor(Date.now()/500)%2;x.fillStyle="rgba(255,255,255,.7)";
  x.fillRect(0,t?0:1,2,1);x.fillRect(2,t?1:0,2,1);if(S.pick.length>1)x.fillRect(8,t?0:1,2,1)}
-const ready=k=>(S.patches[k]||0)<=Date.now();
+const ready=k=>true;
 function paint(){
  typeTick();
  document.querySelectorAll("canvas[data-k]").forEach(c=>plant(c,c.dataset.k,c.dataset.g==="1"||ready(c.dataset.k)));
 
  document.querySelectorAll("canvas[data-t]").forEach(c=>spr(c,TOOL[c.dataset.t],TP));tutHL();const p=document.getElementById("pot");if(p)pot(p);const b=document.getElementById("bk");if(b)spr(b,BOOK,BP);const np=document.getElementById("np");if(np)spr(np,NOTE,NP)}
 // ===== 상태 =====
-let S={money:1500,earn:0,tips:0,spend:0,totalEarn:0,up:{},aff:{},day:1,tut:1,wx:"clear",combo:0,bestCombo:0,top:0,rep:0,lives:3,cured:0,inv:{},patches:{},phase:"prep",tab:"desk",book:false,memo:false,notes:{},notice:false,seen3:false,notice7:false,seen7:false,notice10:false,seen10:false,lastUrg:false,proc:{},total:0,spawned:0,desk:[],sel:null,pick:[],log:"",say:"",nextAt:0,uid:0};
+let S={gifted:false,money:1500,earn:0,tips:0,spend:0,totalEarn:0,up:{},aff:{},day:1,tut:1,wx:"clear",combo:0,bestCombo:0,top:0,rep:0,lives:3,cured:0,inv:{},patches:{},phase:"prep",tab:"desk",book:false,memo:false,notes:{},notice:false,seen3:false,notice7:false,seen7:false,notice10:false,seen10:false,notice17:false,seen17:false,lastUrg:false,proc:{},total:0,spawned:0,desk:[],sel:null,pick:[],log:"",say:"",nextAt:0,uid:0};
 const FRESH=JSON.stringify(S);
 const rnd=a=>a[Math.floor(Math.random()*a.length)];
 const $=document.getElementById("app");
@@ -625,17 +652,35 @@ window.onerror=m=>showErr(m);
 function save(){try{localStorage.setItem("lbt1",JSON.stringify(S))}catch(e){}}
 const mig=o=>{if(o&&o.tut===undefined)o.tut=-1;return o};
 function load(){try{const d=localStorage.getItem("lbt1");if(d)S=Object.assign(S,mig(JSON.parse(d)))}catch(e){}fix()}
-function fix(){S.back=false;if(S.tut===undefined)S.tut=-1;S.help=false;S.tutMsg="";(S.desk||[]).forEach(p=>{if(p&&p.sp&&!SPIRITS.some(x=>x.n===p.sp.n))p.sp=rnd(SPIRITS)});if(!WX[S.wx])S.wx="clear";S.pl=typeof S.lives==="number"?S.lives:3;S.hurtUntil=0;(S.desk||[]).forEach(p=>{if(!p)return;if(!p.pat)p.pat=120000;if(!(S.tut>0)&&!p.stopped)p.t0=Date.now();if(p.sy&&!p.sy.m&&p.sy.d&&!p.sy.req&&p.sy.note===undefined)p.sy.m=p.sy.d.split("(")[0]});if(typeof S.money!=="number")S.money=1500;S.up=S.up||{};S.aff=S.aff||{};["earn","tips","spend","totalEarn"].forEach(k=>{if(typeof S[k]!=="number")S[k]=0});if(S.day>=7&&!S.seen7&&S.phase==="prep")S.notice7=true;if(S.day>=10&&!S.seen10&&S.phase==="prep")S.notice10=true;if(typeof S.lives!=="number")S.lives=3;if(S.lives<=0)S.phase="over";if(!["prep","day","end","over"].includes(S.phase))S.phase="prep";S.proc={};S.inv=S.inv||{};S.patches=S.patches||{};S.pick=Array.isArray(S.pick)?S.pick.filter(k=>HERBS[k]):[];
+function fix(){S.back=false;if(S.tut===undefined)S.tut=-1;S.help=false;S.tutMsg="";(S.desk||[]).forEach(p=>{if(p&&p.sp&&!SPIRITS.some(x=>x.n===p.sp.n))p.sp=rnd(SPIRITS)});if(!WX[S.wx])S.wx="clear";S.pl=typeof S.lives==="number"?S.lives:3;S.hurtUntil=0;(S.desk||[]).forEach(p=>{if(!p)return;if(!p.pat)p.pat=120000;if(!(S.tut>0)&&!p.stopped)p.t0=Date.now();if(p.sy&&!p.sy.m&&p.sy.d&&!p.sy.req&&p.sy.note===undefined)p.sy.m=p.sy.d.split("(")[0]});if(typeof S.money!=="number")S.money=1500;S.up=S.up||{};S.aff=S.aff||{};["earn","tips","spend","totalEarn"].forEach(k=>{if(typeof S[k]!=="number")S[k]=0});if(S.day>=7&&!S.seen7&&S.phase==="prep")S.notice7=true;if(S.day>=10&&!S.seen10&&S.phase==="prep")S.notice10=true;if(S.day>=17&&!S.seen17&&S.phase==="prep")S.notice17=true;if(typeof S.lives!=="number")S.lives=3;if(S.lives<=0)S.phase="over";if(!["prep","day","end","over"].includes(S.phase))S.phase="prep";S.proc={};S.inv=S.inv||{};S.patches=S.patches||{};S.pick=Array.isArray(S.pick)?S.pick.filter(k=>HERBS[k]):[];
  S.desk=(Array.isArray(S.desk)?S.desk:[]).filter(p=>p&&p.id&&p.sp&&p.sy&&Array.isArray(p.sy.need));
  S.desk.forEach(p=>{if(p.sy.note===undefined&&p.sy.one===undefined){const m=SYMPTOMS.find(x=>x.d===p.sy.d);if(m)p.sy=mkSy(m,false)}});
  if(!S.desk.some(p=>p.id===S.sel))S.sel=S.desk.length?S.desk[0].id:null;
  if(!["field","desk","lab"].includes(S.tab))S.tab="desk";S.book=false;S.memo=false;S.notes=S.notes||{};if(S.day>=3&&!S.seen3&&S.phase==="prep")S.notice=true;
  if(S.phase==="day")S.nextAt=Date.now()+3000}
-function gather(k){if(!ready(k))return;const c=COST[k];if(S.money<c){S.log=`<span class="bad">돈이 모자라 ${HERBS[k].n}을(를) 살 수 없다. (${yen(c)} 필요)</span>`;sfx("miss");render();return}sfx("gather");S.money-=c;S.spend+=c;S.inv[k]=(S.inv[k]||0)+1;S.patches[k]=Date.now()+HERBS[k].r*W().grow*1000;save();render()}
-function go(t){S.tab=t;render()}
+function gather(k){const c=cost(k);if(S.money<c){S.log=`<span class="bad">돈이 모자라 ${eul(HERBS[k].n)} 살 수 없다. (${yen(c)} 필요)</span>`;sfx("miss");render();return}sfx("gather");S.money-=c;S.spend+=c;S.inv[k]=(S.inv[k]||0)+1;save();render()}
+let CAT=null,CATD=0;const CATLINE="길고양이 한 마리가 창고에서 쉬고 있다.";
+function go(t){if(t==="field"&&S.tab!=="field"&&!(S.tut>0)&&CATD!==S.day&&Math.random()<0.1){CAT={t0:Date.now(),until:Date.now()+20000};CATD=S.day;setTimeout(()=>sfx("meow"),250);if(S.phase==="day"){S.say=CATLINE;delete TYS.r}}else if(t!=="field")CAT=null;S.tab=t;render()}
+function catDraw(){const c=document.getElementById("catc");if(!c||!CAT)return;const W=24,H=18;c.width=W;c.height=H;const x=c.getContext("2d"),t=Date.now()-CAT.t0,
+ f=(cl,a,b,w,h)=>{x.fillStyle=cl;x.fillRect(a,b,w,h)},o="#e8962e",O="#b35f17",w="#fbe6c4",p="#f2879a",e="#3a2414",
+ ph=(t%2600)/2600,up=ph>0.55&&ph<0.8,hy=up?0:1,tg=!up&&Math.floor(t/220)%2===0,bl=up&&ph>0.68&&ph<0.72,sw=Math.round(Math.sin(t/380)*1.5);
+ f(o,15,13+sw*0,6,2);f(o,19+0,12-Math.max(0,sw),2,2);f(O,20,12-Math.max(0,sw),1,1);
+ f(o,9,7,10,8);f(o,10,6,8,1);f(o,15,9,5,6);f(w,8,8,3,6);f(o,8,9,1,5);
+ f(O,12,7,1,3);f(O,15,8,1,3);f(O,17,10,1,3);f(w,16,14,4,1);
+ if(up){f(o,8,13,2,2);f(w,8,14,2,1)}else{const pb=Math.round(Math.sin(t/110));f(o,4,9+hy,2,5);f(o,3,8+hy+pb,2,2);f(w,1,7+hy+pb,3,2)}
+ f(o,11,13,2,2);f(w,11,14,2,1);
+ f(o,2,3+hy,8,6);f(o,2,1+hy,2,2);f(o,7,1+hy,2,2);f(p,3,2+hy,1,1);f(p,7,2+hy,1,1);
+ f(O,4,3+hy,1,2);f(O,6,3+hy,1,2);f(O,8,4+hy,1,1);f(w,2,6+hy,4,2);f(p,2,6+hy,1,1);
+ if(bl||!up)f(e,3,5+hy,2,1);else{f(e,3,4+hy,1,2);f(e,5,4+hy,1,2)}
+ if(tg)f(p,1,7+hy,1,2);
+ const d=x.getImageData(0,0,W,H).data,ol=[];for(let j=0;j<H;j++)for(let i=0;i<W;i++){if(d[(j*W+i)*4+3])continue;if([[1,0],[-1,0],[0,1],[0,-1]].some(([u,v])=>{const a=i+u,b=j+v;return a>=0&&b>=0&&a<W&&b<H&&d[(b*W+a)*4+3]}))ol.push([i,j])}
+ x.fillStyle="#2a1a10";ol.forEach(([i,j])=>x.fillRect(i,j,1,1));
+ if(t>CAT.until-1500){x.globalCompositeOperation="destination-in";x.fillStyle=`rgba(0,0,0,${Math.max(0,(CAT.until-t)/1500)})`;x.fillRect(0,0,W,H)}}
+setInterval(catDraw,120);
 function toggleBook(){S.book=!S.book;if(S.tut===5&&S.book)S.tutB=true;sfx("page");render()}
 function tick(){const now=Date.now();if(document.hidden||busy||MENU){LASTP=now;return}patTick(now);
- for(const k in HERBS){const s=document.getElementById("gs_"+k);if(s){const r=(S.patches[k]||0)-now;s.textContent=r<=0?"입고!":Math.ceil(r/1000)+"초"}}
+ 
+ if(CAT&&now>CAT.until){CAT=null;if(S.tab==="field")render();return}
  if(S.phase==="day"){
   if(PTRD&&now-PTRT<1500){paint();return}
   const ex=S.desk.find(p=>p.t0&&!p.stopped&&(p.el||0)>=p.pat);if(ex){expireUrg(ex);return}
@@ -645,47 +690,47 @@ function tick(){const now=Date.now();if(document.hidden||busy||MENU){LASTP=now;r
   if(nx)nx.textContent=S.spawned>=S.total?"":S.desk.length>=DESKMAX?"주문대가 가득 참":"다음 손님 "+Math.max(0,Math.ceil((S.nextAt-now)/1000))+"초"}
  paint()}
 setInterval(tick,500);
-function startDay(){S.total=Math.min(8,3+Math.floor((S.day-1)/4))+(S.up.sign?1:0);S.spawned=0;S.desk=[];S.sel=null;S.pick=[];S.log="";S.hurtUntil=0;TYS={};clearTap();S.say="자, 가게 열자. 오늘도 잘 부탁한다.";sfx("start");S.phase="day";S.nextAt=Date.now()+1500;save();render()}
-function spawn(){const r=Math.random(),adv=S.day>=3&&r<(S.day>=10?0.25:0.3),req=!adv&&S.day>=10&&r<0.45,p={id:++S.uid,sp:pickSp(),sy:adv?mkAdv():req?mkReq():pickSym()};
+function startDay(){S.total=Math.min(8,3+Math.floor((S.day-1)/4))+(S.up.sign?1:0);S.spawned=0;S.desk=[];S.sel=null;S.pick=[];S.log="";S.hurtUntil=0;TYS={};clearTap();S.say="가게를 열자. 오늘도 잘해 보자.";sfx("start");S.phase="day";S.nextAt=Date.now()+1500;save();render()}
+function spawn(){const r=Math.random(),adv=S.day>=3&&r<(S.day>=10?0.25:0.3),req=!adv&&S.day>=10&&r<0.45,sp0=pickSp(),p={id:++S.uid,sp:sp0,sy:adv?mkAdv(sp0):req?mkReq():pickSym(sp0)};
  if(S.tut>0&&S.spawned===0){p.sy=mkSy(SYMPTOMS[0],true);S.lastD=SYMPTOMS[0].d}
  if(S.day>=7&&!adv&&!req&&!S.lastUrg&&Math.random()<0.3)p.urg=true;S.lastUrg=!!p.urg;p.pat=Math.round(((p.urg?60:Math.max(110,160-(S.day-1)*1.5))*(S.up.chair?1.25:1)+rank(p.sp.n)*5)*1000);p.el=0;if(!(S.tut>0))p.t0=Date.now();S.desk.push(p);S.spawned++;S.hurtUntil=0;TYS={};clearTap();S.say=rnd(LINES);S.nextAt=Date.now()+SPAWN*W().sp*1000;if(S.sel===null)S.sel=p.id;sfx("bell");if(p.urg)setTimeout(()=>sfx("urgent"),380);save();render()}
 function selRx(id){S.sel=id;S.pick=[];S.proc={};S.tab="lab";render()}
 function toggle(k){if(S.tut>0&&S.tut<9&&k!=="saenggang"){S.tutMsg="지금은 시나몬만 고르자.";render();return}if(S.proc[k])return;const i=S.pick.indexOf(k);if(i>=0){S.pick.splice(i,1);delete S.proc[k]}else if(S.pick.length<MAXPICK&&(S.inv[k]||0)>0)S.pick.push(k);render()}
-function comboLine(n){const L={3:"세 명 연속 대만족이라. 제법인데? 이 기세로 가자.",5:"다섯 연속이라… 이제 카운터 맡겨도 되겠군.",7:"일곱 연속이라니. 이러다 르블랑 단골이 확 늘겠어.",10:"열 연속… 허, 대단하다. 진심으로."};if(L[n])return L[n];return n>10&&n%5===0?n+"명 연속 대만족이라니, 더 할 말이 없다. 대단해.":""}
+function comboLine(n){const L={3:"세 명 연속 대만족이다. 이 기세로 가자.",5:"다섯 연속… 조금은 카운터가 손에 익은 것 같다.",7:"일곱 연속이다. 르블랑 단골이 늘 것 같은 예감이 든다.",10:"열 연속… 스스로도 놀랍다."};if(L[n])return L[n];return n>10&&n%5===0?n+"명 연속 대만족이다. 이 감각을 잊지 말자.":""}
 function finish(msg){if(S.tut>0&&S.tut<9){S.tut=9;S.tutMsg=""}resSfx(msg);clearTap();const cured=/class="ok"/.test(msg),cb=cured?(S.combo||0)+1:0;S.combo=cb;if(cb>(S.bestCombo||0))S.bestCombo=cb;const pr=cured?comboLine(cb):"";if(/data-q="3"/.test(msg))setTimeout(()=>sfx("star"),260);
  if(S.lives<(S.pl??3)){S.hurtUntil=Date.now()+1e12;TYS={};S.prevSay=S.say;S.say=rnd(HURT)}S.pl=S.lives;S.log=msg;S.desk=S.desk.filter(x=>x.id!==S.sel);S.sel=S.desk.length?S.desk[0].id:null;S.pick=[];S.proc={};
- if(S.lives<=0){S.phase="over";S.desk=[];S.sel=null;S.say="…오늘은 이만 셔터 내리자. 너무 무리하지 마라. 수고했다.";S.tab="desk"}else if(S.spawned>=S.total&&!S.desk.length){S.phase="end";const net=S.earn+S.tips-S.spend;if(Date.now()>=(S.hurtUntil||0))S.say=net>0?`수고했다. 오늘은 ${yen(net)} 남았군. 장사는 여기까지다.`:"수고했다. 오늘은 좀 적자군… 내일 만회하자.";S.tab="desk"}
+ if(S.lives<=0){S.phase="over";S.desk=[];S.sel=null;S.say="…오늘은 이만 쉬자. 너무 무리했던 것 같다.";S.tab="desk"}else if(S.spawned>=S.total&&!S.desk.length){S.phase="end";const net=S.earn+S.tips-S.spend;if(Date.now()>=(S.hurtUntil||0))S.say=net>0?`오늘 장사는 여기까지. ${yen(net)} 남았다. 나쁘지 않은 것 같다.`:"오늘은 적자다… 내일 만회하자.";S.tab="desk"}
  if(pr&&S.phase!=="over"){S.say=pr;S.back=true;S.hurtUntil=0;TYS={};setTimeout(()=>sfx("star"),520)}
  save();render()}
 function brew(){if(BA)return;const p=S.desk.find(x=>x.id===S.sel);if(!p||!S.pick.length||!S.pick.every(k=>S.proc[k]||NOPROC[k]))return;p.stopped=true;p.st=Date.now();playBrew(doBrew)}
 function doBrew(){const p=S.desk.find(x=>x.id===S.sel);if(!p)return;
- if(p.sy.req){S.pick.forEach(k=>S.inv[k]--);S.lives=Math.max(0,S.lives-1);return finish(`<span class="bad">${p.sp.n}은(는) 메뉴가 아니라 재료 포장을 원했다… (${ic("bheart")} 신뢰 -1)</span>`)}
+ if(p.sy.req){S.pick.forEach(k=>S.inv[k]--);S.lives=Math.max(0,S.lives-1);return finish(`<span class="bad">${eun(p.sp.n)} 메뉴가 아니라 재료 포장을 원했다… (${ic("bheart")} 신뢰 -1)</span>`)}
  if(p.sy.note!==undefined){S.pick.forEach(k=>S.inv[k]--);S.lives=Math.max(0,S.lives-1);return finish(`<span class="bad">${p.sp.n}에게는 커피가 필요 없었다… 메뉴가 소용없었다 (${ic("bheart")} 신뢰 -1)</span>`)}
  const tags=[...new Set(S.pick.flatMap(k=>HERBS[k].t))],need=p.sy.need,hit=need.filter(t=>tags.includes(t)).length,good=[...new Set(S.pick.filter(k=>NOPROC[k]||S.proc[k]===METHOD[k]).flatMap(k=>HERBS[k].t))],hg=need.filter(t=>good.includes(t)).length;
  let extra=tags.filter(t=>t!=="부드러움"&&!need.includes(t)).length;if(tags.includes("부드러움")&&extra>0)extra--;
  S.pick.forEach(k=>S.inv[k]--);let m;const rxOK=p.sy.rx.split("|").some(a=>a.split("+").sort().join()===S.pick.slice().sort().join());
- if(hg===need.length&&extra===0&&!rxOK)m=`${p.sp.n}, 마셨지만 레시피와 달라 아쉬워했다. <small>(값을 깎아 줬다)</small>${earn(p,menuPrice(p.sy)*0.6,false)}`;
+ if(hg===need.length&&extra===0&&!rxOK)m=`${p.sp.n}, 마셨지만 ${p.sy.mod?"부탁한 대로가 아니라":"레시피와 달라"} 아쉬워했다. <small>(값을 깎아 줬다)</small>${earn(p,menuPrice(p.sy)*0.6,false)}`;
  else if(hg===need.length&&extra===0){S.cured=(S.cured||0)+1;const Q=potQ(),rf=Q>=3?rnd(S.pick):null;if(rf){S.inv[rf]++;S.top=(S.top||0)+1}m=`<span class="ok" data-q="${Q}">${p.sp.n}, 대만족!</span> <span class="gr">${starsHTML(Q)} ${GR[Q]}</span>${earn(p,menuPrice(p.sy)*MUL[Q],true)}${rf?`<br><small>솜씨가 좋아 ${HERBS[rf].n} 한 개가 남았다!</small>`:""}${addAff(p.sp.n)}`}
  else if(hit===need.length)m=`${p.sp.n}, ${extra?"마셨지만 맛이 과했다.":"마셨지만 손질이 맞지 않아 맛이 아쉬웠다."} <small>(값을 깎아 줬다)</small>${earn(p,menuPrice(p.sy)*0.6,false)}`;
  else if(hit>0)m=`${p.sp.n}, 주문과 좀 달랐지만 반값만 내고 갔다.${earn(p,menuPrice(p.sy)*0.4,false)}`;
  else{S.lives=Math.max(0,S.lives-1);m=`<span class="bad">${p.sp.n}, 입에 맞지 않았다… (${ic("bheart")} 신뢰 -1)</span>`}
  finish(m)}
-function pack(){if(BA)return;const p=S.desk.find(x=>x.id===S.sel);if(!p||!S.pick.length)return;if(S.tut>0&&S.tut<9){S.tutMsg="지금은 메뉴를 만들어 보자.";render();return}
+function pack(){if(BA)return;const p=S.desk.find(x=>x.id===S.sel);if(!p||!S.pick.length)return;if(S.tut>0&&S.tut<9){S.tutMsg="지금은 메뉴부터 만들어 보자.";render();return}
  p.stopped=true;p.st=Date.now();sfx("page");const pk=S.pick.slice();pk.forEach(x=>S.inv[x]--);
- if(!p.sy.req){S.lives=Math.max(0,S.lives-1);return finish(`<span class="bad">${p.sp.n}은(는) 포장이 아니라 메뉴를 원했다… (${ic("bheart")} 신뢰 -1)</span>`)}
+ if(!p.sy.req){S.lives=Math.max(0,S.lives-1);return finish(`<span class="bad">${eun(p.sp.n)} 포장이 아니라 메뉴를 원했다… (${ic("bheart")} 신뢰 -1)</span>`)}
  const k=p.sy.req,good=pk.length===1&&pk[0]===k&&!S.proc[k];
- if(good){S.cured=(S.cured||0)+1;return finish(`<span class="ok">${p.sp.n}, 포장한 ${HERBS[k].n}을(를) 받고 흡족해했다!</span>${earn(p,COST[k]*3,true)}${addAff(p.sp.n)}`)}
+ if(good){S.cured=(S.cured||0)+1;return finish(`<span class="ok">${p.sp.n}, 포장한 ${eul(HERBS[k].n)} 받고 흡족해했다!</span>${earn(p,COST[k]*3,true)}${addAff(p.sp.n)}`)}
  S.lives=Math.max(0,S.lives-1);
  const why=pk.some(x=>x!==k)||pk.length>1?"주문하지 않은 재료까지 포장됐다":"손질된 재료를 받았다(그대로 포장해야 했다)";
  finish(`<span class="bad">${p.sp.n}, ${why}… (${ic("bheart")} 신뢰 -1)</span>`)}
-function skip(){const p=S.desk.find(x=>x.id===S.sel);if(!p)return;if(S.tut>0&&S.tut<9){S.tutMsg="지금은 메뉴를 만들어 보자.";render();return}p.stopped=true;p.st=Date.now();
- if(p.sy.req){S.lives=Math.max(0,S.lives-1);return finish(`<span class="bad">${p.sp.n}을(를) 포장 없이 돌려보냈다 (${ic("bheart")} 신뢰 -1)</span>`)}
+function skip(){const p=S.desk.find(x=>x.id===S.sel);if(!p)return;if(S.tut>0&&S.tut<9){S.tutMsg="지금은 메뉴부터 만들어 보자.";render();return}p.stopped=true;p.st=Date.now();
+ if(p.sy.req){S.lives=Math.max(0,S.lives-1);return finish(`<span class="bad">${eul(p.sp.n)} 포장 없이 돌려보냈다 (${ic("bheart")} 신뢰 -1)</span>`)}
  if(p.sy.note!==undefined){const n=S.notes[p.id];
   if(n===undefined){S.lives=Math.max(0,S.lives-1);return finish(`<span class="bad">${p.sp.n}의 고민을 듣지 않고 돌려보냈다 (${ic("bheart")} 신뢰 -1)</span>`)}
-  if(n===0){S.cured=(S.cured||0)+1;return finish(`<span class="ok">${p.sp.n}, 고민 상담을 받고 한결 편안해졌다!</span> <small>(고맙다며 커피값을 두고 갔다)</small>${earn(p,200,true)}${addAff(p.sp.n)}`)}
+  if(n===0){S.cured=(S.cured||0)+1;return finish(`<span class="ok">${p.sp.n}, 고민 상담을 받고 한결 편안해졌다!</span> <small>(고맙다며 사례를 두고 갔다)</small>${earn(p,200,true)}${addAff(p.sp.n)}`)}
   S.lives=Math.max(0,S.lives-1);return finish(`<span class="bad">${p.sp.n}, 상담이 도움이 안 돼 여전히 힘들어 보인다 (${ic("bheart")} 신뢰 -1)</span>`)}
- S.lives=Math.max(0,S.lives-1);finish(`<span class="bad">${p.sp.n}을(를) 돌려보냈다 (${ic("bheart")} 신뢰 -1)</span>`)}
-function next(){S.hurtUntil=0;clearTap();S.taps=0;const so=season();S.day++;S.earn=0;S.tips=0;S.spend=0;let gift="";if(S.money<200){S.money+=500;gift=ic("lantern")+" 소지로: “…이번만이다. 장사 밑천으로 써라.” (+¥500)<br>"}S.wx=rollWx();if(S.day>=7&&!S.seen7)S.notice7=true;if(S.day>=10&&!S.seen10)S.notice10=true;if(S.day>=3&&!S.seen3)S.notice=true;S.phase="prep";S.say="";const n=SYMPTOMS.filter(s=>s.u===S.day).length+Object.keys(HU).filter(k=>HU[k]===S.day).length;S.log=gift+(season()!==so?ic("lantern")+" 계절이 바뀌어 "+season()+"이 찾아왔다.<br>":"")+(n?ic("book")+" 레시피 노트에 새로운 내용이 추가되었습니다!":"");save();render()}
+ S.lives=Math.max(0,S.lives-1);finish(`<span class="bad">${eul(p.sp.n)} 돌려보냈다 (${ic("bheart")} 신뢰 -1)</span>`)}
+function next(){S.hurtUntil=0;clearTap();S.taps=0;const so=season();S.day++;S.earn=0;S.tips=0;S.spend=0;let gift="";if(S.money<200&&!S.gifted){S.gifted=true;S.money+=500;gift=ic("lantern")+" …소지로 씨가 몰래 밑천을 보태 주셨다. 아껴 써야겠다. (+¥500)<br>"}S.wx=rollWx();if(S.day>=7&&!S.seen7)S.notice7=true;if(S.day>=10&&!S.seen10)S.notice10=true;if(S.day>=17&&!S.seen17)S.notice17=true;if(S.day>=3&&!S.seen3)S.notice=true;S.phase="prep";S.say="";const n=SYMPTOMS.filter(s=>s.u===S.day).length+Object.keys(HU).filter(k=>HU[k]===S.day).length;S.log=gift+(season()!==so?ic("lantern")+" 계절이 바뀌어 "+season()+"이 찾아왔다.<br>":"")+(n?ic("book")+" 레시피 노트에 새 메뉴가 추가됐어요!":"");save();render()}
 function reset(){if(confirm("초기화할까요?")){localStorage.removeItem("lbt1");location.reload()}}
 // ===== 화면 =====
 const tg=a=>a.map(t=>`<span class="tag">${t}</span>`).join("");
@@ -694,19 +739,19 @@ const kind=p=>p.sy.req?"포장":p.sy.note!==undefined?"상담":"주문";
 const what=p=>p.sy.req||p.sy.note!==undefined?p.sy.s:p.sy.m;
 const rkTag=p=>{const r=rank(p.sp.n);return r?` <span class="rk">단골 Lv${r}</span>`:""};
 const patBar=p=>{const r=patR(p);return `<div class="pat"><i data-pt="${p.id}" style="width:${(r*100).toFixed(1)}%;background:${r>.66?"#2fa84f":r>.33?"#e0b020":"#d7141a"}"></i></div>`};
-function paper(p){const r=((p.id*37)%9)-4,mn=!p.sy.req&&p.sy.note===undefined;return `<button class="paper ${p.id===S.sel?"sel":""} ${p.urg?"urgent":""}" style="transform:rotate(${r}deg)" onclick="selRx(${p.id})">${p.urg?`<div class="urgtag">${ic("siren")} 급함</div>`:""}${p.sy.req?`<div class="urgtag reqtag">${ic("basket")} 포장</div>`:""}${p.sy.note!==undefined?`<div class="urgtag reqtag" style="background:#6b4aa8">${ic("memo")} 상담</div>`:""}<div class="pt">주 문 서</div><div class="pn">${p.sp.n}${rkTag(p)}</div><div class="ps">${kind(p)}: <b>${what(p)}</b>${mn?` <small>${yen(menuPrice(p.sy))}</small>`:""}</div>${mn?`<small class="mood">“${p.sy.s}”</small>`:""}${patBar(p)}<div class="stamp">注</div></button>`}
-function rxCard(p){return `${p.urg?ic("siren")+" ":""}<b>${p.sp.n}</b>${rkTag(p)} — ${kind(p)}: <b>${what(p)}</b>${patBar(p)}`}
+function paper(p){const r=((p.id*37)%9)-4,mn=!p.sy.req&&p.sy.note===undefined;return `<button class="paper ${p.id===S.sel?"sel":""} ${p.urg?"urgent":""}" style="transform:rotate(${r}deg)" onclick="selRx(${p.id})">${p.urg?`<div class="urgtag">${ic("siren")} 급함</div>`:""}${p.sy.req?`<div class="urgtag reqtag">${ic("basket")} 포장</div>`:""}${p.sy.note!==undefined?`<div class="urgtag reqtag" style="background:#6b4aa8">${ic("memo")} 상담</div>`:""}${p.sy.mod?`<div class="urgtag reqtag" style="background:#e07a1f">${ic("star")} 특수</div>`:""}<div class="pt">주 문 서</div><div class="pn">${p.sp.n}${rkTag(p)}</div><div class="ps">${kind(p)}: <b>${what(p)}</b>${mn?` <small>${yen(menuPrice(p.sy))}</small>`:""}</div>${mn?`<small class="mood${p.sy.mod?" spc":""}">“${p.sy.mod||p.sy.s}”</small>`:""}${patBar(p)}<div class="stamp">注</div></button>`}
+function rxCard(p){return `${p.urg?ic("siren")+" ":""}<b>${p.sp.n}</b>${rkTag(p)} — ${kind(p)}: <b>${what(p)}</b>${p.sy.mod?`<div class="spc" style="margin-top:4px">${ic("star")} “${p.sy.mod}”</div>`:""}${patBar(p)}`}
 function render(){if(busy)return;busy=true;try{draw()}catch(e){showErr(e)}busy=false;paint();tick()}
 function draw(){
  tutCheck();let h=`<div class="top"><span><span class="dlamp">${ic("lantern")}</span> ${S.day}일차 ${ic(W().ic)}${S.combo>=2?` <span class="cmb" title="${S.combo}연속">${ic("star")}${S.combo}</span>`:""}</span><span class="money">${yen(S.money)}</span><span>${ic("heart","big").repeat(Math.max(0,S.lives))}${ic("heart0","big").repeat(Math.max(0,3-S.lives))}</span>${S.tut>0?"":`<button class="mini" onclick="openHelp()">${ic("help")}</button>`}<button class="mini" onclick="toggleSnd()">${ic(SND?"spk":"spk0")}</button><button class="mini" onclick="openMenu()">${ic("disk")}</button></div><div class="nav">`+
  TABS.map(([k,i,l])=>`<button class="tab ${S.tab===k?"on":""}" onclick="go('${k}')">${ic(i)} ${l}${k==="desk"&&S.desk.length?` <span class="badge">${S.desk.length}</span>`:""}</button>`).join("")+`</div>`;
  if(S.tut>0)h+=tutHTML();
  const showSay=S.phase==="day"&&S.tab!=="desk"&&!(S.tut>0);
- if(showSay||S.log)h+=`<div class="bar">${showSay?`${yagen("s",mood())} 소지로: <span class="sayt" data-k="r" data-full="${esc(S.say)}">${ty(S.say,"r")}</span> <small>(${S.spawned}/${S.total}) <span id="nx"></span></small>`:""}${S.log?`<div>${S.log}</div>`:""}</div>`;
+ if(showSay||S.log)h+=`<div class="bar">${showSay?`${yagen("s",mood())} 렌: <span class="sayt" data-k="r" data-full="${esc(S.say)}">${ty(S.say,"r")}</span> <small>(${S.spawned}/${S.total}) <span id="nx"></span></small>`:""}${S.log?`<div>${S.log}</div>`:""}</div>`;
  if(S.tab==="field"){
-  h+=`<div class="scene field"><div class="grid">`+Object.entries(HERBS).filter(([k])=>open(k)).map(([k,v])=>`<button class="plot" onclick="gather('${k}')"><canvas data-k="${k}" style="width:100%"></canvas>${v.n}<br><small>${yen(COST[k])} · ×${S.inv[k]||0}</small> <span id="gs_${k}"></span></button>`).join("")+`</div></div><div class="box"><small>입고된 재료를 누르면 돈을 내고 1개 사 와요. 사고 나면 일정 시간 뒤 다시 입고돼요.</small></div>`;
+  h+=`<div class="scene field"><div class="grid">`+Object.entries(HERBS).filter(([k])=>open(k)).map(([k,v])=>`<button class="plot" onclick="gather('${k}')"><canvas data-k="${k}" style="width:100%"></canvas>${v.n}<br><small>${yen(cost(k))} · ×${S.inv[k]||0}</small> <span id="gs_${k}"></span></button>`).join("")+(CAT?`<div class="catcell" onclick="sfx('meow')"><canvas id="catc"></canvas></div>`:"")+`</div></div><div class="box">${CAT?`<div class="catsay">${yagen("s",S.phase==="over"?"hurt":"base")} 렌: ${CATLINE}</div>`:""}<small>재료를 누를 때마다 돈을 내고 1개씩 사 와요. 돈만 있으면 얼마든지 살 수 있어요.${W().pm&&W().pm!==1?` <b>오늘은 날씨 때문에 재료값이 ${W().pm<1?"10% 싸요":"20% 비싸요"}.</b>`:""}</small></div>`;
  }else if(S.tab==="desk"){
-  h+=`<div class="bub${S.phase==="day"||S.phase==="over"?"":" tap"}" style="margin:10px 0"${S.phase==="day"||S.phase==="over"?"":' onclick="tapBub()"'}><b>${yagen("",mood())} 사쿠라 소지로</b><br>${bub()}</div>`;
+  h+=`<div class="bub${S.phase==="day"||S.phase==="over"?"":" tap"}" style="margin:10px 0"${S.phase==="day"||S.phase==="over"?"":' onclick="tapBub()"'}><b>${yagen("",mood())} 아마미야 렌</b><br>${bub()}</div>`;
   if(S.phase==="prep")h+=`<div class="box wxb">${ic(W().ic)} <b>${season()} · ${W().n}</b><br><small>${W().eff}</small></div><div class="box"><b>${ic("basket")} 보유 재료</b><br>${Object.entries(HERBS).filter(([k])=>open(k)).map(([k,v])=>`${v.n}×${S.inv[k]||0}`).join(" ")}<br><small>소지금 ${yen(S.money)}</small><button class="p" onclick="startDay()">가게 열기</button>${S.tut>0?"":`<button class="shopbtn" onclick="openShop()">${ic("lantern")} 가게 관리</button>`}</div>`;
   else if(S.phase==="end"){const net=S.earn+S.tips-S.spend;h+=`<div class="box"><b>${ic("lantern")} 오늘의 정산</b><div class="calc"><span>메뉴 매출</span><b>${yen(S.earn)}</b><span>팁</span><b>${yen(S.tips)}</b><span>재료비</span><b>-${yen(S.spend)}</b><span class="tot">순이익</span><b class="tot ${net>=0?"ok":"bad"}">${net<0?"-":""}${yen(Math.abs(net))}</b><span>소지금</span><b>${yen(S.money)}</b></div><button class="p" onclick="next()">다음 날로</button><button class="shopbtn" onclick="openShop()">${ic("lantern")} 가게 관리</button></div>`}
   else h+=`<div class="scene desk"><div class="papers">`+(S.desk.length?S.desk.map(p=>paper(p)).join(""):`<div class="note">손님이 올 때까지 기다리는 중…<br>창고에서 재료를 사 두자.</div>`)+`</div></div>`;
@@ -719,7 +764,7 @@ function draw(){
    `</div>${procHTML()}<button class="p" onclick="brew()" ${S.pick.length&&S.pick.every(k=>S.proc[k]||NOPROC[k])?"":"disabled"}>메뉴 완성</button>${S.day>=10?`<button class="pk" onclick="pack()" ${S.pick.length?"":"disabled"}>${ic("basket")} 포장하기</button>`:""}<button style="width:100%;margin-top:6px" onclick="skip()">돌려보내기</button>${p.sy.req?'<div class="bnote" style="margin-top:6px"><b>재료 포장</b>: 주문한 재료 하나만 골라 <b>손질하지 말고</b> 그대로 <b>포장하기</b>를 누르세요. (메뉴 완성·돌려보내기는 신뢰 -1)</div>':""}<small class="hint">※ 레시피 노트에 적힌 재료만 빠짐없이 넣고, 재료마다 맞는 손질법으로 손질하세요. 얼음과 우유는 손질 없이 그대로 써요.</small></div>`;
   }else h+=`<div class="box"><small>주문대에서 주문서를 골라 오세요.</small></div>`;
  }
- if(S.book)h+=bookHTML();if(S.memo)h+=memoHTML();if(S.notice)h+=noticeHTML();if(S.notice7)h+=notice7HTML();if(S.notice10)h+=notice10HTML();if(SHOP)h+=shopHTML();if(S.phase==="over")h+=overHTML();if(S.help)h+=helpHTML();if(MENU)h+=menuHTML();
+ if(S.book)h+=bookHTML();if(S.memo)h+=memoHTML();if(S.notice)h+=noticeHTML();if(S.notice7)h+=notice7HTML();if(S.notice10)h+=notice10HTML();if(S.notice17)h+=notice17HTML();if(SHOP)h+=shopHTML();if(S.phase==="over")h+=overHTML();if(S.help)h+=helpHTML();if(MENU)h+=menuHTML();
 
  $.innerHTML=h}
 document.addEventListener("contextmenu",e=>e.preventDefault());
@@ -728,21 +773,21 @@ document.addEventListener("click",e=>{if(Date.now()<LOCKT&&!(e.target.closest&&e
 document.addEventListener("pointerdown",()=>{PTRD=true;PTRT=Date.now()},{capture:true,passive:true});
 ["pointerup","pointercancel","touchend","touchcancel"].forEach(ev=>document.addEventListener(ev,()=>{PTRD=false},{capture:true,passive:true}));
 document.addEventListener("pointerdown",e=>{const b=e.target.closest&&e.target.closest("button");if(b&&!b.disabled&&Date.now()>=LOCKT&&!b.closest("#mg")&&!(b.id||"").startsWith("gb_")&&!/toggle(Book|Memo)/.test(b.getAttribute("onclick")||""))sfx("click")},{passive:true});
-const BACK="돌아왔냐? 그럼 다시 가게 보자.";let awayAt=0;
+const BACK="…잠깐 자리를 비웠다. 다시 가게를 보자.";let awayAt=0;
 function welcomeBack(){if(S.phase==="over")return;S.hurtUntil=0;TYS={};S.tease=false;S.back=true;S.tapSay=BACK;if(S.phase==="day")S.say=BACK;render()}
 document.addEventListener("visibilitychange",()=>{if(document.hidden){awayAt=Date.now();save()}else if(awayAt){const dt=Date.now()-awayAt;awayAt=0;if(S.phase==="day"){S.desk.forEach(p=>{if(p.t0&&!p.stopped)p.t0+=dt});S.nextAt=Math.max(S.nextAt+dt,Date.now()+3500)}if(dt>=1500)welcomeBack()}});
 
 // ===== 튜토리얼 / 도움말 =====
 const TUT=[null,
- "먼저 재료부터 챙기자. 위쪽의 창고 탭을 눌러.",
- "재료를 누르면 돈을 내고 사 올 수 있다. 먼저 시나몬을 하나 사 봐.",
- "좋아. 산 재료는 잠시 뒤에 다시 입고된다. 이제 주문대 탭에서 가게를 열자.",
- "곧 손님이 온다. 주문서가 주문대에 놓이면 눌러서 집어 들어.",
- "여긴 카운터다. 오른쪽의 레시피 노트를 눌러서, 주문한 메뉴를 어떻게 만드는지 확인해 봐.",
- "그래, 시나몬이다. 아래에서 시나몬을 골라.",
- "재료는 손질이 필요해. 시나몬은 자르기가 맞다. 자르기 버튼을 눌러 박자에 맞춰 잘라 봐. 재료마다 맞는 손질법은 레시피 노트에 있어.",
- "손질 끝났군. 별이 많을수록 솜씨가 좋은 거다. 이제 메뉴 완성을 눌러서 내려 보자.",
- "대만족이다! 이게 하루 장사의 기본 흐름이야. 이제부턴 손님마다 인내심이 있다. 빨리 내줄수록 팁이 붙고, 너무 늦으면 화나서 가 버려. 번 돈으론 가게 관리에서 장비를 들일 수 있다. 모르는 건 위쪽 물음표 아이콘을 봐라."];
+ "먼저 재료부터 챙기자. 위쪽의 창고 탭을 눌러 보자.",
+ "재료를 누르면 돈을 내고 사 올 수 있다. 우선 시나몬을 하나 사 두자.",
+ "좋아. 돈만 있으면 재료는 얼마든지 살 수 있다. 이제 주문대 탭에서 가게를 열자.",
+ "곧 손님이 올 것 같다. 주문서가 주문대에 놓이면 눌러서 집어 들자.",
+ "여기가 카운터다. 오른쪽의 레시피 노트를 눌러서, 주문한 메뉴를 어떻게 만드는지 확인해 보자.",
+ "역시 시나몬이다. 아래에서 시나몬을 고르자.",
+ "재료는 손질이 필요하다. 시나몬은 자르기가 맞는 것 같다. 자르기 버튼을 눌러 박자에 맞춰 잘라 보자. 재료마다 맞는 손질법은 레시피 노트에 있다.",
+ "손질이 끝났다. 별이 많을수록 솜씨가 좋은 거다. 이제 메뉴 완성을 눌러서 내려 보자.",
+ "대만족이다! 이게 하루 장사의 기본 흐름인 것 같다. 손님마다 인내심이 있으니, 빨리 내줄수록 팁이 붙고 너무 늦으면 화가 나서 가 버릴 거다. 번 돈으로는 가게 관리에서 장비를 들일 수 있다. 모르는 게 생기면 위쪽 물음표 아이콘을 보자."];
 function tutCheck(){if(!(S.tut>0))return;let t=S.tut;
  if(t===1&&S.tab==="field")t=2;
  if(t===2&&(S.inv.saenggang||0)>=1)t=3;
@@ -750,7 +795,7 @@ function tutCheck(){if(!(S.tut>0))return;let t=S.tut;
  if(t===4&&S.phase==="day"&&S.tab==="lab"&&S.desk.some(x=>x.id===S.sel))t=5;
  if(t===5&&S.tutB&&!S.book)t=6;
  if(t>=6&&t<=8&&S.phase==="day"&&S.desk.some(x=>x.id===S.sel)){
-  if(S.proc.saenggang&&S.proc.saenggang!==METHOD.saenggang){delete S.proc.saenggang;delete S.proc["saenggang#"];S.tutMsg="그 방법이 아니야. 시나몬은 자르기로 손질해야 해.";}
+  if(S.proc.saenggang&&S.proc.saenggang!==METHOD.saenggang){delete S.proc.saenggang;delete S.proc["saenggang#"];S.tutMsg="그 방법이 아닌 것 같다. 시나몬은 자르기로 손질해야 한다.";}
   const pk=S.pick.includes("saenggang"),ok=S.proc.saenggang===METHOD.saenggang;t=!pk?6:!ok?7:8}
  if(t!==S.tut){S.tut=t;if(S.tutMsg&&t!==7)S.tutMsg=""}}
 function tutHTML(){const t=S.tut;return `<div class="tut">${yagen("s","base")}<div><small>튜토리얼 ${t}/9</small><br>${TUT[t]}${S.tutMsg?`<br><b class="bad">${S.tutMsg}</b>`:""}${t===9?`<br><button class="p" onclick="tutEnd()">알겠어요</button>`:""}</div></div>`}
@@ -766,17 +811,19 @@ function tutHL(){document.querySelectorAll(".tuthl").forEach(e=>e.classList.remo
  else if(t===7)sel=S.tab!=="lab"?tab("lab"):`.mb[onclick*="openMG('saenggang','${METHOD.saenggang}')"]`;
  else if(t===8)sel=S.tab!=="lab"?tab("lab"):`button.p[onclick="brew()"]`;
  if(sel){const e=document.querySelector(sel);if(e)e.classList.add("tuthl")}}
+const UL=a=>`<ul>${a.map(x=>`<li>${x}</li>`).join("")}</ul>`,H4=t=>`<h4>${t}</h4>`;
 const HP=[
- {t:"하루의 기본 흐름",u:1,h:()=>`<b>1. 창고</b> 입고된 재료를 눌러 돈을 내고 사 와요. 사면 잠시 뒤 다시 입고돼요.<br><b>2. 주문대</b> 가게를 열면 손님이 하나씩 와서 주문서를 놓아요. 눌러서 집어 들어요.<br><b>3. 카운터</b> 메뉴에 맞는 재료를 고르고 손질한 뒤 <b>메뉴 완성</b>을 눌러요.<br><b>4. 정산</b> 하루가 끝나면 매출·팁·재료비를 정산해요.<br><br>주문을 틀리거나 손님을 너무 기다리게 하면 신뢰가 1 줄고, 3개를 모두 잃으면 영업이 끝나요.`},
- {t:"레시피 노트 읽는 법",u:1,h:()=>`주문서에 적힌 <b>메뉴 이름</b>을 레시피 노트에서 찾아, 적힌 재료로 만들어요. 메뉴마다 레시피는 하나뿐이라 <b>적힌 재료를 빠짐없이, 다른 재료 없이</b> 넣어야 대만족이에요. 다르면 값을 깎아 줘야 해요.<br><br>날이 갈수록 메뉴가 늘어나요. 새 메뉴에는 레시피 노트에 NEW 표시가 붙어요.`},
- {t:"손질과 등급",u:1,h:()=>`재료마다 맞는 손질법(자르기·갈기·추출)이 있어요. 다른 방법으로 손질하면 맛이 아쉬워 값을 깎아 줘야 해요.<br><b>얼음</b>과 <b>우유</b>는 손질 없이 그대로 넣어요(별 계산에서도 빠져요). 얼음을 넣으면 아이스 음료가 되고, 라테에는 우유가 꼭 들어가요.<br><br>손질 미니게임을 잘할수록 별이 1~3개 붙고, 별의 평균으로 등급이 정해져요. 가격: <b>보통 90% · 좋음 100% · 일품 120%</b>. 일품이면 쓴 재료 하나도 돌려받아요.`},
- {t:"매출·팁·인내심",u:1,h:()=>`손님마다 주문서 아래에 <b>인내심 게이지</b>가 있어요. 주문대에 놓인 순간부터 줄어들어요.<br>카운터에서 한 손님의 주문을 만드는 동안에는 <b>그 손님만</b> 줄고, 나머지 손님은 멈춰 있어요. 게임 화면을 떠나 있을 때는 모두 멈춰요.<br>· 초록일 때 대만족: 팁 20%<br>· 노랑일 때 대만족: 팁 10%<br>· 빨강: 팁 없음, 다 떨어지면 화를 내며 돌아가고 신뢰 -1<br><br>주문과 조금 다르면 값을 깎아 받고, 아예 틀리면 한 푼도 못 받아요. 재료비를 빼고 남는 게 순이익이에요. 돈이 ¥200 아래로 떨어지면 소지로가 한 번씩 ¥500을 보태 줘요.`},
- {t:"가게 관리·단골",u:1,h:()=>`주문대의 <b>가게 관리</b>(영업 전·정산 후)에서 번 돈으로 장비를 들일 수 있어요.<br>`+UPG.map(u=>`· <b>${u.n}</b> ${yen(u.c)}: ${u.d}`).join("<br>")+`<br><br>같은 손님을 대만족시키면 친밀도가 올라 <b>단골 랭크</b>(Lv1~3)가 생겨요. 랭크마다 팁 +10%, 인내심 +5초예요.`},
- {t:"연속 만족 콤보",u:1,h:()=>`대만족을 이어 가면 상단에 <b>연속 횟수</b>가 표시돼요. 대만족이 아닌 결과가 나오면 0으로 돌아가요.<br>3·5·7·10번째 연속 대만족에는 소지로가 한마디 칭찬해요. 최고 기록은 영업이 끝날 때 보여줘요.`},
- {t:"계절과 날씨",u:2,h:()=>`계절은 <b>7일</b>마다 봄→여름→가을→겨울로 바뀌어요. 날씨는 가게를 열기 전에 주문대 탭에서 알려줘요.<br><br>`+Object.values(WX).map(w=>`${ic(w.ic)} <b>${w.n}</b> ${w.eff}`).join("<br>")},
- {t:"상담 손님",u:3,h:()=>`메뉴 대신 고민을 들고 오는 손님이에요. 보라색 <b>상담</b> 딱지가 붙어 있어요.<br>카운터의 <b>고민 상담</b>에서 알맞은 답을 고른 뒤 <b>돌려보내기</b>를 눌러요. 맞으면 ¥200을 두고 가요.<br>친구·후배·아이에게는 반말로, 선생님이나 어른에게는 존댓말로 답해 줘요.<br>메뉴를 내거나 답이 틀리면 신뢰가 줄어요.`},
- {t:"급한 손님",u:7,h:()=>`붉은 <b>급함</b> 딱지가 붙은 손님은 인내심이 <b>60초</b>뿐이에요. 대신 대만족시키면 팁이 2배예요.<br>메뉴 완성을 누르면 인내심이 멈춰요. 손질 시간도 포함이니 서두르세요.<br>급한 손님은 연달아 오지 않고, 상담·포장 손님은 급하지 않아요.`},
- {t:"재료 포장 손님",u:10,h:()=>`파란 <b>포장</b> 딱지가 붙은 주문서는 메뉴가 아니라 재료만 원해요. 재료값의 3배를 내요.<br>주문한 재료 하나를 골라 <b>손질하지 말고</b> 카운터의 <b>포장하기</b> 버튼을 눌러요.<br>메뉴를 만들거나, 그냥 돌려보내거나, 다른 재료를 넣거나, 손질한 재료를 포장하면 신뢰가 1 줄어요. 포장 손님이 아닌데 포장하기를 눌러도 신뢰가 줄어요.`}];
+ {t:"하루의 흐름",u:1,h:()=>H4("순서")+`<ol><li><b>창고</b>에서 재료를 사요.</li><li><b>주문대</b>에서 가게를 열고 주문서를 집어요.</li><li><b>카운터</b>에서 재료를 고르고 손질한 뒤 <b>메뉴 완성</b>.</li><li>하루가 끝나면 <b>정산</b>해요.</li></ol>`+H4("신뢰")+UL(["주문을 틀리거나 너무 기다리게 하면 <b>신뢰 -1</b>","3개를 모두 잃으면 영업 종료"])},
+ {t:"레시피 노트",u:1,h:()=>UL(["주문서의 <b>메뉴 이름</b>을 노트에서 찾아요.","적힌 재료를 <b>빠짐없이, 다른 재료 없이</b> 넣어야 대만족이에요.","재료가 다르면 값을 깎아 줘야 해요.","새 메뉴는 처음 나온 날 별 표시가 붙어요."])},
+ {t:"손질과 등급",u:1,h:()=>H4("손질법")+UL(["재료마다 맞는 방법이 있어요: <b>자르기 · 갈기 · 추출</b> (노트에 표시)","<b>얼음·우유</b>는 손질 없이 그대로 넣어요.","추출한 재료가 들어가면 끓이지 않고 바로 유리잔에 담아요."])+H4("등급")+UL(["미니게임을 잘할수록 별 1~3개","가격: <b>보통 90% · 좋음 100% · 일품 120%</b>","일품이면 쓴 재료 하나를 돌려받아요."])},
+ {t:"매출·팁·인내심",u:1,h:()=>H4("인내심 게이지")+UL(["주문서가 놓인 순간부터 줄어요.","한 손님 주문을 만드는 동안엔 <b>그 손님만</b> 줄어요.","게임 화면을 떠나 있으면 멈춰요.","다 떨어지면 손님이 돌아가고 <b>신뢰 -1</b>"])+H4("돈")+UL(["대만족 팁: 초록 20% · 노랑 10% · 빨강 없음","주문과 조금 다르면 60%나 40%만, 완전히 틀리면 0원","순이익 = 매출 + 팁 − 재료비","¥200 아래로 떨어지면 소지로 씨가 ¥500 지원 (게임당 1번)"])},
+ {t:"가게 관리·단골",u:1,h:()=>`<small>영업 전이나 정산 후, 주문대의 <b>가게 관리</b>에서 열어요.</small>`+H4("장비")+UL(UPG.map(u=>`<b>${u.n}</b> ${yen(u.c)} — ${u.d}`))+H4("단골")+UL(["같은 손님을 대만족시키거나 고민을 들어 주면 친밀도가 올라요.","랭크 Lv1~3, 랭크마다 팁 +10% · 인내심 +5초"])},
+ {t:"연속 대만족",u:1,h:()=>UL(["대만족을 이어 가면 상단에 ★연속 횟수가 떠요.","대만족이 아니면 0으로 돌아가요.","3·5·7·10연속엔 렌의 독백이 나와요.","최고 기록은 영업 종료 화면에서 볼 수 있어요."])},
+ {t:"계절과 날씨",u:2,h:()=>UL(["7일마다 봄 → 여름 → 가을 → 겨울","날씨는 영업 전 주문대에서 확인해요."])+H4("날씨별 효과")+UL(Object.values(WX).map(w=>`${ic(w.ic)} <b>${w.n}</b> ${w.eff}`))},
+ {t:"상담 손님",u:3,h:()=>UL(["보라색 <b>상담</b> 딱지가 붙어요.","카운터의 <b>고민 상담</b>에서 알맞은 답을 고르고 <b>돌려보내기</b>","정답이면 ¥200 + 친밀도 ↑","메뉴를 내거나, 답이 틀리거나, 답 없이 보내면 <b>신뢰 -1</b>"])},
+ {t:"급한 손님",u:7,h:()=>UL(["붉은 <b>급함</b> 딱지, 인내심이 <b>60초</b>뿐이에요.","대만족시키면 팁 <b>2배</b>","연달아 오지 않아요. 상담·포장 손님은 급하지 않아요."])},
+ {t:"재료 포장 손님",u:10,h:()=>UL(["파란 <b>포장</b> 딱지, 재료값의 <b>3배</b>를 내요.","주문한 재료 1개를 <b>손질하지 말고</b> 골라 <b>포장하기</b>"])+H4("신뢰 -1이 되는 경우")+UL(["메뉴 완성 · 돌려보내기를 누름","다른 재료를 넣거나 손질한 재료를 포장함","포장 손님이 아닌데 포장하기를 누름"])},
+ {t:"특수 주문",u:17,h:()=>UL(["주황색 <b>특수</b> 딱지, 레시피 노트에는 없어요.","“○○, ×× 빼고.” → 원래 레시피에서 ×× 빼기","“○○, ×× 추가.” → 원래 레시피에 ×× 더하기 (+¥100)","말과 다르게 만들면 값을 깎아 줘야 해요."])}];
 function openHelp(){S.help=true;S.hp=0;sfx("page");render()}
 function closeHelp(){S.help=false;render()}
 function helpGo(d){S.hp=Math.max(0,Math.min(HP.length-1,(S.hp||0)+d));sfx("page");render()}
